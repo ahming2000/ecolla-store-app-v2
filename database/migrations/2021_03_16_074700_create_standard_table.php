@@ -18,7 +18,6 @@ class CreateStandardTable extends Migration
             $table->string('name');
             $table->string('name_en')->nullable();
             $table->text('desc');
-            $table->text('desc_en')->nullable();
             $table->string('brand');
             $table->string('brand_en')->nullable();
             $table->string('origin');
@@ -28,46 +27,45 @@ class CreateStandardTable extends Migration
         });
 
         Schema::create('item_images', function (Blueprint $table) {
-            $table->foreignId('item_id')->primary()->constrained('items');
+            $table->id();
+            $table->foreignId('item_id')->constrained('items');
             $table->string('image');
 
             $table->timestamps();
         });
 
         Schema::create('item_utils', function (Blueprint $table) {
-            $table->foreignId('item_id')->primary()->constrained('items')->cascadeOnDelete();
+            $table->foreignId('id')->primary()->constrained('items')->cascadeOnDelete();
             $table->boolean('is_listed');
             $table->bigInteger('view_count');
 
             $table->timestamps();
         });
 
-
-
-        Schema::create('variations', function (Blueprint $table) {
+        Schema::create('wholesale_discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('barcode');
-            $table->string('name1'); // e.g. Spicy
-            $table->string('name2'); // e.g. 24g x 20
-            $table->string('name1_en')->nullable();
-            $table->string('name2_en')->nullable();
-            $table->double('weight');
-            $table->double('price');
-            $table->string('image');
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
+            $table->integer('min');
+            $table->integer('max')->nullable();
+            $table->double('rate')->default(1.0);
 
             $table->timestamps();
         });
 
-        Schema::create('variation_relationships', function (Blueprint $table) {
-            // e.g. Spicy 24g x 20
-            $table->foreignId('parent')->constrained('variations')->cascadeOnDelete();
-            // e.g. Spicy 24g x 1
-            $table->foreignId('child')->constrained('variations')->cascadeOnDelete();
+
+        Schema::create('variations', function (Blueprint $table) {
+            $table->id();
+            $table->string('barcode')->unique();
+            $table->string('name1'); // e.g. Spicy
+            $table->string('name2'); // e.g. 24g x 20
+            $table->string('name1_en')->nullable();
+            $table->string('name2_en')->nullable();
+            $table->double('price');
+            $table->double('weight');
+            $table->string('image');
+            $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
 
             $table->timestamps();
-
-            $table->primary(['parent','child']);
         });
 
         Schema::create('variation_discounts', function (Blueprint $table) {
@@ -80,21 +78,11 @@ class CreateStandardTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('wholesale_discounts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
-            $table->dateTime('start');
-            $table->dateTime('end')->nullable();
-            $table->double('rate')->default(1.0);
-
-            $table->timestamps();
-        });
-
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('variation_id')->constrained('variations')->cascadeOnDelete();
             $table->date('expire_date');
-            $table->integer('quantity');
+            $table->integer('stock');
 
             $table->timestamps();
         });
@@ -104,7 +92,6 @@ class CreateStandardTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_en')->nullable();
-            $table->string('status'); // Enable or Disable
 
             $table->timestamps();
         });
@@ -119,11 +106,23 @@ class CreateStandardTable extends Migration
         });
 
 
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->string('mode')->default('pickup'); // pickup/delivery
+            $table->string('delivery_id')->nullable(); // Use to track delivery mode's delivery status
+            $table->string('order_verify_id')->nullable(); // Use to verify the pick up mode's order
+            $table->double('shipping_fee')->default(0.0);
+            $table->string('payment_method'); // boost/tng/bank-in/quin-pay/duit-now
+            $table->string('status')->default('pending'); // pending/prepared/completed/refunded/canceled
+            $table->string('receipt_image');
+
+            $table->timestamps();
+        });
 
         Schema::create('customers', function (Blueprint $table) {
-            $table->foreignId('order_id')->primary()->constrained('orders')->cascadeOnDelete();
-            $table->string('first_name');
-            $table->string('last_name')->nullable();
+            $table->foreignId('id')->primary()->constrained('orders')->cascadeOnDelete();
+            $table->string('name');
             $table->string('phone');
             $table->string('email')->nullable();
             $table->string('addressLine1');
@@ -132,19 +131,6 @@ class CreateStandardTable extends Migration
             $table->string('area');
             $table->string('state');
             $table->string('country')->default("Malaysia");
-
-            $table->timestamps();
-        });
-
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('order_code');
-            $table->string('order_mode')->default('Pick Up'); // Pick Up or Delivery
-            $table->string('delivery_id')->nullable();
-            $table->string('payment_method');
-            $table->string('order_verify_id'); // Use to verify the pick up mode's order
-            $table->string('status')->default('待处理');
-            $table->string('receipt_image');
 
             $table->timestamps();
         });
@@ -162,25 +148,12 @@ class CreateStandardTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('order_operations', function (Blueprint $table) {
-            $table->dateTime('operated_on');
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
-            $table->string('action');
-            $table->string('status');
-
-            $table->timestamps();
-
-            $table->primary(['operated_on', 'order_id']);
-        });
-
-
 
         Schema::create('item_user_ratings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
-            $table->integer('star');
-            $table->dateTime('rated_on');
-            $table->string('identity'); // unique browser identity
+            $table->integer('star'); // 1 to 5
+            $table->string('user_ip');
 
             $table->timestamps();
         });
@@ -205,20 +178,18 @@ class CreateStandardTable extends Migration
         Schema::dropIfExists('items');
         Schema::dropIfExists('item_images');
         Schema::dropIfExists('item_utils');
+        Schema::dropIfExists('wholesale_discounts');
 
         Schema::dropIfExists('variations');
-        Schema::dropIfExists('variation_relationships');
         Schema::dropIfExists('variation_discounts');
-        Schema::dropIfExists('wholesale_discounts');
         Schema::dropIfExists('inventories');
 
         Schema::dropIfExists('categories');
         Schema::dropIfExists('classifications');
 
-        Schema::dropIfExists('customers');
         Schema::dropIfExists('orders');
+        Schema::dropIfExists('customers');
         Schema::dropIfExists('order_items');
-        Schema::dropIfExists('order_operations');
 
         Schema::dropIfExists('item_user_ratings');
         Schema::dropIfExists('system_configs');

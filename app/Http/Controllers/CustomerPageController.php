@@ -9,15 +9,18 @@ class CustomerPageController extends Controller
 
     public function redirect(){
         $path = $_SERVER['REQUEST_URI'];
-        return redirect("ch" . $path);
+        return redirect('ch' . $path);
     }
 
     public function index(){
-        return view('ch.index');
+        return view($this->getLang() . '.index');
     }
 
     public function about(){
-        return view('ch.about');
+        return view($this->getLang() . '.about');
     }
 
+    private function getLang(){
+        return substr($_SERVER['REQUEST_URI'], 1, 2);
+    }
 }

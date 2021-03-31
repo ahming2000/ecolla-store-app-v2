@@ -3,8 +3,6 @@
 
 namespace App\Session;
 
-
-use App\Models\Item;
 use App\Models\Variation;
 
 class CartItem

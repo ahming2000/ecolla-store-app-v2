@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<?php
+$cart = new \App\Session\Cart();
+$cart->start();
+?>
 <head>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta charset="utf-8">
-    <title>Ecolla ε口乐零食店官网</title>
+    <title>@yield('title')</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -34,6 +38,8 @@
 
     <!-- Global CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+
+    @yield('extraStyle')
 
 </head>
 
@@ -79,13 +85,15 @@
 </script>
 <!--End of Tawk.to Script-->
 
+@yield('extraScript')
+
 <header>
 
     @yield('welcome')
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
         <div class="container">
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="/en">
                 <img src="{{asset('img/favicon.ico')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">
                 ε口乐
@@ -96,13 +104,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">主页</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Item">所有商品列表</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/PaymentMethod">付款方式</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/About">关于我们</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/OrderTracking">订单追踪</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Cart"><i
-                                class="icofont-shopping-cart mx-1"></i><span>0</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/en">Home Page</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/en/item">All Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/en/payment-method">Payment Method</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/en/about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/en/order-tracking">Order Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/en/cart"><i
+                                class="icofont-shopping-cart mx-1"></i><span><?= $cart->getCartCount() ?></span></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            English
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <form action="/ch<?= substr($_SERVER['REQUEST_URI'], 3) ?>" method="get">
+                                <input type="submit" value="华文" class="dropdown-item"/>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -131,14 +150,14 @@
                 </div>
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">
-                    <h4 class="font-color font-weight-bold">我们的位置</h4>
+                    <h4 class="font-color font-weight-bold">Our Location</h4>
                     <hr class="footer-hr">
                     <p class="text-uppercase font-color">2365, Jalan Hala Timah 3 <br>Taman Kolej Perdana
                         <br>31900 Kampar Negeri Perak</p>
                 </div>
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">
-                    <h4 class='font-color font-weight-bold'>联系我们</h4>
+                    <h4 class='font-color font-weight-bold'>Contact Us</h4>
                     <hr class="footer-hr">
                     <p class="font-color"><i class="fas fa-phone pr-2"></i>012-3456789</p>
                     <p class="font-color"><i class="fab fa-facebook-square pr-2"></i><a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278">Ecolla e口乐</a></p>
@@ -153,7 +172,7 @@
         <div class="col">
             <div class="text-center">
                 <img src="{{ asset('img/favicon.ico') }}" width="20" height="20" alt="logo" loading="lazy">
-                <span class="font-color">ε口乐</span>
+                <span class="font-color">ε口乐 Ecolla</span>
             </div>
         </div>
     </div>
@@ -170,15 +189,15 @@
 
         if (getCurrentFileName() === "") {
             $(".navbar-nav li:nth-child(1)").addClass("active");
-        } else if (getCurrentFileName() === "Item") {
+        } else if (getCurrentFileName() === "item") {
             $(".navbar-nav li:nth-child(2)").addClass("active");
-        } else if (getCurrentFileName() === "PaymentMethod") {
+        } else if (getCurrentFileName() === "payment-method") {
             $(".navbar-nav li:nth-child(3)").addClass("active");
-        } else if (getCurrentFileName() === "About") {
+        } else if (getCurrentFileName() === "about") {
             $(".navbar-nav li:nth-child(4)").addClass("active");
-        } else if (getCurrentFileName() === "OrderTracking") {
+        } else if (getCurrentFileName() === "order-tracking") {
             $(".navbar-nav li:nth-child(5)").addClass("active");
-        } else if (getCurrentFileName() === "Cart") {
+        } else if (getCurrentFileName() === "cart") {
             $(".navbar-nav li:nth-child(6)").addClass("active");
         }
 

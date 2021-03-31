@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<?php
+$cart = new \App\Session\Cart();
+$cart->start();
+?>
+
 <head>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -81,13 +86,15 @@
 </script>
 <!--End of Tawk.to Script-->
 
+@yield('extraScript')
+
 <header>
 
     @yield('welcome')
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
         <div class="container">
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="/ch">
                 <img src="{{asset('img/favicon.ico')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">
                 ε口乐
@@ -98,13 +105,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">主页</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/item">所有商品列表</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/payment-method">付款方式</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about">关于我们</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/order-tracking">订单追踪</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cart"><i
-                                class="icofont-shopping-cart mx-1"></i><span>@yield('cartCount')</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ch">主页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ch/item">所有商品列表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ch/payment-method">付款方式</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ch/about">关于我们</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ch/order-tracking">订单追踪</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ch/cart"><i
+                                class="icofont-shopping-cart mx-1"></i><span><?= $cart->getCartCount() ?></span></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            华文
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <form action="/en<?= substr($_SERVER['REQUEST_URI'], 3) ?>" method="get">
+                                <input type="submit" value="English" class="dropdown-item"/>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -150,7 +168,7 @@
         <div class="col">
             <div class="text-center">
                 <img src="{{ asset('img/favicon.ico') }}" width="20" height="20" alt="logo" loading="lazy">
-                <span class="font-color">ε口乐</span>
+                <span class="font-color">ε口乐 Ecolla</span>
             </div>
         </div>
     </div>
@@ -167,15 +185,15 @@
 
         if (getCurrentFileName() === "") {
             $(".navbar-nav li:nth-child(1)").addClass("active");
-        } else if (getCurrentFileName() === "Item") {
+        } else if (getCurrentFileName() === "item") {
             $(".navbar-nav li:nth-child(2)").addClass("active");
-        } else if (getCurrentFileName() === "PaymentMethod") {
+        } else if (getCurrentFileName() === "payment-mathod") {
             $(".navbar-nav li:nth-child(3)").addClass("active");
-        } else if (getCurrentFileName() === "About") {
+        } else if (getCurrentFileName() === "about") {
             $(".navbar-nav li:nth-child(4)").addClass("active");
-        } else if (getCurrentFileName() === "OrderTracking") {
+        } else if (getCurrentFileName() === "order-tracking") {
             $(".navbar-nav li:nth-child(5)").addClass("active");
-        } else if (getCurrentFileName() === "Cart") {
+        } else if (getCurrentFileName() === "cart") {
             $(".navbar-nav li:nth-child(6)").addClass("active");
         }
 

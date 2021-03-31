@@ -4,6 +4,25 @@
     Ecolla ε口乐零食店官网
 @endsection
 
+@section('extraStyle')
+    <style>/*overwrite deco.css*/
+        .navbar{
+            background-color:transparent;
+            transition: background-color 0.5s;
+        }
+        .navbar-change{
+            background-color: #3c3e44;
+            transition: background-color 0.5s;
+        }
+        .navbar-custom .navbar-brand{
+            color: white;
+        }
+        .navbar-custom .navbar-nav .nav-link, .navbar-custom .fa-bars{
+            color: white;
+        }
+    </style>
+@endsection
+
 @section('content')
     Test
 

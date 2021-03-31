@@ -14,7 +14,7 @@
             </span>
             <div class="row">
                 <div class="col text-left">
-                    {{ $item->util->sold }} sold
+                    已售出 {{ $item->util->sold }} 个
                 </div>
                 <div class="col text-right">
                     <i class="icofont-eye"></i> {{ $item->util->view_count }}

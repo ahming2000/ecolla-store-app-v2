@@ -35,9 +35,10 @@ class CreateStandardTable extends Migration
         });
 
         Schema::create('item_utils', function (Blueprint $table) {
-            $table->foreignId('id')->primary()->constrained('items')->cascadeOnDelete();
-            $table->boolean('is_listed');
-            $table->bigInteger('view_count');
+            $table->foreignId('item_id')->primary()->constrained('items')->cascadeOnDelete();
+            $table->boolean('is_listed')->default('0');
+            $table->bigInteger('view_count')->default(0);
+            $table->bigInteger('sold')->default(0);
 
             $table->timestamps();
         });

@@ -221,41 +221,46 @@ class ImportExampleData extends Migration
 
         DB::table('item_utils')->insert(
             array(
-                'id' => 1,
+                'item_id' => 1,
                 'is_listed' => 1,
-                'view_count' => 0
+                'view_count' => 0,
+                'sold' => 0
             )
         );
 
         DB::table('item_utils')->insert(
             array(
-                'id' => 2,
+                'item_id' => 2,
                 'is_listed' => 1,
-                'view_count' => 0
+                'view_count' => 0,
+                'sold' => 0
             )
         );
 
         DB::table('item_utils')->insert(
             array(
-                'id' => 3,
+                'item_id' => 3,
                 'is_listed' => 1,
-                'view_count' => 0
+                'view_count' => 0,
+                'sold' => 0
             )
         );
 
         DB::table('item_utils')->insert(
             array(
-                'id' => 4,
+                'item_id' => 4,
                 'is_listed' => 1,
-                'view_count' => 0
+                'view_count' => 0,
+                'sold' => 0
             )
         );
 
         DB::table('item_utils')->insert(
             array(
-                'id' => 5,
+                'item_id' => 5,
                 'is_listed' => 1,
-                'view_count' => 0
+                'view_count' => 0,
+                'sold' => 0
             )
         );
 
@@ -916,17 +921,17 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 8,
-                'name' => '饮料',
-                'name_en' => 'Beverage'
+                'id' => 1,
+                'name' => '热卖',
+                'name_en' => 'Hot Selling'
             )
         );
 
         DB::table('categories')->insert(
             array(
-                'id' => 9,
-                'name' => '零食',
-                'name_en' => 'Snack'
+                'id' => 2,
+                'name' => '新品',
+                'name_en' => 'New Product'
             )
         );
 
@@ -956,7 +961,7 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 7,
+                'id' => 6,
                 'name' => '酒精饮品',
                 'name_en' => 'Alcohol'
             )
@@ -964,23 +969,37 @@ class ImportExampleData extends Migration
 
         DB::table('categories')->insert(
             array(
-                'id' => 1,
-                'name' => '热卖',
-                'name_en' => 'Hot Selling'
+                'id' => 7,
+                'name' => '饮料',
+                'name_en' => 'Beverage'
             )
         );
 
         DB::table('categories')->insert(
             array(
-                'id' => 2,
-                'name' => '新品',
-                'name_en' => 'New Product'
+                'id' => 8,
+                'name' => '零食',
+                'name_en' => 'Snack'
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 1,
+                'category_id' => 1
+            )
+        );
+
+        DB::table('classifications')->insert(
+            array(
+                'item_id' => 2,
+                'category_id' => 1
+            )
+        );
+
+        DB::table('classifications')->insert(
+            array(
+                'item_id' => 3,
                 'category_id' => 1
             )
         );
@@ -1001,6 +1020,13 @@ class ImportExampleData extends Migration
 
         DB::table('classifications')->insert(
             array(
+                'item_id' => 1,
+                'category_id' => 2
+            )
+        );
+
+        DB::table('classifications')->insert(
+            array(
                 'item_id' => 2,
                 'category_id' => 2
             )
@@ -1009,6 +1035,20 @@ class ImportExampleData extends Migration
         DB::table('classifications')->insert(
             array(
                 'item_id' => 3,
+                'category_id' => 2
+            )
+        );
+
+        DB::table('classifications')->insert(
+            array(
+                'item_id' => 4,
+                'category_id' => 2
+            )
+        );
+
+        DB::table('classifications')->insert(
+            array(
+                'item_id' => 5,
                 'category_id' => 2
             )
         );
@@ -1051,72 +1091,53 @@ class ImportExampleData extends Migration
         DB::table('classifications')->insert(
             array(
                 'item_id' => 4,
-                'category_id' => 7
+                'category_id' => 6
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 5,
-                'category_id' => 7
+                'category_id' => 6
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 1,
-                'category_id' => 8
-            )
-        );
-
-        DB::table('classifications')->insert(
-            array(
-                'item_id' => 2,
-                'category_id' => 8
-            )
-        );
-
-        DB::table('classifications')->insert(
-            array(
-                'item_id' => 3,
-                'category_id' => 8
+                'category_id' => 7
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 4,
-                'category_id' => 8
+                'category_id' => 7
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 5,
-                'category_id' => 8
-            )
-        );
-
-        DB::table('classifications')->insert(
-            array(
-                'item_id' => 1,
-                'category_id' => 9
+                'category_id' => 7
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 2,
-                'category_id' => 9
+                'category_id' => 8
             )
         );
 
         DB::table('classifications')->insert(
             array(
                 'item_id' => 3,
-                'category_id' => 9
+                'category_id' => 8
             )
         );
+
+
 
         DB::table('orders')->insert(
             array(

@@ -4,6 +4,7 @@
 $cart = new \App\Session\Cart();
 $cart->start();
 ?>
+
 <head>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -12,30 +13,22 @@ $cart->start();
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css">
-
     <!-- Icofont -->
     <link rel="stylesheet" href="{{ asset('vendor/icofont/icofont.min.css')}}">
-
     <!-- Tiny Slider 2 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
-
     <!-- Others -->
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
-
     <!-- Website Icon -->
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}">
-
     <!-- Global CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
@@ -47,30 +40,22 @@ $cart->start();
 
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-
 <!-- File upload tool -->
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-
 <!-- Tiny Slider 2 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
-
 <!-- Font awesome -->
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-
 <!-- Other script -->
 <script src="{{asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js')}}"></script>
 <script src="{{asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js')}}"></script>
-
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
@@ -96,7 +81,7 @@ $cart->start();
             <a class="navbar-brand" href="/en">
                 <img src="{{asset('img/favicon.ico')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">
-                ε口乐
+                Ecolla
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,12 +115,7 @@ $cart->start();
 
 </header>
 
-
-<main class="container">
-
-    @yield('content')
-
-</main>
+@yield('content')
 
 <footer>
     <div class="p-4 mt-5" style="background-color:#3c3e44;">
@@ -182,12 +162,11 @@ $cart->start();
     $(document).ready(function () {
 
         function getCurrentFileName() {
-            var pagePathName = $(location).attr('href');
-            var fileName = pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
-            return fileName;
+            const pagePathName = $(location).attr('href');
+            return pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
         }
 
-        if (getCurrentFileName() === "") {
+        if (getCurrentFileName() === "en") {
             $(".navbar-nav li:nth-child(1)").addClass("active");
         } else if (getCurrentFileName() === "item") {
             $(".navbar-nav li:nth-child(2)").addClass("active");

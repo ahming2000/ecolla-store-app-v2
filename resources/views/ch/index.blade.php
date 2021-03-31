@@ -4,10 +4,6 @@
     Ecolla ε口乐零食店官网
 @endsection
 
-@section('cartCount')
-    0
-@endsection
-
 @section('content')
     Test
 

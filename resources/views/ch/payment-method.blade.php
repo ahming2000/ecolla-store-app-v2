@@ -4,10 +4,6 @@
     付款方式 | Ecolla ε口乐
 @endsection
 
-@section('cartCount')
-    0
-@endsection
-
 @section('content')
     <main class="flex-fill"> <!--put content-->
         <div class="container">

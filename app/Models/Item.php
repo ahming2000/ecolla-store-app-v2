@@ -56,6 +56,14 @@ class Item extends Model
         return $this->discounts()->orderBy('step')->get();
     }
 
+    public function hasNoWholesale(): bool
+    {
+        foreach ($this->discounts as $discount){
+            return $discount == null;
+        }
+        return true;
+    }
+
     public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Variation::class, 'item_id', 'id');

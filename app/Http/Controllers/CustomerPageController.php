@@ -20,4 +20,14 @@ class CustomerPageController extends Controller
         return view($this->getLang() . '.about');
     }
 
+    public function paymentMethod()
+    {
+        return view($this->getLang() . '.payment-method');
+    }
+
+    public function cart()
+    {
+        return view($this->getLang() . '.cart');
+    }
+
 }

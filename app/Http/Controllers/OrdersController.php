@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\DB;
 class OrdersController extends Controller
 {
 
+    public function checkOut()
+    {
+        return view($this->getLang() . '.order.check-out');
+    }
+
+
     public function store()
     {
-
         $customerData = request()->validate([
             'first_name' => 'required',
             'phone' => 'required',
@@ -53,22 +58,8 @@ class OrdersController extends Controller
     public function orderTracking()
     {
 
-        return view($this->getLang() . '.order-tracking');
+        return view($this->getLang() . '.order.order-tracking');
     }
 
-    public function cart()
-    {
-        return view($this->getLang() . '.cart');
-    }
-
-    public function paymentMethod()
-    {
-        return view($this->getLang() . '.payment-method');
-    }
-
-    public function checkOut()
-    {
-        return view($this->getLang() . '.check-out');
-    }
 
 }

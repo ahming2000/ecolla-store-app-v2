@@ -10,8 +10,8 @@ class Category extends Model
     use HasFactory;
 
     public static function getListedItemCount($id){
-        $count = Item::join('classifications', 'classifications.item_id', 'items.id')
-            ->join('categories', 'classifications.category_id', 'categories.id')
+        $count = Item::join('category_item', 'category_item.item_id', 'items.id')
+            ->join('categories', 'category_item.category_id', 'categories.id')
             ->join('item_utils', 'item_utils.item_id', 'items.id')
             ->where('categories.id', '=', $id)
             ->where('item_utils.is_listed', '=', 1)
@@ -20,8 +20,4 @@ class Category extends Model
         return $count;
     }
 
-    public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Item::class);
-    }
 }

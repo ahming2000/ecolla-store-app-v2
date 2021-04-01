@@ -45,6 +45,17 @@ class Item extends Model
         return ['max' => $max, 'min' => $min];
     }
 
+    public function getFirstVariation(){
+        foreach ($this->variations as $v){
+            return $v;
+        }
+    }
+
+    public function getSortedWholesales(): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->discounts()->orderBy('step')->get();
+    }
+
     public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Variation::class, 'item_id', 'id');
@@ -60,9 +71,9 @@ class Item extends Model
         return $this->hasOne(ItemUtil::class);
     }
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public function userRating(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -70,7 +81,7 @@ class Item extends Model
         return $this->hasMany(ItemUserRating::class);
     }
 
-    public function discount(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function discounts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(WholesaleDiscount::class);
     }

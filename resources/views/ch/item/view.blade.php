@@ -139,7 +139,7 @@
                                  id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>><?php $first = false; ?>
 
 
-                            @if(!empty($item->discounts)) <!-- If the item has wholesale discount -->
+                            @if(!$item->hasNoWholesale()) <!-- If the item has wholesale discount -->
                                 @foreach($item->discounts as $w)
                                     @if($w->step == 1)
                                         <div class="price-view-normal" {{ $w->min == 1 ? "hidden" : "" }}>
@@ -176,7 +176,7 @@
 
 
                     <!-- Wholesale description --><!-- If the item has wholesale discount -->
-                        @if(!empty($item->discounts))
+                        @if(!$item->hasNoWholesale())
                             <?php $first = true; ?>
                             @foreach($item->discounts as $w)
                                 <div class="h6 wholesale-view" <?= $first ? "" : "hidden"; ?>><?php $first = false; ?>

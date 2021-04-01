@@ -83,6 +83,7 @@ class ItemsController extends Controller
         }
 
         $item = Item::find($i->id);
+        $this->viewCountIncrement($item);
 
         return view($this->getLang() . '.item.view', compact('item'));
     }
@@ -100,6 +101,13 @@ class ItemsController extends Controller
         session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($v->id), $data['quantity']);
 
         header('refresh: 0');
+    }
+
+    private function viewCountIncrement($item){
+        $item
+            ->util
+            ->where('item_id', '=', $item->id)
+            ->update(['view_count' => $item->util->view_count + 1]);
     }
 
 }

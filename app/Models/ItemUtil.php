@@ -9,8 +9,10 @@ class ItemUtil extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['view_count'];
+
     public function item(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Item::class, 'id', 'item_id');
     }
 }

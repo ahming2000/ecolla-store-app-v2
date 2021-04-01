@@ -71,7 +71,4 @@ class OrdersController extends Controller
         return view($this->getLang() . '.check-out');
     }
 
-    private function getLang(){
-        return substr($_SERVER['REQUEST_URI'], 1, 2);
-    }
 }

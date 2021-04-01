@@ -31,12 +31,16 @@ class ItemsController extends Controller
             ->orWhere('name_en', '=', $name)
             ->first();
 
+        if($i == null){
+            abort(404);
+        }
+
         $item = Item::find($i->id);
 
         return view($this->getLang() . '.item.view', compact('item'));
     }
 
-    public function addToCart(){
+    public function addToCart(String $name){
 
         $data = request()->all();
 
@@ -47,10 +51,19 @@ class ItemsController extends Controller
 
         session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($v->id), $data['quantity']);
 
-    }
+        $i = DB::table('items')
+            ->select('*')
+            ->where('name','=',$name)
+            ->orWhere('name_en', '=', $name)
+            ->first();
 
-    private function getLang(){
-        return substr($_SERVER['REQUEST_URI'], 1, 2);
+        if($i == null){
+            abort(404);
+        }
+
+        $item = Item::find($i->id);
+
+        return view($this->getLang() . '.item.view', compact('item'));
     }
 
 }

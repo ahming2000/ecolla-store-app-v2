@@ -20,7 +20,4 @@ class CustomerPageController extends Controller
         return view($this->getLang() . '.about');
     }
 
-    private function getLang(){
-        return substr($_SERVER['REQUEST_URI'], 1, 2);
-    }
 }

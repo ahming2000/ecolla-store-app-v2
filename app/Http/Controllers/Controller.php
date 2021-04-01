@@ -10,4 +10,9 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected function getLang(){
+        return substr($_SERVER['REQUEST_URI'], 1, 2);
+    }
+
 }

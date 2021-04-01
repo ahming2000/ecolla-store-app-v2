@@ -24,10 +24,8 @@ class ItemsController extends Controller
 
         $items_table = DB::table('items')
             ->select('items.id')
-            ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
             ->join('category_item', 'category_item.item_id', '=', 'items.id')
             ->join('variations', 'variations.item_id', '=', 'items.id')
-            ->where('item_utils.is_listed', '=', 1)
             ->where('items.name', 'LIKE', "%{$search}%")
             ->orWhere('items.name_en', 'LIKE', "%{$search}%")
             ->orWhere('items.origin', 'LIKE', "%{$search}%")
@@ -48,7 +46,11 @@ class ItemsController extends Controller
             $idList[] = $i->id;
         }
 
-        $items = Item::whereIn('id', $idList)->paginate($ITEM_PER_PAGE);
+        $items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->where('item_utils.is_listed', '=', 1)
+            ->whereIn('id', $idList)
+            ->paginate($ITEM_PER_PAGE);
+
 
         $categories = Category::all();
 
@@ -73,9 +75,10 @@ class ItemsController extends Controller
     {
 
         $i = DB::table('items')
-            ->select('*')
-            ->where('name', '=', $name)
-            ->orWhere('name_en', '=', $name)
+            ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->where('item_utils.is_listed', '=', 1)
+            ->where('items.name', '=', $name)
+            ->orWhere('items.name_en', '=', $name)
             ->first();
 
         if ($i == null) {

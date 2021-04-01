@@ -268,6 +268,7 @@ class ImportExampleData extends Migration
             array(
                 'id' => 1,
                 'item_id' => 2,
+                'step' => 1,
                 'min' => 20,
                 'max' => 29,
                 'rate' => 0.866667
@@ -278,6 +279,7 @@ class ImportExampleData extends Migration
             array(
                 'id' => 2,
                 'item_id' => 2,
+                'step' => 2,
                 'min' => 30,
                 'max' => 39,
                 'rate' => 0.8
@@ -288,6 +290,7 @@ class ImportExampleData extends Migration
             array(
                 'id' => 3,
                 'item_id' => 2,
+                'step' => 3,
                 'min' => 40,
                 'max' => 49,
                 'rate' => 0.733333
@@ -298,6 +301,7 @@ class ImportExampleData extends Migration
             array(
                 'id' => 4,
                 'item_id' => 2,
+                'step' => 4,
                 'min' => 50,
                 'max' => 59,
                 'rate' => 0.933333
@@ -315,7 +319,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
-                'image' => 'img/items/1/6902538004045.jpg',
                 'item_id' => 1
             )
         );
@@ -330,7 +333,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
-                'image' => 'img/items/1/6902538005141.jpg',
                 'item_id' => 1
             )
         );
@@ -345,7 +347,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
-                'image' => 'img/items/1/6902538007367.jpg',
                 'item_id' => 1
             )
         );
@@ -360,7 +361,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '600ml',
                 'weight' => 0.6,
                 'price' => 4.8,
-                'image' => 'img/items/1/6902538007381.jpg',
                 'item_id' => 1
             )
         );
@@ -615,7 +615,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
-                'image' => 'img/items/3/6935145343092.jpg',
                 'item_id' => 3
             )
         );
@@ -630,7 +629,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
-                'image' => 'img/items/3/6941025700138.jpg',
                 'item_id' => 3
             )
         );
@@ -645,7 +643,6 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
-                'image' => 'img/items/3/6941025701074.jpg',
                 'item_id' => 3
             )
         );
@@ -660,14 +657,12 @@ class ImportExampleData extends Migration
                 'name2_en' => '20g',
                 'weight' => 0.02,
                 'price' => 1.2,
-                'image' => 'img/items/5/6941025702019.jpg',
                 'item_id' => 3
             )
         );
 
         DB::table('variation_discounts')->insert(
             array(
-                'id' => 1,
                 'variation_id' => 2,
                 'start' => '2021-01-01 00:00:00',
                 'rate' => 0.520833
@@ -676,7 +671,6 @@ class ImportExampleData extends Migration
 
         DB::table('variation_discounts')->insert(
             array(
-                'id' => 2,
                 'variation_id' => 8,
                 'start' => '2021-01-01 00:00:00',
                 'end' => '2021-04-01 00:00:00',
@@ -686,7 +680,6 @@ class ImportExampleData extends Migration
 
         DB::table('variation_discounts')->insert(
             array(
-                'id' => 3,
                 'variation_id' => 17,
                 'start' => '2021-01-01 00:00:00',
                 'end' => '2021-06-01 00:00:00',
@@ -983,154 +976,154 @@ class ImportExampleData extends Migration
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 1,
                 'category_id' => 1
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
                 'category_id' => 1
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
                 'category_id' => 1
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 4,
                 'category_id' => 1
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 5,
                 'category_id' => 1
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 1,
                 'category_id' => 2
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
                 'category_id' => 2
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
                 'category_id' => 2
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 4,
                 'category_id' => 2
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 5,
                 'category_id' => 2
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
                 'category_id' => 3
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
                 'category_id' => 3
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
                 'category_id' => 4
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
                 'category_id' => 4
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 1,
                 'category_id' => 5
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 4,
                 'category_id' => 6
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 5,
                 'category_id' => 6
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 1,
                 'category_id' => 7
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 4,
                 'category_id' => 7
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 5,
                 'category_id' => 7
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 2,
                 'category_id' => 8
             )
         );
 
-        DB::table('classifications')->insert(
+        DB::table('category_item')->insert(
             array(
                 'item_id' => 3,
                 'category_id' => 8

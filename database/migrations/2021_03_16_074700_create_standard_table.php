@@ -46,6 +46,7 @@ class CreateStandardTable extends Migration
         Schema::create('wholesale_discounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
+            $table->integer('step');
             $table->integer('min');
             $table->integer('max')->nullable();
             $table->double('rate')->default(1.0);
@@ -63,15 +64,14 @@ class CreateStandardTable extends Migration
             $table->string('name2_en')->nullable();
             $table->double('price');
             $table->double('weight');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
 
             $table->timestamps();
         });
 
         Schema::create('variation_discounts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('variation_id')->constrained('variations')->cascadeOnDelete();
+            $table->foreignId('variation_id')->primary()->constrained('variations')->cascadeOnDelete();
             $table->dateTime('start');
             $table->dateTime('end')->nullable();
             $table->double('rate')->default(1.0);
@@ -97,7 +97,7 @@ class CreateStandardTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('classifications', function (Blueprint $table) {
+        Schema::create('category_item', function (Blueprint $table) {
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
 
@@ -186,7 +186,7 @@ class CreateStandardTable extends Migration
         Schema::dropIfExists('inventories');
 
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('classifications');
+        Schema::dropIfExists('category_item');
 
         Schema::dropIfExists('orders');
         Schema::dropIfExists('customers');

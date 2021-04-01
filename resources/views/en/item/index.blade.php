@@ -52,7 +52,10 @@
                             <img src="{{ asset($item->getCoverImage()) }}" class="card-img-top" alt="image">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title text-truncate">{{ $item->name_en }}</h5>
+                            <h5 class="card-title text-truncate">
+                                {{ $item->name_en }}
+                            </h5>
+
                             <span style="color: brown;">
                                 @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
                                     RM{{ $item->getPriceRange()['min'] }}
@@ -61,9 +64,13 @@
                                 @endif
                             </span>
 
+                            @if(!$item->hasNoWholesale())
+                                <span class="badge badge-info">Wholesale</span>
+                            @endif
+
                             <div class="row">
                                 <div class="col text-left">
-                                    {{ $item->util->sold }} sold
+                                    <i class="icofont-cart-alt"></i> {{ $item->util->sold }} sold
                                 </div>
                                 <div class="col text-right">
                                     <i class="icofont-eye"></i> {{ $item->util->view_count }}

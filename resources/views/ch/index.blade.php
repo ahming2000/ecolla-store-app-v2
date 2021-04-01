@@ -76,7 +76,7 @@
                                     <img class="card-img-top" src="{{ asset($item->getCoverImage()) }}">
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $item->name }}</h5>
+                                    <h5 class="card-title text-truncate">{{ $item->name }}</h5>
                                     <p class="card-text text-muted">
                                         @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
                                             RM{{ $item->getPriceRange()['min'] }}
@@ -103,7 +103,7 @@
                                     <img class="card-img-top" src="{{ asset($item->getCoverImage()) }}">
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $item->name }}</h5>
+                                    <h5 class="card-title text-truncate">{{ $item->name }}</h5>
                                     <p class="card-text text-muted">
                                         @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
                                             RM{{ $item->getPriceRange()['min'] }}

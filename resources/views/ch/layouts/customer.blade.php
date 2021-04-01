@@ -79,7 +79,7 @@ $cart->start();
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
         <div class="container">
             <a class="navbar-brand" href="/ch">
-                <img src="{{asset('img/favicon.ico')}}" width="30" height="30" class="d-inline-block align-top"
+                <img src="{{asset('img/icon/ecolla_icon.png')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">
                 ε口乐
             </a>
@@ -151,7 +151,7 @@ $cart->start();
     <div class="row m-0 pt-3 pb-3 logo-bt">
         <div class="col">
             <div class="text-center">
-                <img src="{{ asset('img/favicon.ico') }}" width="20" height="20" alt="logo" loading="lazy">
+                <img src="{{ asset('img/icon/ecolla_icon.png') }}" width="20" height="20" alt="logo" loading="lazy">
                 <span class="font-color">ε口乐 Ecolla</span>
             </div>
         </div>

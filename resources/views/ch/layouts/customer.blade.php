@@ -197,5 +197,7 @@ $cart->start();
     });
 </script>
 
+@yield('extraScriptEnd')
+
 </body>
 </html>

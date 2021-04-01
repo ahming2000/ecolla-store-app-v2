@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Session;
 class ItemsController extends Controller
 {
 
-    public static int $ITEM_PER_PAGE = 2;
-
     public function index()
     {
+
+        $ITEM_PER_PAGE = DB::table('system_configs')->select('value')->where('name', '=', 'maxRecordsPerPage')->first()->value;
 
         $search = request()->get('search') ?? "";
         $category = request()->get('category') ?? "";
@@ -48,7 +48,7 @@ class ItemsController extends Controller
             $idList[] = $i->id;
         }
 
-        $items = Item::whereIn('id', $idList)->paginate(ItemsController::$ITEM_PER_PAGE);
+        $items = Item::whereIn('id', $idList)->paginate($ITEM_PER_PAGE);
 
         $categories = Category::all();
 

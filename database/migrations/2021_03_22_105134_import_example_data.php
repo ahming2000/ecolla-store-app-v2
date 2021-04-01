@@ -480,8 +480,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/5/6935145301016.jpg',
-                'item_id' => 5
+                'image' => 'img/items/4/6935145301016.jpg',
+                'item_id' => 4
             )
         );
 
@@ -495,8 +495,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/5/6935145301030.jpg',
-                'item_id' => 5
+                'image' => 'img/items/4/6935145301030.jpg',
+                'item_id' => 4
             )
         );
 
@@ -510,8 +510,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/5/6935145301047.jpg',
-                'item_id' => 5
+                'image' => 'img/items/4/6935145301047.jpg',
+                'item_id' => 4
             )
         );
 
@@ -525,8 +525,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/5/6935145301061.jpg',
-                'item_id' => 5
+                'image' => 'img/items/4/6935145301061.jpg',
+                'item_id' => 4
             )
         );
 
@@ -540,8 +540,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '275ml',
                 'weight' => 0.275,
                 'price' => 11.5,
-                'image' => 'img/items/5/6935145301078.jpg',
-                'item_id' => 5
+                'image' => 'img/items/4/6935145301078.jpg',
+                'item_id' => 4
             )
         );
 
@@ -555,8 +555,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/4/6935145343030.jpg',
-                'item_id' => 4
+                'image' => 'img/items/5/6935145343030.jpg',
+                'item_id' => 5
             )
         );
 
@@ -570,8 +570,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/4/6935145343047.jpg',
-                'item_id' => 4
+                'image' => 'img/items/5/6935145343047.jpg',
+                'item_id' => 5
             )
         );
 
@@ -585,8 +585,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/4/6935145343061.jpg',
-                'item_id' => 4
+                'image' => 'img/items/5/6935145343061.jpg',
+                'item_id' => 5
             )
         );
 
@@ -600,8 +600,8 @@ class ImportExampleData extends Migration
                 'name2_en' => '330ml',
                 'weight' => 0.33,
                 'price' => 8.8,
-                'image' => 'img/items/4/6935145343092.jpg',
-                'item_id' => 4
+                'image' => 'img/items/5/6935145343092.jpg',
+                'item_id' => 5
             )
         );
 

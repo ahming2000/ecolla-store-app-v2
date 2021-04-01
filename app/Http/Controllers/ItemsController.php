@@ -16,7 +16,8 @@ class ItemsController extends Controller
     public function index(){
 
         $items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
-            ->where('is_listed', '=', 1)->get();
+            ->where('is_listed', '=', 1)
+            ->paginate(1);
         $categories = Category::all();
 
         return view($this->getLang() . '.item.index', compact('items', 'categories'));
@@ -51,19 +52,7 @@ class ItemsController extends Controller
 
         session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($v->id), $data['quantity']);
 
-        $i = DB::table('items')
-            ->select('*')
-            ->where('name','=',$name)
-            ->orWhere('name_en', '=', $name)
-            ->first();
-
-        if($i == null){
-            abort(404);
-        }
-
-        $item = Item::find($i->id);
-
-        return view($this->getLang() . '.item.view', compact('item'));
+        header('refresh: 0');
     }
 
 }

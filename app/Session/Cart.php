@@ -12,22 +12,21 @@ use App\Models\Variation;
  */
 class Cart
 {
-    public string $DEFAULT_ORDER_MODE = 'pickup';
-    public string $DEFAULT_SESSION_NAME = 'ecollaCart';
+    public static string $DEFAULT_ORDER_MODE = 'pickup';
+    public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
 
     public array $cartItems;
     public float $shippingFee;
     public string $orderMode;
 
     public function start(){
-        session_start();
 
-        if(isset($_SERVER[$this->DEFAULT_SESSION_NAME])){
-            $this->pullSessionCart($_SERVER[$this->DEFAULT_SESSION_NAME]);
+        if(session()->has(Cart::$DEFAULT_SESSION_NAME)){
+            $this->pullSessionCart(session(Cart::$DEFAULT_SESSION_NAME));
         } else{
             $this->cartItems = array();
             $this->shippingFee = 0.0;
-            $this->orderMode = $this->DEFAULT_ORDER_MODE;
+            $this->orderMode = Cart::$DEFAULT_ORDER_MODE;
             $this->pushSessionCart();
         }
     }
@@ -49,13 +48,20 @@ class Cart
      * @param $quantity
      */
     public function addItem(Variation $variation, $quantity){
+
+        $hasNotDuplicated = true;
+
         foreach ($this->cartItems as $cartItem){
-            if($cartItem->variation === $variation){
+            if($cartItem->variation->id == $variation->id){
                 $cartItem->quantity += $quantity;
+                $hasNotDuplicated = false;
             }
         }
 
-        $this->cartItems[] = $variation;
+        if($hasNotDuplicated){
+            $this->cartItems[] = new CartItem($variation, $quantity);
+        }
+
         $this->pushSessionCart();
     }
 
@@ -97,7 +103,7 @@ class Cart
      *
      */
     public function resetCart(){
-        session_destroy();
+        session()->pull(Cart::$DEFAULT_SESSION_NAME);
         unset($this->cartItems);
         $this->cartItems = array();
     }
@@ -123,7 +129,7 @@ class Cart
     }
 
     private function pushSessionCart(){
-        $_SERVER[$this->DEFAULT_SESSION_NAME] = $this;
+        session([Cart::$DEFAULT_SESSION_NAME => $this]);
     }
 
     public function getCartCount(): int

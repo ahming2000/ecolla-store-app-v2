@@ -13,26 +13,72 @@ use Illuminate\Support\Facades\Session;
 
 class ItemsController extends Controller
 {
-    public function index(){
 
-        $items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
-            ->where('is_listed', '=', 1)
-            ->paginate(1);
+    public static int $ITEM_PER_PAGE = 2;
+
+    public function index()
+    {
+
+        $search = request()->get('search') ?? "";
+        $category = request()->get('category') ?? "";
+
+        $items_table = DB::table('items')
+            ->select('items.id')
+            ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->join('category_item', 'category_item.item_id', '=', 'items.id')
+            ->join('variations', 'variations.item_id', '=', 'items.id')
+            ->where('item_utils.is_listed', '=', 1)
+            ->where('items.name', 'LIKE', "%{$search}%")
+            ->orWhere('items.name_en', 'LIKE', "%{$search}%")
+            ->orWhere('items.origin', 'LIKE', "%{$search}%")
+            ->orWhere('items.origin_en', 'LIKE', "%{$search}%")
+            ->orWhere('items.brand', 'LIKE', "%{$search}%")
+            ->orWhere('items.brand_en', 'LIKE', "%{$search}%")
+            ->orWhere('items.desc', 'LIKE', "%{$search}%")
+            ->orWhere('variations.name1', 'LIKE', "%{$search}%")
+            ->orWhere('variations.name2', 'LIKE', "%{$search}%")
+            ->orWhere('variations.name1_en', 'LIKE', "%{$search}%")
+            ->orWhere('variations.name2_en', 'LIKE', "%{$search}%")
+            ->orWhere('variations.barcode', 'LIKE', "%{$search}%")
+            ->distinct('items.id')
+            ->get();
+
+        $idList = array();
+        foreach ($items_table as $i){
+            $idList[] = $i->id;
+        }
+
+        $items = Item::whereIn('id', $idList)->paginate(ItemsController::$ITEM_PER_PAGE);
+
         $categories = Category::all();
+
+        // Custom link for laravel pagination
+        if($search != "" && $category != ""){
+            $parameter = "?search=$search&category=$category";
+        } else if ($search != ""){
+            $parameter = "?search=$search";
+        } else if ($category != ""){
+            $parameter = "?category=$category";
+        } else{
+            $parameter = "";
+        }
+
+        $items->withPath('/' . $this->getLang() . '/item' . $parameter);
 
         return view($this->getLang() . '.item.index', compact('items', 'categories'));
     }
 
 
-    public function view(string $name){
+    public function view(string $name)
+    {
 
         $i = DB::table('items')
             ->select('*')
-            ->where('name','=',$name)
+            ->where('name', '=', $name)
             ->orWhere('name_en', '=', $name)
             ->first();
 
-        if($i == null){
+        if ($i == null) {
             abort(404);
         }
 
@@ -41,7 +87,8 @@ class ItemsController extends Controller
         return view($this->getLang() . '.item.view', compact('item'));
     }
 
-    public function addToCart(String $name){
+    public function addToCart(string $name)
+    {
 
         $data = request()->all();
 

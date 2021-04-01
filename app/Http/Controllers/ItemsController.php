@@ -22,24 +22,30 @@ class ItemsController extends Controller
         $search = request()->get('search') ?? "";
         $category = request()->get('category') ?? "";
 
-        $items_table = DB::table('items')
-            ->select('items.id')
-            ->join('category_item', 'category_item.item_id', '=', 'items.id')
-            ->join('variations', 'variations.item_id', '=', 'items.id')
-            ->where('items.name', 'LIKE', "%{$search}%")
-            ->orWhere('items.name_en', 'LIKE', "%{$search}%")
-            ->orWhere('items.origin', 'LIKE', "%{$search}%")
-            ->orWhere('items.origin_en', 'LIKE', "%{$search}%")
-            ->orWhere('items.brand', 'LIKE', "%{$search}%")
-            ->orWhere('items.brand_en', 'LIKE', "%{$search}%")
-            ->orWhere('items.desc', 'LIKE', "%{$search}%")
-            ->orWhere('variations.name1', 'LIKE', "%{$search}%")
-            ->orWhere('variations.name2', 'LIKE', "%{$search}%")
-            ->orWhere('variations.name1_en', 'LIKE', "%{$search}%")
-            ->orWhere('variations.name2_en', 'LIKE', "%{$search}%")
-            ->orWhere('variations.barcode', 'LIKE', "%{$search}%")
-            ->distinct('items.id')
-            ->get();
+        if($search != "" && $category != ""){
+            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category') AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.brand LIKE '%$search%' OR items.brand_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name1 LIKE '%$search%' OR variations.name2 LIKE '%$search%' OR variations.name1_en LIKE '%$search%' OR variations.name2_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
+        } else if ($search != ""){
+            $whereClause = "items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.brand LIKE '%$search%' OR items.brand_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name1 LIKE '%$search%' OR variations.name2 LIKE '%$search%' OR variations.name1_en LIKE '%$search%' OR variations.name2_en LIKE '%$search%' OR variations.barcode LIKE '%$search%'";
+        } else if ($category != ""){
+            $whereClause = "categories.name = '$category' OR categories.name_en = '$category'";
+        } else{
+            $whereClause = "";
+        }
+
+        if($whereClause != ""){
+            $items_table = DB::table('items')
+                ->select('items.id')
+                ->join('category_item', 'category_item.item_id', '=', 'items.id')
+                ->join('categories', 'categories.id', '=', 'category_item.category_id')
+                ->join('variations', 'variations.item_id', '=', 'items.id')
+                ->whereRaw($whereClause)
+                ->distinct('items.id')
+                ->get();
+        } else{
+            $items_table = DB::table('items')
+                ->select('items.id')
+                ->get();
+        }
 
         $idList = array();
         foreach ($items_table as $i){

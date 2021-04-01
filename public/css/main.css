@@ -93,7 +93,6 @@ div.payment-method.active {
 
 /*index.php*/
 .headtext{
-    background-image: url('../images/ads/index-shop-bg.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerPageController extends Controller
 {
@@ -13,7 +15,50 @@ class CustomerPageController extends Controller
     }
 
     public function index(){
-        return view($this->getLang() . '.index');
+
+        $carousel_desc = [
+            'id' => 'imgSlide',
+            'interval' => '10000',
+            'images' => [
+                'img/ads/ads1.jpg',
+                'img/ads/ads2.jpg',
+                'img/ads/ads3.jpg'
+            ]
+        ];
+
+        $hot_items_id = DB::table('items')
+            ->select('items.id')
+            ->join('category_item', 'category_item.item_id', 'items.id')
+            ->join('categories', 'categories.id', 'category_item.category_id')
+            ->where('categories.name', '=', '热卖')
+            ->get();
+
+        $idList = array();
+        foreach ($hot_items_id as $i){
+            $idList[] = $i->id;
+        }
+
+        $hot_items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->where('item_utils.is_listed', '=', 1)
+            ->whereIn('id', $idList)->get();
+
+        $new_items_id = DB::table('items')
+            ->select('items.id')
+            ->join('category_item', 'category_item.item_id', 'items.id')
+            ->join('categories', 'categories.id', 'category_item.category_id')
+            ->where('categories.name', '=', '新品')
+            ->get();
+
+        $idList = array();
+        foreach ($new_items_id as $i){
+            $idList[] = $i->id;
+        }
+
+        $new_items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->where('item_utils.is_listed', '=', 1)
+            ->whereIn('id', $idList)->get();
+
+        return view($this->getLang() . '.index', compact('carousel_desc', 'hot_items', 'new_items'));
     }
 
     public function about(){

@@ -6,31 +6,162 @@
 
 @section('extraStyle')
     <style>/*overwrite deco.css*/
-        .navbar{
-            background-color:transparent;
+        .navbar {
+            background-color: transparent;
             transition: background-color 0.5s;
         }
-        .navbar-change{
+
+        .navbar-change {
             background-color: #3c3e44;
             transition: background-color 0.5s;
         }
-        .navbar-custom .navbar-brand{
+
+        .navbar-custom .navbar-brand {
             color: white;
         }
-        .navbar-custom .navbar-nav .nav-link, .navbar-custom .fa-bars{
+
+        .navbar-custom .navbar-nav .nav-link, .navbar-custom .fa-bars {
             color: white;
         }
     </style>
 @endsection
 
 @section('content')
-    Test
+    <main>
 
+        <!-- Advertisement -->
+        <section class="container">
+            <div id="{{ $carousel_desc['id'] }}" class="carousel slide m-0" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @for($i = 0; $i < sizeof($carousel_desc['images']); $i++)
+                        <li data-target='#{{ $carousel_desc['id'] }}' data-slide-to='{{ $i }}' {{ $i == 0 ? "class='active'" : "" }}></li>
+                    @endfor
+                <!-- Original Pattern: <li data-target="#imgSlide" data-slide-to="{slide index}"></li> -->
+                </ol>
+
+                <div class="carousel-inner">
+                    @for($i = 0; $i < sizeof($carousel_desc['images']); $i++)
+                        <div class="carousel-item {{ $i == 0 ? "active" : "" }}">
+                            <img class='d-block w-100' src='{{ $carousel_desc['images'][$i] }}' data-interval='{{ $carousel_desc['interval'] }}'>
+                        </div>
+                    @endfor
+
+                <!--
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src={img directory} data-interval="10000">
+                    </div>
+                 -->
+                </div>
+
+                <a class="carousel-control-prev" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Hot Sells Items -->
+        <section class="section1">
+            <div class="container mt-5">
+                <h3 class="pt-3 pl-5">新品</h3>
+                <div class="owl-carousel mousescroll owl-theme">
+                    @foreach($new_items as $item)
+                        <div class="item">
+                            <div class="card">
+                                <a href="/ch/item/{{ $item->name }}">
+                                    <img class="card-img-top" src="{{ asset($item->getCoverImage()) }}">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $item->name }}</h5>
+                                    <p class="card-text text-muted">
+                                        @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
+                                            RM{{ $item->getPriceRange()['min'] }}
+                                        @else
+                                            RM{{ $item->getPriceRange()['min'] }} - RM{{ $item->getPriceRange()['max'] }}
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section class="section2">
+            <div class="container mt-5">
+                <h3 class="pt-3 pl-5">热卖</h3>
+                <div class="owl-carousel mousescroll1 owl-theme">
+                    @foreach($hot_items as $item)
+                        <div class="item">
+                            <div class="card">
+                                <a href="/ch/item/{{ $item->name }}">
+                                    <img class="card-img-top" src="{{ asset($item->getCoverImage()) }}">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $item->name }}</h5>
+                                    <p class="card-text text-muted">
+                                        @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
+                                            RM{{ $item->getPriceRange()['min'] }}
+                                        @else
+                                            RM{{ $item->getPriceRange()['min'] }} - RM{{ $item->getPriceRange()['max'] }}
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+    </main>
 @endsection
 
 @section('welcome')
-    <div class="headtext">欢迎来到
+    <div class="headtext" style="background-image: url({{ asset('img/ads/index-shop-bg.jpg') }})">欢迎来到
         <div class="headtext1">Ecolla ε口乐</div>
         零食店官网
     </div>
+@endsection
+
+@section('extraScriptEnd')
+    <script>
+        $('.owl-carousel').owlCarousel({
+            margin: 10,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        });
+        var owl = $('.mousescroll1');
+        owl.on('mousewheel', '.owl-stage', function (e) {
+            if (e.deltaY > 0) {
+                owl.trigger('next.owl');
+            } else {
+                owl.trigger('prev.owl');
+            }
+            e.preventDefault();
+        });
+        var owl1 = $('.mousescroll');
+        owl1.on('mousewheel', '.owl-stage', function (e) {
+            if (e.deltaY > 0) {
+                owl1.trigger('next.owl');
+            } else {
+                owl1.trigger('prev.owl');
+            }
+            e.preventDefault();
+        });
+    </script>
 @endsection

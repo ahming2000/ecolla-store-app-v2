@@ -194,7 +194,7 @@
                     <!-- Item information -->
 
                     <div class="col-12">
-                        <form action="/ch/item/{{ $item->name }}" method="post">
+                        <form action="/en/item/{{ $item->name }}" method="post">
 
                             @csrf
 

@@ -1,5 +1,9 @@
 @extends('ch.layouts.customer')
 
+@section('title')
+    购物车 | Ecolla ε口乐
+@endsection
+
 @section('content')
     <main class="container">
         <div class="row">

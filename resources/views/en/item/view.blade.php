@@ -89,7 +89,7 @@
                     <div class="col-12 mb-3">
                         <div class="row">
                             @foreach($item->categories as $cat)
-                                <a href="/ch/item?category={{ $cat->name_en }}">
+                                <a href="/en/item?category={{ $cat->name_en }}">
                                     <span class="badge badge-pill secondary-color mr-1 p-2">{{ $cat->name_en }}</span>
                                 </a>
                             @endforeach

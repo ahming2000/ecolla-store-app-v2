@@ -48,7 +48,7 @@
             @foreach($items as $item)
                 <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                     <div class="card">
-                        <a href="/ch/item/{{ $item->name_en }}">
+                        <a href="/en/item/{{ $item->name_en }}">
                             <img src="{{ asset($item->getCoverImage()) }}" class="card-img-top" alt="image">
                         </a>
                         <div class="card-body">

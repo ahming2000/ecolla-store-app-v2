@@ -23,7 +23,12 @@ class CartItem
 
 
     public function getSubPrice(){
-        return $this->variation->price * $this->quantity;
+        // If the cart item has no individual discount and it has wholesale discount
+        if($this->variation->discount == null && !$this->variation->item->hasNoWholesale()){
+            return $this->variation->price * $this->quantity * $this->variation->item->getWholesaleRate($this->quantity);
+        } else{
+            return $this->variation->price * $this->quantity * ($this->variation->discount->rate ?? 1.0);
+        }
     }
 
 }

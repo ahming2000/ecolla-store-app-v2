@@ -64,6 +64,24 @@ class Item extends Model
         return true;
     }
 
+    public function getWholesaleRate(int $quantity): float
+    {
+
+        $wholesales = $this->getSortedWholesales();
+        $rate = 1.0;
+
+        foreach($wholesales as $w){
+
+            if($quantity >= $w->min){
+                $rate = $w->rate;
+            } else{
+                break;
+            }
+        }
+
+        return $rate;
+    }
+
     public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Variation::class, 'item_id', 'id');

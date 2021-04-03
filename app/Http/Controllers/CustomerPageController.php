@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Variation;
+use App\Session\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,7 +74,60 @@ class CustomerPageController extends Controller
 
     public function cart()
     {
-        return view($this->getLang() . '.cart');
+        // Reset Cart
+//        session()->pull(Cart::$DEFAULT_SESSION_NAME);
+        $cart = session(Cart::$DEFAULT_SESSION_NAME) ?? new Cart();
+        $cart->start();
+
+        return view($this->getLang() . '.cart', compact('cart'));
+    }
+
+    public function cartOperation()
+    {
+        $action = request()->get('action');
+        $cart = session(Cart::$DEFAULT_SESSION_NAME);
+
+        switch ($action){
+            case 'updateCartSettings':
+                $orderMode = request()->get('orderMode');
+
+                if($orderMode == 'delivery' && request()->get('customerField') != null){
+                    $customerData = request()->validate([
+                        'name' => 'required',
+                        'phone' => 'required',
+                        'addressLine1' => 'required',
+                        'state' => 'required',
+                        'area' => 'required',
+                        'postal_code' => 'required'
+                    ]);
+
+                    $cart->updateCustomerData($customerData);
+                } else if($orderMode == 'pickup' && request()->get('orderVerifyIdField') != null){
+                    $pickUpData = request()->validate([
+                        'order_verify_id' => 'required'
+                    ]);
+
+                    $cart->updateOrderVerifyId($pickUpData);
+                } else{
+                    $cart->changeOrderMode($orderMode);
+                }
+                break;
+            case 'quantityAdjust':
+                $barcode = request()->get('barcode');
+                $quantityToAdjust = request()->get('quantityToAdjust');
+                $cart->editQuantity($barcode, $quantityToAdjust);
+                break;
+            case 'deleteItem':
+                $barcode = request()->get('barcode');
+                $cart->deleteItem($barcode);
+                break;
+            case 'resetCart':
+                $cart->resetCart();
+                break;
+            default:
+        }
+
+        header('refresh: 0');
     }
 
 }

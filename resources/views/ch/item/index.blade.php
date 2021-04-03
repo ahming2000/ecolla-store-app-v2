@@ -71,7 +71,7 @@
 
                             <div class="row">
                                 <div class="col text-left">
-                                    <i class="icofont-cart-alt"></i> 已售出 {{ $item->util->sold }} 个
+                                    <i class="icofont-cart-alt"></i> 已售出 {{ $item->util->sold }}
                                 </div>
                                 <div class="col text-right">
                                     <i class="icofont-eye"></i> {{ $item->util->view_count }}

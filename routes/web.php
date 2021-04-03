@@ -63,3 +63,7 @@ Route::prefix('en')->group(function (){
 });
 
 
+// Admin link
+Route::domain('management.newrainbowmarket.com')->group(function (){
+    Route::get('/', [AdminPageController::class, 'index'])->name('admin.home');
+});

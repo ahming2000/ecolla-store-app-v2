@@ -1217,7 +1217,7 @@ class ImportExampleData extends Migration
 
         DB::table('customers')->insert(
             array(
-                'id' => 1,
+                'order_id' => 1,
                 'name' => 'Alex Lee',
                 'phone' => '0132323232',
                 'addressLine1' => '1, Jalan Kampar 30',
@@ -1230,7 +1230,7 @@ class ImportExampleData extends Migration
 
         DB::table('customers')->insert(
             array(
-                'id' => 2,
+                'order_id' => 2,
                 'name' => 'Alex Lee',
                 'phone' => '0132323232',
                 'addressLine1' => '1, Jalan Kampar 30',
@@ -1243,7 +1243,7 @@ class ImportExampleData extends Migration
 
         DB::table('customers')->insert(
             array(
-                'id' => 3,
+                'order_id' => 3,
                 'name' => 'Alex Lee',
                 'phone' => '0132323232',
                 'addressLine1' => '1, Jalan Kampar 30',
@@ -1256,7 +1256,7 @@ class ImportExampleData extends Migration
 
         DB::table('customers')->insert(
             array(
-                'id' => 4,
+                'order_id' => 4,
                 'name' => 'Alex Lee',
                 'phone' => '0132323232',
                 'addressLine1' => '1, Jalan Kampar 30',
@@ -1269,7 +1269,7 @@ class ImportExampleData extends Migration
 
         DB::table('customers')->insert(
             array(
-                'id' => 5,
+                'order_id' => 5,
                 'name' => 'Alex Lee',
                 'phone' => '0132323232',
                 'addressLine1' => '1, Jalan Kampar 30',

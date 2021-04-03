@@ -122,7 +122,7 @@ class CreateStandardTable extends Migration
         });
 
         Schema::create('customers', function (Blueprint $table) {
-            $table->foreignId('id')->primary()->constrained('orders')->cascadeOnDelete();
+            $table->foreignId('order_id')->primary()->constrained('orders')->cascadeOnDelete();
             $table->string('name');
             $table->string('phone');
             $table->string('email')->nullable();

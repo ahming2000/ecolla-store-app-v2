@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Session\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,20 +13,17 @@ class OrdersController extends Controller
 
     public function checkOut()
     {
-        return view($this->getLang() . '.order.check-out');
+        $cart = session(Cart::$DEFAULT_SESSION_NAME) ?? new Cart();
+        $cart->start();
+
+        return view($this->getLang() . '.order.check-out', compact('cart'));
     }
 
 
     public function store()
     {
-        $customerData = request()->validate([
-            'first_name' => 'required',
-            'phone' => 'required',
-            'addressLine1' => 'required',
-            'state' => 'required',
-            'area' => 'required',
-            'postal_code' => 'required'
-        ]);
+
+        $cart = session(Cart::$DEFAULT_SESSION_NAME);
 
         $orderData = request()->validate([
             'payment_method' => 'required',
@@ -35,7 +33,22 @@ class OrdersController extends Controller
         $prefix = DB::table('system_configs')->where('name', '=', 'orderCodePrefix')->value('value');
         $dateTime = date('Y-m-d H:i:s');
         $orderId = $prefix . date_format(date_create($dateTime), "YmdHis");
-        $orderData = array_merge($orderData, ['order_code' => $orderId]);
+
+        if($cart->orderMode == 'delivery'){
+            $orderData = array_merge($orderData, [
+                'code' => $orderId,
+                'mode' => $cart->orderMode,
+            ]);
+        } else{
+            $orderData = array_merge($orderData, [
+                'code' => $orderId,
+                'mode' => $cart->orderMode,
+                'order_verify_id' => $cart->orderVerifyId
+            ]);
+        }
+
+        // TODO Save order's items into the table
+
 
         $order = new Order();
         foreach ($orderData as $key => $value){
@@ -43,13 +56,10 @@ class OrdersController extends Controller
         }
         $order->save();
 
-        $customerData = array_merge($customerData, ['order_id'=> $order->id]);
-        $customer = new Customer();
-        foreach ($customerData as $key => $value) {
-            $customer->setAttribute($key, $value);
+        if($cart->orderMode == 'delivery'){
+            $customer = $cart->customer;
+            $order->customer()->save($customer);
         }
-        $order->customer()->save($customer);
-
 
         dd($order);
         //return view("ch.order.order-successfully");

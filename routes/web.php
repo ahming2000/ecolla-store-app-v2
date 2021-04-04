@@ -61,9 +61,3 @@ Route::prefix('en')->group(function (){
     Route::post('/check-out', [OrdersController::class, 'store'])->name('en.order.save');
     Route::get('/order-tracking', [OrdersController::class, 'orderTracking'])->name('en.order.orderTracking');
 });
-
-
-// Admin link
-Route::domain('management.newrainbowmarket.com')->group(function (){
-    Route::get('/', [AdminPageController::class, 'index'])->name('admin.home');
-});

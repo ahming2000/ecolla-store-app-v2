@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Variation extends Model
 {
@@ -16,6 +17,10 @@ class Variation extends Model
             $total += $inv->stock;
         }
         return $total;
+    }
+
+    public function getSortedInventory(){
+        return Inventory::where('variation_id', '=', $this->id)->orderBy('expire_date')->get();
     }
 
     public function item(): \Illuminate\Database\Eloquent\Relations\BelongsTo

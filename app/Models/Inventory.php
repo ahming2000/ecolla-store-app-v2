@@ -9,6 +9,8 @@ class Inventory extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['stock'];
+
     public function variations(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Variation::class);

@@ -9,28 +9,22 @@ $cart->start();
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}">
     <title>@yield('title')</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css">
-    <!-- Icofont -->
-    <link rel="stylesheet" href="{{ asset('vendor/icofont/icofont.min.css')}}">
-    <!-- Tiny Slider 2 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
-    <!-- Others -->
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- OwlCarousel (Face some bug in npm) -->
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
-    <!-- Website Icon -->
-    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}">
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     @yield('extraStyle')
 
@@ -95,7 +89,7 @@ $cart->start();
                     <li class="nav-item"><a class="nav-link" href="/en/about">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/en/order-tracking">Order Tracking</a></li>
                     <li class="nav-item"><a class="nav-link" href="/en/cart"><i
-                                class="icofont-shopping-cart mx-1"></i><span><?= $cart->getCartCount() ?></span></a></li>
+                                class="icofont icofont-shopping-cart mx-1"></i><span><?= $cart->getCartCount() ?></span></a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             English

@@ -70,10 +70,10 @@
 
                             <div class="row">
                                 <div class="col text-left">
-                                    <i class="icofont-cart-alt"></i> {{ $item->util->sold }} sold
+                                    <i class="icofont icofont-cart-alt"></i> {{ $item->util->sold }} sold
                                 </div>
                                 <div class="col text-right">
-                                    <i class="icofont-eye"></i> {{ $item->util->view_count }}
+                                    <i class="icofont icofont-eye"></i> {{ $item->util->view_count }}
                                 </div>
                             </div>
                         </div>

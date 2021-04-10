@@ -252,7 +252,7 @@
                                 <div class="col-xs-12 col-sm-5 col-lg-6">
                                     <button class="btn secondary-color" type="submit"
                                             id="add-to-cart-button" {{ $item->getFirstVariation()->getTotalStock() == 0 ? "disabled" : "" }}>
-                                        加入购物车<i class="fas fa-shopping-cart ml-1"></i>
+                                        加入购物车<i class="icofont icofont-shopping-cart ml-1"></i>
                                     </button>
                                 </div><!-- Submit button -->
                             </div>

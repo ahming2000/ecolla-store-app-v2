@@ -13,13 +13,15 @@ use App\Models\Variation;
  */
 class Cart
 {
+    public int $VERSION = 1;
+
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
 
     public array $cartItems;
     public string $orderMode;
     public bool $canCheckOut;
-    public string $orderVerifyId;
+    public string $deliveryId;
     public Customer $customer;
 
     public function start(){
@@ -30,7 +32,7 @@ class Cart
             $this->cartItems = array();
             $this->orderMode = Cart::$DEFAULT_ORDER_MODE;
             $this->canCheckOut = false;
-            $this->orderVerifyId = "";
+            $this->deliveryId = "";
             $this->customer = new Customer();
             $this->pushSessionCart();
         }
@@ -40,15 +42,15 @@ class Cart
      * @param array $cartItems
      * @param string $orderMode
      * @param bool $canCheckOut
-     * @param string $orderVerifyId
+     * @param string $deliveryId
      * @param Customer $customer
      */
-    public function importCart(array $cartItems, string $orderMode, bool $canCheckOut, string $orderVerifyId, Customer $customer)
+    public function importCart(array $cartItems, string $orderMode, bool $canCheckOut, string $deliveryId, Customer $customer)
     {
         $this->cartItems = $cartItems;
         $this->orderMode = $orderMode;
         $this->canCheckOut = $canCheckOut;
-        $this->orderVerifyId = $orderVerifyId;
+        $this->deliveryId = $deliveryId;
         $this->customer = $customer;
     }
 
@@ -129,20 +131,20 @@ class Cart
         $this->pushSessionCart();
     }
 
-    public function updateOrderVerifyId($orderVerifyId){
-        $this->orderVerifyId = $orderVerifyId['order_verify_id'];
+    public function updateOrderVerifyId($deliveryId){
+        $this->deliveryId = $deliveryId['delivery_id'];
         $this->pushSessionCart();
     }
 
     private function canCheckOut(){
         if($this->orderMode == 'delivery'){
-            if(strtolower($this->customer->area) == 'kampar' && !empty($this->cartItems)){
+            if($this->customer->name != null && !empty($this->cartItems)){
                 $this->canCheckOut = true;
             } else {
                 $this->canCheckOut = false;
             }
         } else{
-            if($this->orderVerifyId != "" && !empty($this->cartItems)){
+            if($this->deliveryId != "" && !empty($this->cartItems)){
                 $this->canCheckOut = true;
             } else{
                 $this->canCheckOut = false;
@@ -165,12 +167,27 @@ class Cart
         return false;
     }
 
+    /**
+     * Pull the cart only if version is same, if not, reset instead
+     * @param Cart $cart
+     */
     private function pullSessionCart(Cart $cart){
-        $this->cartItems = $cart->cartItems;
-        $this->orderMode = $cart->orderMode;
-        $this->canCheckOut = $cart->canCheckOut;
-        $this->orderVerifyId = $cart->orderVerifyId;
-        $this->customer = $cart->customer;
+
+        if($cart->VERSION == $this->VERSION){
+            $this->cartItems = $cart->cartItems;
+            $this->orderMode = $cart->orderMode;
+            $this->canCheckOut = $cart->canCheckOut;
+            $this->deliveryId = $cart->deliveryId;
+            $this->customer = $cart->customer;
+        } else{
+            $this->cartItems = array();
+            $this->orderMode = Cart::$DEFAULT_ORDER_MODE;
+            $this->canCheckOut = false;
+            $this->deliveryId = "";
+            $this->customer = new Customer();
+            $this->pushSessionCart();
+        }
+
     }
 
     private function pushSessionCart(){

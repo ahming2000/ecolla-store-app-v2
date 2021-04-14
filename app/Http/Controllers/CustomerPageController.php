@@ -74,9 +74,7 @@ class CustomerPageController extends Controller
 
     public function cart()
     {
-        // Reset Cart
-//        session()->pull(Cart::$DEFAULT_SESSION_NAME);
-        $cart = session(Cart::$DEFAULT_SESSION_NAME) ?? new Cart();
+        $cart = new Cart();
         $cart->start();
 
         return view($this->getLang() . '.cart', compact('cart'));
@@ -104,7 +102,7 @@ class CustomerPageController extends Controller
                     $cart->updateCustomerData($customerData);
                 } else if($orderMode == 'pickup' && request()->get('orderVerifyIdField') != null){
                     $pickUpData = request()->validate([
-                        'order_verify_id' => 'required'
+                        'delivery_id' => 'required'
                     ]);
 
                     $cart->updateOrderVerifyId($pickUpData);

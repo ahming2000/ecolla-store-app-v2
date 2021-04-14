@@ -218,61 +218,61 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <input type="text"
-                                                   name="state"
-                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"
-                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"
-                                                   placeholder="州属"/>
-                                            @if ($errors->has('state'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('state') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" name="area"
-                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"
-                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"
-                                                   placeholder="地区/城市"/>
-                                            @if ($errors->has('area'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('area') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" name="postal_code"
-                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"
-                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"
-                                                   placeholder="邮政编号"/>
+{{--                                <div class="form-group">--}}
+{{--                                    <div class="form-row">--}}
+{{--                                        <div class="col">--}}
+{{--                                            <input type="text"--}}
+{{--                                                   name="state"--}}
+{{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
+{{--                                                   placeholder="州属"/>--}}
+{{--                                            @if ($errors->has('state'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col">--}}
+{{--                                            <input type="text" name="area"--}}
+{{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
+{{--                                                   placeholder="地区/城市"/>--}}
+{{--                                            @if ($errors->has('area'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col">--}}
+{{--                                            <input type="text" name="postal_code"--}}
+{{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
+{{--                                                   placeholder="邮政编号"/>--}}
 
-                                            @if ($errors->has('postal_code'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('postal_code') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                            @if ($errors->has('postal_code'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                             @else
 
                                 <input type="hidden" name="orderVerifyIdField" value="enabled">
 
                                 <div class="form-group">
-                                    <label for="order_verify_id">领取代码（自行设置）</label>
+                                    <label for="delivery_id">电话号码</label>
                                     <input type="text"
-                                           class="form-control{{ $errors->has('order_verify_id') ? ' is-invalid' : '' }}"
-                                           name="order_verify_id"
-                                           id="order_verify_id"
-                                           value="{{ $cart->orderVerifyId ?? old('order_verify_id') ?? "" }}"
-                                           placeholder="领取代码">
-                                    @if ($errors->has('order_verify_id'))
+                                           class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
+                                           name="delivery_id"
+                                           id="delivery_id"
+                                           value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
+                                           placeholder="电话号码">
+                                    @if ($errors->has('delivery_id'))
                                         <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('order_verify_id') }}</strong>
+                                            <strong>{{ $errors->first('delivery_id') }}</strong>
                                         </div>
                                     @endif
                                 </div>

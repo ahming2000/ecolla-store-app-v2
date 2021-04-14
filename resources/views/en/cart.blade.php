@@ -58,7 +58,7 @@
                                                 Quantity：
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-9 d-flex justify-content-center">
-                                                <form action="/en/cart" method="post">
+                                                <form action="{{ url('/en/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="quantityAdjust">
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
@@ -67,7 +67,7 @@
                                                     <button type="submit" class="btn btn-primary quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>-</button>
                                                 </form>
                                                 <input type="number" class="mx-3 my-3 cart-item-quantity" value="{{ $cartItem->quantity }}" style="width: 45px" disabled>
-                                                <form action="/en/cart" method="post">
+                                                <form action="{{ url('/en/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="quantityAdjust">
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
@@ -82,7 +82,7 @@
                                         <div class="d-flex justify-content-between align-items-center">
 
                                             <div>
-                                                <form action="/en/cart" method="post">
+                                                <form action="{{ url('/en/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="deleteItem">
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
@@ -128,10 +128,10 @@
 
                         @if($cart->getCartCount() != 0)
                             <div class="col-12">
-                                <form action="/en/cart" method="post">
+                                <form action="{{ url('/en/cart') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="action" value="resetCart">
-                                    <button class="btn btn-primary btn-block" type="submit">Clear Cart</button>
+                                    <button class="btn btn-primary btn-block" type="submit">Empty Cart</button>
                                 </form>
                             </div>
                         @endif
@@ -143,7 +143,7 @@
                 <div class="card mb-3">
                     <div class="card-body bg-info">
                         <!-- Delivery Description -->
-                        <h5>Delivery service current only available for Kampar customer</h5>
+                        <h5>Delivery service currently available for Kampar customer only</h5>
                         <p class="text-light">
                             Shipping Fee：RM2.00
                         </p>
@@ -159,7 +159,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="h5 mb-3">Order Mode：</div>
-                        <form action="/en/cart" method="post">
+                        <form action="{{ url('/en/cart') }}" method="post">
                             @csrf
                             <input type="hidden" name="action" value="updateCartSettings">
 
@@ -218,61 +218,61 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <input type="text"
-                                                   name="state"
-                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"
-                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"
-                                                   placeholder="State"/>
-                                            @if ($errors->has('state'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('state') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" name="area"
-                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"
-                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"
-                                                   placeholder="Area/City"/>
-                                            @if ($errors->has('area'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('area') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" name="postal_code"
-                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"
-                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"
-                                                   placeholder="Postal Code"/>
+{{--                                <div class="form-group">--}}
+{{--                                    <div class="form-row">--}}
+{{--                                        <div class="col">--}}
+{{--                                            <input type="text"--}}
+{{--                                                   name="state"--}}
+{{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
+{{--                                                   placeholder="State"/>--}}
+{{--                                            @if ($errors->has('state'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col">--}}
+{{--                                            <input type="text" name="area"--}}
+{{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
+{{--                                                   placeholder="Area/City"/>--}}
+{{--                                            @if ($errors->has('area'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col">--}}
+{{--                                            <input type="text" name="postal_code"--}}
+{{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
+{{--                                                   placeholder="Postal Code"/>--}}
 
-                                            @if ($errors->has('postal_code'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('postal_code') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                            @if ($errors->has('postal_code'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                             @else
 
                                 <input type="hidden" name="orderVerifyIdField" value="enabled">
 
                                 <div class="form-group">
-                                    <label for="order_verify_id">Pick up verification code</label>
+                                    <label for="delivery_id">Phone Number</label>
                                     <input type="text"
-                                           class="form-control{{ $errors->has('order_verify_id') ? ' is-invalid' : '' }}"
-                                           name="order_verify_id"
-                                           id="order_verify_id"
-                                           value="{{ $cart->orderVerifyId ?? old('order_verify_id') ?? "" }}"
+                                           class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
+                                           name="delivery_id"
+                                           id="delivery_id"
+                                           value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
                                            placeholder="Code">
-                                    @if ($errors->has('order_verify_id'))
+                                    @if ($errors->has('delivery_id'))
                                         <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('order_verify_id') }}</strong>
+                                            <strong>{{ $errors->first('delivery_id') }}</strong>
                                         </div>
                                     @endif
                                 </div>

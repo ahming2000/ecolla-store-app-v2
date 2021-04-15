@@ -47,7 +47,7 @@
 @section('extraScript')
     <script>
         function goToOrderTracking() {
-            window.location.href = "/en/order-tracking";
+            window.location.href = "/en/order-tracking?code={{ session('orderCode') }}";
         }
 
         function goToItemList() {

@@ -43,6 +43,7 @@ Route::prefix('ch')->group(function(){
     Route::get('/check-out', [OrdersController::class, 'checkOut'])->name('ch.order.checkOut');
     Route::post('/check-out', [OrdersController::class, 'store'])->name('ch.order.save');
     Route::get('/order-tracking', [OrdersController::class, 'orderTracking'])->name('ch.order.orderTracking');
+    Route::get('/order-successful', [OrdersController::class, 'checkOutSuccess'])->name('ch.order.checkOutSuccess');
 });
 
 // English customer link
@@ -60,4 +61,6 @@ Route::prefix('en')->group(function (){
     Route::get('/check-out', [OrdersController::class, 'checkOut'])->name('en.order.checkOut');
     Route::post('/check-out', [OrdersController::class, 'store'])->name('en.order.save');
     Route::get('/order-tracking', [OrdersController::class, 'orderTracking'])->name('en.order.orderTracking');
+    Route::get('/order-successful', [OrdersController::class, 'checkOutSuccess'])->name('ch.order.checkOutSuccess');
+
 });

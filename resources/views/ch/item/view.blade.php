@@ -19,7 +19,7 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/ch/item">商品列表</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/ch/item') }}">商品列表</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $item->brand }}</li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $item->name }}</li>
             </ol>
@@ -65,13 +65,13 @@
                             <ul class="slider-nav">
 
                                 @foreach($item->images as $img)
-                                    <li><img class="img-fluid" src="{{ asset($img->image) }}"/></li>
+                                    <li><img class="img-fluid" src="{{ $img->image }}"/></li>
                                 @endforeach
 
 
                                 @foreach($item->variations as $v)
                                     @if($v->image != null)
-                                        <li><img class="img-fluid" src="{{ asset($v->image) }}"/></li>
+                                        <li><img class="img-fluid" src="{{ $v->image }}"/></li>
                                     @endif
                                 @endforeach
 
@@ -89,7 +89,7 @@
                     <div class="col-12 mb-3">
                         <div class="row">
                             @foreach($item->categories as $cat)
-                                <a href="/ch/item?category={{ $cat->name }}">
+                                <a href="{{ url('/ch/item?category=' . $cat->name) }}">
                                     <span class="badge badge-pill secondary-color mr-1 p-2">{{ $cat->name }}</span>
                                 </a>
                             @endforeach
@@ -194,7 +194,7 @@
                     <!-- Item information -->
 
                     <div class="col-12">
-                        <form action="/ch/item/{{ $item->name }}" method="post">
+                        <form action="{{ url('/ch/item' . $item->name) }}" method="post">
 
                             @csrf
 

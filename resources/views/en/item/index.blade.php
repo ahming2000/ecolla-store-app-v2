@@ -11,7 +11,7 @@
 
             <!-- Item Searching -->
             <div class="col-sm-12 col-md-6">
-                <form action="/en/item" method="get">
+                <form action="{{ url('/en/item') }}" method="get">
                     <div class="form-row">
                         <div class="col-10">
                             <input type="text" class="form-control" maxlength="20" name="search"
@@ -48,8 +48,8 @@
             @foreach($items as $item)
                 <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                     <div class="card">
-                        <a href="/en/item/{{ $item->name_en }}">
-                            <img src="{{ asset($item->getCoverImage()) }}" class="card-img-top" alt="image">
+                        <a href="{{ url('/en/item' . $item->name_en) }}">
+                            <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title text-truncate">

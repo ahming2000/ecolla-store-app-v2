@@ -72,7 +72,7 @@ $cart->start();
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
         <div class="container">
-            <a class="navbar-brand" href="/en">
+            <a class="navbar-brand" href="{{ url('/en') }}">
                 <img src="{{asset('img/icon/ecolla_icon.png')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">
                 Ecolla
@@ -83,30 +83,26 @@ $cart->start();
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/en">Home Page</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/en/item">All Items</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/en/payment-method">Payment Method</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/en/about">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/en/order-tracking">Order Tracking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/en/cart"><i
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/en') }}">Home Page</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/en/item') }}">All Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/en/payment-method') }}">Payment Method</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/en/about') }}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/en/order-tracking') }}">Order Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/en/cart') }}"><i
                                 class="icofont icofont-shopping-cart mx-1"></i><span><?= $cart->getCartCount() ?></span></a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             English
                         </a>
 
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <form action="/ch<?= substr($_SERVER['REQUEST_URI'], 3) ?>" method="get">
-                                <input type="submit" value="华文" class="dropdown-item"/>
-                            </form>
-                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url('/ch' . substr($_SERVER['REQUEST_URI'], 3)) }}">华文</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
-
 </header>
 
 @yield('content')

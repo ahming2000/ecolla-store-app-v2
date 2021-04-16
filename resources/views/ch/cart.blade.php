@@ -19,7 +19,7 @@
 
                         @if($cart->getCartCount() == 0)
                             <div class="text-center">
-                                <img src="{{asset('img/icon/empty-cart.png')}}" width="150" height="150"/>
+                                <img src="{{ asset('img/icon/empty-cart.png') }}" width="150" height="150"/>
                                 <div class="h5 p-2">您的购物车为空</div>
                             </div>
                         @endif
@@ -31,7 +31,7 @@
                                     <!-- Cart Item Image -->
                                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                                         <div class="view zoom z-depth-1 rounded mb-3">
-                                            <a href="/ch/item/{{ $cartItem->variation->item->name }}">
+                                            <a href="{{ url('/ch/item/' . $cartItem->variation->item->name) }}">
                                                 <img src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) }}" class="w-100" height="250">
                                             </a>
                                         </div>
@@ -58,7 +58,7 @@
                                                 数量：
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-9 d-flex justify-content-center">
-                                                <form action="/ch/cart" method="post">
+                                                <form action="{{ url('/ch/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="quantityAdjust">
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
@@ -67,7 +67,7 @@
                                                     <button type="submit" class="btn btn-primary quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>-</button>
                                                 </form>
                                                 <input type="number" class="mx-3 my-3 cart-item-quantity" value="{{ $cartItem->quantity }}" style="width: 45px" disabled>
-                                                <form action="/ch/cart" method="post">
+                                                <form action="{{ url('/ch/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="quantityAdjust">
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
@@ -82,7 +82,7 @@
                                         <div class="d-flex justify-content-between align-items-center">
 
                                             <div>
-                                                <form action="/ch/cart" method="post">
+                                                <form action="{{ url('/ch/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="deleteItem">
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
@@ -128,7 +128,7 @@
 
                         @if($cart->getCartCount() != 0)
                             <div class="col-12">
-                                <form action="/ch/cart" method="post">
+                                <form action="{{ url('/ch/cart') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="action" value="resetCart">
                                     <button class="btn btn-primary btn-block" type="submit">清空购物车</button>
@@ -159,7 +159,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="h5 mb-3">订单模式：</div>
-                        <form action="/ch/cart" method="post">
+                        <form action="{{ url('/ch/cart') }}" method="post">
                             @csrf
                             <input type="hidden" name="action" value="updateCartSettings">
 

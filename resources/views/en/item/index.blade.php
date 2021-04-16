@@ -18,7 +18,7 @@
                                    value="{{ isset($_GET["search"]) ? $_GET["search"] : "" }}"/>
                         </div>
                         <div class="col-2">
-                            <input type="submit" class="btn btn-primary p-2 mt-0" value="搜索"/>
+                            <button type="submit" class="btn btn-primary p-2 mt-0">Search</button>
                         </div>
                     </div>
                 </form>

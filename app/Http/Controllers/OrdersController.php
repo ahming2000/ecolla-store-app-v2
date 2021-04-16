@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\OrderLogicErrorException;
+use App\Models\ItemUtil;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Session\Cart;
@@ -40,8 +41,6 @@ class OrdersController extends Controller
             'payment_method' => 'required',
             'receipt_image' => ['required', 'image']
         ]);
-
-
 
         $prefix = DB::table('system_configs')->where('name', '=', 'orderCodePrefix')->value('value');
         $dateTime = date('Y-m-d H:i:s');
@@ -131,6 +130,9 @@ class OrdersController extends Controller
                 }
             }
             $orderItem->save();
+
+            $totalSold = $cartItem->variation->item->util->sold += $cartItem->quantity;
+            ItemUtil::where('item_id', '=', $cartItem->variation->item->id)->update(['sold' => $totalSold]);
         }
 
         if($cart->orderMode == 'delivery'){

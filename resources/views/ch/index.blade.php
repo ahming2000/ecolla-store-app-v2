@@ -73,7 +73,7 @@
                         <div class="item">
                             <div class="card">
                                 <a href="/ch/item/{{ $item->name }}">
-                                    <img class="card-img-top" src="{{ asset($item->getCoverImage()) }}">
+                                    <img class="card-img-top" src="{{ $item->getCoverImage() }}">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">{{ $item->name }}</h5>
@@ -100,7 +100,7 @@
                         <div class="item">
                             <div class="card">
                                 <a href="/ch/item/{{ $item->name }}">
-                                    <img class="card-img-top" src="{{ asset($item->getCoverImage()) }}">
+                                    <img class="card-img-top" src="{{ $item->getCoverImage() }}">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">{{ $item->name }}</h5>

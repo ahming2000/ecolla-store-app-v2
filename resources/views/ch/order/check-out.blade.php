@@ -20,7 +20,7 @@
                     {{--  TODO Create cart item preview --}}
                 </div>
 
-                <form action="/ch/check-out" method="post" enctype="multipart/form-data">
+                <form action="{{ url('/ch/check-out') }}" method="post" enctype="multipart/form-data">
 
                     @csrf
 
@@ -111,7 +111,7 @@
 
         // Image file validater
         // Reference: https://stackoverflow.com/questions/4234589/validation-of-file-extension-before-uploading-file
-        var validFileExtensions = [".jpg", ".jpeg", ".gif", ".png", ".bpm"];
+        var validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
         var maxUploadSize = 5000000; // Unit in Bytes // 5MB
         function validateImage(fileInput) {
 

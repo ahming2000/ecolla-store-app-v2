@@ -65,7 +65,7 @@
                             </span>
 
 
-                            @if(!$item->hasNoWholesale())
+                            @if(!empty($item->discounts->toArray()))
                                 <span class="badge badge-info">批发</span>
                             @endif
 

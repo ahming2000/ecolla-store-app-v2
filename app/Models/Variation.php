@@ -23,6 +23,22 @@ class Variation extends Model
         return Inventory::where('variation_id', '=', $this->id)->orderBy('expire_date')->get();
     }
 
+    public function getDiscountMode(int $quantity): string
+    {
+        $mode = 'normal';
+
+        if($this->discount != null){ // If have variation discount, ignore wholesale discount
+            $mode = 'variation';
+        } else{
+            foreach($this->item->getSortedWholesales() as $w){
+                if($quantity >= $w->min){ // If quantity is more than min
+                    $mode = 'wholesale';
+                }
+            }
+        }
+        return $mode;
+    }
+
     public function item(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Item::class);

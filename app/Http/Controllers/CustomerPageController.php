@@ -82,7 +82,7 @@ class CustomerPageController extends Controller
 
     public function cartOperation()
     {
-        $action = request()->get('action');
+        $action = request('action');
         $cart = session(Cart::$DEFAULT_SESSION_NAME);
 
         switch ($action){

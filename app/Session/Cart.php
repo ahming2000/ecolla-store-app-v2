@@ -6,6 +6,7 @@ namespace App\Session;
 
 use App\Models\Customer;
 use App\Models\Variation;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class Cart
@@ -13,7 +14,7 @@ use App\Models\Variation;
  */
 class Cart
 {
-    public int $VERSION = 1;
+    public int $VERSION = 2;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
@@ -39,6 +40,7 @@ class Cart
     }
 
     /**
+     * Not in use
      * @param array $cartItems
      * @param string $orderMode
      * @param bool $canCheckOut
@@ -64,13 +66,24 @@ class Cart
 
         foreach ($this->cartItems as $cartItem){
             if($cartItem->variation->id == $variation->id){
-                $cartItem->quantity += $quantity;
+                // Check if the item quantity requested to add is exceed the max number of stock
+                // Only add to max stock
+                if($cartItem->quantity + $quantity > $cartItem->variation->getTotalStock()){
+                    $cartItem->quantity = $cartItem->variation->getTotalStock();
+                    // TODO - Convert flash message to only en or ch
+                    Session::flash('message', '库存已到上线！Stock exceed the limit!');
+                } else{
+                    $cartItem->quantity += $quantity;
+                    Session::flash('message', '已加入购物篮！Add to cart successfully!');
+                }
+
                 $hasNotDuplicated = false;
             }
         }
 
         if($hasNotDuplicated){
             $this->cartItems[] = new CartItem($variation, $quantity);
+            Session::flash('message', '已加入购物篮！Add to cart successfully!');
         }
 
         $this->pushSessionCart();

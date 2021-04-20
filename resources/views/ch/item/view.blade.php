@@ -26,17 +26,23 @@
         </nav>
         <!-- Breadcrumb -->
 
+        @if(session()->has('message'))
+            <div class="alert alert-info text-center" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <!-- Item Information -->
         <div class="row">
             <!-- Item Images Slider -->
             <div class="col-md-5 mb-4">
                 <div class="row">
                     <div class="col-12 slider-control-main-container mb-3">
-                        <div class="slider-control-prev rounded"><img class="img-fluid"
-                                                                      src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                        <div class="slider-control-prev rounded">
+                            <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
                         </div>
-                        <div class="slider-control-next rounded"><img class="img-fluid"
-                                                                      src="{{ asset('img/alt/next-button-alt.png') }}"/>
+                        <div class="slider-control-next rounded">
+                            <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
                         </div>
                         <div class="slider-container">
 
@@ -55,11 +61,11 @@
                     </div>
 
                     <div class="col-12 slider-control-nav-container mb-3">
-                        <div class="slider-nav-control-prev rounded"><img class="img-fluid"
-                                                                          src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                        <div class="slider-nav-control-prev rounded">
+                            <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
                         </div>
-                        <div class="slider-nav-control-next rounded"><img class="img-fluid"
-                                                                          src="{{ asset('img/alt/next-button-alt.png') }}"/>
+                        <div class="slider-nav-control-next rounded">
+                            <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
                         </div>
                         <div class="slider-nav-container">
                             <ul class="slider-nav">
@@ -140,18 +146,16 @@
 
 
                             @if(!$item->hasNoWholesale()) <!-- If the item has wholesale discount -->
-                                @foreach($item->discounts as $w)
-                                    @if($w->step == 1)
-                                        <div class="price-view-normal" {{ $w->min == 1 ? "hidden" : "" }}>
-                                            <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
-                                        </div>
-                                    @endif
-                                @endforeach
+
+                                <div
+                                    class="price-view-normal" {{ $item->getSortedWholesales()[0]->min == 1 ? "hidden" : "" }}>
+                                    <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
+                                </div>
 
                                 @foreach($item->getSortedWholesales() as $w)
-                                    <div
-                                        class="price-view-wholesale wholesale-{{ $w->min }}" {{ $w->step == 1 && $w->min == 1 ? "" : "hidden" }}>
-                                                    <span class="grey-text mr-1" style="font-size: 15px">
+                                    <div class="price-view-wholesale wholesale-{{ $w->min }}"
+                                        {{ $w->step == 1 && $w->min == 1 ? "" : "hidden" }}>
+                                        <span class="grey-text mr-1" style="font-size: 15px">
                                                         <del>RM{{ number_format($v->price, 2, '.', '') }}</del>
                                                     </span>
                                         <span class="orange-text font-weight-bold">
@@ -178,7 +182,7 @@
                     <!-- Wholesale description --><!-- If the item has wholesale discount -->
                         @if(!$item->hasNoWholesale())
                             <?php $first = true; ?>
-                            @foreach($item->discounts as $w)
+                            @foreach($item->getSortedWholesales() as $w)
                                 <div class="h6 wholesale-view" <?= $first ? "" : "hidden"; ?>><?php $first = false; ?>
 
                                     <input type="number" class="wholesale-min" value="{{ $w->min }}" hidden/>

@@ -21,14 +21,34 @@ class CartItem
         $this->quantity = $quantity;
     }
 
+    public function getOriginalSubPrice(){
+        return $this->variation->price * $this->quantity;
+    }
 
     public function getSubPrice(){
-        // If the cart item has no individual discount and it has wholesale discount
-        if($this->variation->discount == null && !$this->variation->item->hasNoWholesale()){
-            return $this->variation->price * $this->quantity * $this->variation->item->getWholesaleRate($this->quantity);
+        return $this->variation->price * $this->quantity * $this->getDiscountRate();
+    }
+
+    public function getDiscountRate(): float
+    {
+        $discount_rate = 1.0;
+        if($this->variation->discount != null){ // If have variation discount, ignore wholesale discount
+            $discount_rate = $this->variation->discount->rate;
         } else{
-            return $this->variation->price * $this->quantity * ($this->variation->discount->rate ?? 1.0);
+            foreach($this->variation->item->getSortedWholesales() as $w){
+                if($this->quantity >= $w->min){ // If quantity is more than min
+                    if($w->max == null || $w->step == sizeof($this->variation->item->getSortedWholesales())){
+                        // If max is null (infinite quantity for this discount) or last wholesale
+                        $discount_rate = $w->rate;
+                    } else{
+                        if ($this->quantity <= $w->max){ // If the quantity is fall between min and max
+                            $discount_rate = $w->rate;
+                        }
+                    }
+                }
+            }
         }
+        return $discount_rate;
     }
 
 }

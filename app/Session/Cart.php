@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 2;
+    public int $VERSION = 3;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';

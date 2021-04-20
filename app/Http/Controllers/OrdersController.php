@@ -76,12 +76,6 @@ class OrdersController extends Controller
 
             $orderItemDataList = array();
 
-            if (empty($cartItem->variation->item->discounts)){
-                $discountRate = $cartItem->variation->discount ?? 1.0;
-            } else{
-                $discountRate = $cartItem->variation->item->getWholesaleRate($cartItem->quantity) ?? 1.0;
-            }
-
             $currentQuantity = $cartItem->quantity;
             foreach ($cartItem->variation->getSortedInventory() as $inv){
 
@@ -91,7 +85,7 @@ class OrdersController extends Controller
                         'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name1 . ' ' . $cartItem->variation->name2,
                         'barcode' => $cartItem->variation->barcode,
                         'price' => $cartItem->variation->price,
-                        'discount_rate' => $discountRate,
+                        'discount_rate' => $cartItem->getDiscountRate(),
                         'quantity' => $currentQuantity,
                         'expire_date' => $inv->expire_date,
                     ];
@@ -106,7 +100,7 @@ class OrdersController extends Controller
                         'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name1 . ' ' . $cartItem->variation->name2,
                         'barcode' => $cartItem->variation->barcode,
                         'price' => $cartItem->variation->price,
-                        'discount_rate' => $discountRate,
+                        'discount_rate' => $cartItem->getDiscountRate(),
                         'quantity' => $inv->stock,
                         'expire_date' => $inv->expire_date,
                     ];

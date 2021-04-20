@@ -46,8 +46,8 @@ class OrdersController extends Controller
         $dateTime = date('Y-m-d H:i:s');
         $orderCode = $prefix . date_format(date_create($dateTime), "YmdHis");
 
-        $imagePath = request('receipt_image')->store('receipts', 'public');
-        Image::make(public_path("storage/$imagePath"))->save(); // Optimize image by default
+        $imagePath = request('receipt_image')->store('receipts');
+        Image::make(public_path("uploads/$imagePath"))->save(); // Optimize image by default
 
         if($cart->orderMode == 'delivery'){
             $orderData = array_merge($orderData, [
@@ -62,9 +62,7 @@ class OrdersController extends Controller
             ]);
         }
 
-        // $orderData['receipt_image'] = "http://www.newrainbowmarket.com/storage/" . $imagePath;
-        $orderData['receipt_image'] = "http://ecolla.laravel/storage/" . $imagePath;
-
+        $orderData['receipt_image'] = "http://" . $_SERVER['SERVER_NAME'] . "/uploads/" . $imagePath;
 
         $order = new Order();
         foreach ($orderData as $key => $value){

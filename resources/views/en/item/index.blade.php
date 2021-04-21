@@ -48,7 +48,7 @@
             @foreach($items as $item)
                 <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                     <div class="card">
-                        <a href="{{ url('/en/item' . $item->name_en) }}">
+                        <a href="{{ url('/en/item/' . $item->name_en) }}">
                             <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image">
                         </a>
                         <div class="card-body">
@@ -64,7 +64,7 @@
                                 @endif
                             </span>
 
-                            @if(!$item->hasNoWholesale())
+                            @if(!empty($item->discounts->toArray()))
                                 <span class="badge badge-info">Wholesale</span>
                             @endif
 

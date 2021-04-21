@@ -29,7 +29,7 @@ class Variation extends Model
         if($this->discount != null){ // If have variation discount, ignore wholesale discount
             $mode = 'variation';
         } else{
-            if(!empty($this->item->getSortedWholesales())){
+            if(!empty($this->item->getSortedWholesales()->toArray())){
                 $mode = 'wholesale';
             }
         }

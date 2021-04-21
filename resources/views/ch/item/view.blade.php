@@ -36,7 +36,7 @@
             <div class="alert alert-info text-center" role="alert">
                 {{ session('message') }}
             </div>
-    @endif
+        @endif
 
     <!-- Item Description -->
         <div class="row">

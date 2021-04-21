@@ -92,30 +92,20 @@
                                                 </form>
                                             </div>
 
-                                            @if(!$cartItem->variation->item->hasNoWholesale() && $cartItem->variation->discount == null)
-                                                @if($cartItem->variation->item->getWholesaleRate($cartItem->quantity))
-                                                    <div>
-                                                        <span class="grey-text mr-1" style="font-size: 15px"><del>RM{{ number_format($cartItem->variation->price * $cartItem->quantity, 2, '.', '') }}</del></span>
-                                                        <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                        <span class="badge badge-warning mr-1">{{ number_format((1 - $cartItem->variation->item->getWholesaleRate($cartItem->quantity)) * 100, 0, '.', '') }}% OFF</span>
-                                                    </div>
-                                                @else
-                                                    <div>
-                                                        <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                    </div>
-                                                @endif
+                                            @if($cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'normal')
+                                                <div>
+                                                    <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
+                                                </div>
                                             @else
-                                                @if($cartItem->variation->discount != null)
-                                                    <div>
-                                                        <span class="grey-text mr-1" style="font-size: 15px"><del>RM<= number_format($cartItem->getItem()->getVarieties()[$cartItem->getVarietyIndex()]->getPrice() * $cartItem->getQuantity(), 2, '.', ''); ?></del></span>
-                                                        <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                        <span class="badge badge-danger mr-1">{{ number_format((1 - $cartItem->variation->discount->rate) * 100, 0, '.', '') }}% OFF</span>
-                                                    </div>
-                                                @else
-                                                    <div>
-                                                        <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                    </div>
-                                                @endif
+                                                <div>
+                                                    <span class="grey-text mr-1" style="font-size: 15px">
+                                                        <del>RM{{ number_format($cartItem->getOriginalSubPrice(), 2, '.', '') }}</del>
+                                                    </span>
+                                                    <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
+                                                    <span class="badge {{ $cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'variation' ? "badge-danger" : "badge-warning" }} mr-1">
+                                                        {{ number_format((1 - $cartItem->getDiscountRate()) * 100, 0, '.', '') }}% OFF
+                                                    </span>
+                                                </div>
                                             @endif
                                         </div><!-- Remove button and price -->
 
@@ -269,7 +259,7 @@
                                            name="delivery_id"
                                            id="delivery_id"
                                            value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
-                                           placeholder="Code">
+                                           placeholder="Phone Number">
                                     @if ($errors->has('delivery_id'))
                                         <div class="invalid-feedback">
                                             <strong>{{ $errors->first('delivery_id') }}</strong>

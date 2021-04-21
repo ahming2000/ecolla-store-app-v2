@@ -5,11 +5,17 @@
 @endsection
 
 @section('extraStyle')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
+
     <style>
         .slider-nav li {
             display: inline;
         }
     </style>
+@endsection
+
+@section('extraScript')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
 @endsection
 
 @section('content')

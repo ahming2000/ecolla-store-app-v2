@@ -5,7 +5,10 @@
 @endsection
 
 @section('extraStyle')
-    <style>/*overwrite deco.css*/
+    <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
+
+    <style>
         .navbar {
             background-color: transparent;
             transition: background-color 0.5s;
@@ -24,6 +27,11 @@
             color: white;
         }
     </style>
+@endsection
+
+@section('extraScript')
+    <script src="{{ asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>
 @endsection
 
 @section('content')
@@ -51,6 +59,7 @@
                         <img class="d-block w-100" src={img directory} data-interval="10000">
                     </div>
                  -->
+
                 </div>
 
                 <a class="carousel-control-prev" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="prev">

@@ -38,6 +38,15 @@ class Order extends Model
         }
     }
 
+    public function getOrderModeLabel(string $lang = ''): string
+    {
+        if($lang == 'en'){
+            return $this->mode == 'pickup' ? 'Pick-up' : 'Delivery';
+        } else{
+            return $this->mode == 'pickup' ? '预购取货' : '外送';
+        }
+    }
+
     public function customer(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Customer::class);

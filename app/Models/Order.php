@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use DateInterval;
+use DateTime;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +47,20 @@ class Order extends Model
             return $this->mode == 'pickup' ? 'Pick-up' : 'Delivery';
         } else{
             return $this->mode == 'pickup' ? '预购取货' : '外送';
+        }
+    }
+
+    public function getOrderCreateDateTime($returnType = 'string')
+    {
+        try {
+            $result = date_add(new DateTime($this->created_at), new DateInterval('PT8H')); // GMT +8
+            if($returnType == 'object'){
+                return $result;
+            } else{
+                return $result->format('Y-m-d H:i:s');
+            }
+        } catch (Exception $e) {
+            return 'Error: ' . $e->getMessage();
         }
     }
 

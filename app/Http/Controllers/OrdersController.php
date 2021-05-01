@@ -31,7 +31,7 @@ class OrdersController extends Controller
 
         // Check stock is available
         foreach ($cart->cartItems as $cartItem){
-            if($cartItem->variation->getTotalStock() < $cartItem->quantity){
+            if($cartItem->variation->stock < $cartItem->quantity){
                 $cart->resetCart();
                 abort(419);
             }
@@ -76,53 +76,24 @@ class OrdersController extends Controller
 
             $orderItemDataList = array();
 
-            $currentQuantity = $cartItem->quantity;
-            foreach ($cartItem->variation->getSortedInventory() as $inv){
+            $orderItemData = [
+                'order_id' => $order->id,
+                'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name1 . ' ' . $cartItem->variation->name2,
+                'barcode' => $cartItem->variation->barcode,
+                'price' => $cartItem->variation->price,
+                'discount_rate' => $cartItem->getDiscountRate(),
+                'quantity' => $cartItem->quantity,
+            ];
 
-                if($inv->stock >= $currentQuantity){ // If selected expire date's stock is enough
-                    $data = [
-                        'order_id' => $order->id,
-                        'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name1 . ' ' . $cartItem->variation->name2,
-                        'barcode' => $cartItem->variation->barcode,
-                        'price' => $cartItem->variation->price,
-                        'discount_rate' => $cartItem->getDiscountRate(),
-                        'quantity' => $currentQuantity,
-                        'expire_date' => $inv->expire_date,
-                    ];
+            // Update stock value
+            $cartItem->variation->update(['stock' => $cartItem->variation->stock - $cartItem->quantity]);
 
-                    // Modify inventory
-                    $inv->stock -= $currentQuantity;
-                    $currentQuantity = 0;
-
-                } else{ // If the expire date's stock is not enough
-                    $data = [
-                        'order_id' => $order->id,
-                        'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name1 . ' ' . $cartItem->variation->name2,
-                        'barcode' => $cartItem->variation->barcode,
-                        'price' => $cartItem->variation->price,
-                        'discount_rate' => $cartItem->getDiscountRate(),
-                        'quantity' => $inv->stock,
-                        'expire_date' => $inv->expire_date,
-                    ];
-
-                    // Modify inventory
-                    $currentQuantity -= $inv->stock;
-                    $inv->stock = 0;
-                }
-
-                // Update Inventory Stock
-                $inv->update(['stock']);
-                $orderItemDataList[] = $data;
-                if($currentQuantity == 0) break;
-            }
-
-            foreach ($orderItemDataList as $data){
-                foreach ($data as $key => $value){
-                    $orderItem->setAttribute($key, $value);
-                }
+            foreach ($orderItemData as $key => $value){
+                $orderItem->setAttribute($key, $value);
             }
             $orderItem->save();
 
+            // Update sold
             $totalSold = $cartItem->variation->item->util->sold += $cartItem->quantity;
             ItemUtil::where('item_id', '=', $cartItem->variation->item->id)->update(['sold' => $totalSold]);
         }

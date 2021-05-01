@@ -43,6 +43,7 @@
             <!-- Item Images Slider -->
             <div class="col-md-5 mb-4">
                 <div class="row">
+                    @if(!empty($item->images->toArray()))
                     <div class="col-12 slider-control-main-container mb-3">
                         <div class="slider-control-prev rounded">
                             <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
@@ -65,7 +66,6 @@
 
                         </div>
                     </div>
-
                     <div class="col-12 slider-control-nav-container mb-3">
                         <div class="slider-nav-control-prev rounded">
                             <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
@@ -90,6 +90,7 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div><!-- Item Images Slider -->
 

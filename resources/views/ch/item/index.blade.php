@@ -48,12 +48,16 @@
             @foreach($items as $item)
                 <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                     <div class="card">
-                        <a href="{{ url('/ch/item/' . $item->name) }}">
-                            <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image">
-                        </a>
+                        @if(!empty($item->images->toArray()))
+                            <a href="{{ url('/ch/item/' . $item->name) }}">
+                                <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image">
+                            </a>
+                        @endif
                         <div class="card-body">
                             <h6 class="card-title text-truncate">
-                                {{ $item->name }}
+                                <a href="{{ url('/ch/item/' . $item->name) }}">
+                                    <span style="color: black">{{ $item->name }}</span>
+                                </a>
                             </h6>
 
                             <span style="color: brown;">

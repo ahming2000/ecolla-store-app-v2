@@ -220,7 +220,7 @@
                                 <input id="barcode" type="text" name="barcode"
                                        value="{{ $item->getFirstVariation()->barcode }}" hidden/>
                                 <input id="inventory" type="text"
-                                       value="{{ $item->getFirstVariation()->getTotalStock() }}" hidden/>
+                                       value="{{ $item->getFirstVariation()->stock }}" hidden/>
 
                                 <div class="col-xs-12 col-sm-8">
                                     <ol class="list-group variety-selector">
@@ -230,9 +230,9 @@
                                                 <input type="text" class="variety-barcode" value="{{ $v->barcode }}"
                                                        hidden/>
                                                 <input type="text" class="variety-inventory"
-                                                       value="{{ $v->getTotalStock() }}" hidden/>
+                                                       value="{{ $v->stock }}" hidden/>
                                                 {{ $v->name1_en . ' ' . $v->name2_en }}
-                                                @if($v->getTotalStock() == 0)
+                                                @if($v->stock == 0)
                                                     <span class="badge badge-danger mx-1">Sold Out<span>
                                                 @endif
                                             </li>
@@ -250,10 +250,10 @@
                                             disabled>-
                                     </button>
                                     <input type="number" class="mx-2" id="quantity" name="quantity"
-                                           value="{{ $item->getFirstVariation()->getTotalStock() == 0 ? "0" : "1" }}"
-                                           style="width: 45px;" {{ $item->getFirstVariation()->getTotalStock() == 0 ? "disabled" : "" }}>
+                                           value="{{ $item->getFirstVariation()->stock == 0 ? "0" : "1" }}"
+                                           style="width: 45px;" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
                                     <button type="button"
-                                            class="btn btn-primary btn-sm quantity-increase-button" {{ $item->getFirstVariation()->getTotalStock() == 0 ? "disabled" : "" }}>
+                                            class="btn btn-primary btn-sm quantity-increase-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
                                         +
                                     </button>
                                 </div>
@@ -263,7 +263,7 @@
                                 <!-- Submit button -->
                                 <div class="col-xs-12 col-sm-5 col-lg-6">
                                     <button class="btn secondary-color" type="submit"
-                                            id="add-to-cart-button" {{ $item->getFirstVariation()->getTotalStock() == 0 ? "disabled" : "" }}>
+                                            id="add-to-cart-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
                                         Add To Cart<i class="icofont icofont-shopping-cart ml-1"></i>
                                     </button>
                                 </div><!-- Submit button -->

@@ -73,7 +73,7 @@
                                                     <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
                                                     <input type="hidden" name="quantityToAdjust" value="1">
 
-                                                    <button type="submit" class="btn btn-primary quantity-increase-button" {{ $cartItem->quantity == $cartItem->variation->getTotalStock() ? "disabled" : "" }}>+</button>
+                                                    <button type="submit" class="btn btn-primary quantity-increase-button" {{ $cartItem->quantity == $cartItem->variation->stock ? "disabled" : "" }}>+</button>
                                                 </form>
                                             </div>
                                         </div><!-- Quantity control -->

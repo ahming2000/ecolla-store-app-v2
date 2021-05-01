@@ -9,20 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Variation extends Model
 {
     use HasFactory;
-    protected $fillable = ['name1', 'name2', 'name1_en', 'name2_en', 'barcode', 'price', 'weight', 'image'];
-
-    public function getTotalStock(): int
-    {
-        $total = 0;
-        foreach ($this->inventories as $inv){
-            $total += $inv->stock;
-        }
-        return $total;
-    }
-
-    public function getSortedInventory(){
-        return Inventory::where('variation_id', '=', $this->id)->orderBy('expire_date')->get();
-    }
+    protected $fillable = ['name1', 'name2', 'name1_en', 'name2_en', 'barcode', 'price', 'weight', 'stock', 'image'];
 
     public function getDiscountMode(): string
     {

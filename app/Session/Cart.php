@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 3;
+    public int $VERSION = 4;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
@@ -68,8 +68,8 @@ class Cart
             if($cartItem->variation->id == $variation->id){
                 // Check if the item quantity requested to add is exceed the max number of stock
                 // Only add to max stock
-                if($cartItem->quantity + $quantity > $cartItem->variation->getTotalStock()){
-                    $cartItem->quantity = $cartItem->variation->getTotalStock();
+                if($cartItem->quantity + $quantity > $cartItem->variation->stock){
+                    $cartItem->quantity = $cartItem->variation->stock;
                     // TODO - Convert flash message to only en or ch
                     Session::flash('message', '库存已到上线！Stock exceed the limit!');
                 } else{

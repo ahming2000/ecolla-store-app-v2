@@ -57,6 +57,17 @@ class Item extends Model
         return $this->discounts()->orderBy('step')->get();
     }
 
+    public function getTotalImageCount(): int
+    {
+        $total = sizeof($this->images->toArray());
+        foreach ($this->variations as $v){
+            if($v->image != null){
+                $total++;
+            }
+        }
+        return $total;
+    }
+
     public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Variation::class, 'item_id', 'id');

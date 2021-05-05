@@ -36,60 +36,64 @@
             <div class="alert alert-info text-center" role="alert">
                 {{ session('message') }}
             </div>
-        @endif
+    @endif
 
-        <!-- Item Description -->
+    <!-- Item Description -->
         <div class="row">
             <!-- Item Images Slider -->
             <div class="col-md-5 mb-4">
                 <div class="row">
-                    @if(!empty($item->images->toArray()))
-                    <div class="col-12 slider-control-main-container mb-3">
-                        <div class="slider-control-prev rounded">
-                            <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                    @if($item->getTotalImageCount() == 1)
+                        <div class="col-12 mb-3">
+                            <img class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"/>
                         </div>
-                        <div class="slider-control-next rounded">
-                            <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
-                        </div>
-                        <div class="slider-container">
-
-                            @foreach($item->images as $img)
-                                <img class="img-fluid general-img" src="{{ $img->image }}"/>
-                            @endforeach
-
-                            @foreach($item->variations as $v)
-                                @if($v->image != null)
-                                    <img class="img-fluid variety-img" id="img-{{ $v->barcode }}"
-                                         src="{{ $v->image }}"/>
-                                @endif
-                            @endforeach
-
-                        </div>
-                    </div>
-                    <div class="col-12 slider-control-nav-container mb-3">
-                        <div class="slider-nav-control-prev rounded">
-                            <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
-                        </div>
-                        <div class="slider-nav-control-next rounded">
-                            <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
-                        </div>
-                        <div class="slider-nav-container">
-                            <ul class="slider-nav">
+                    @elseif($item->getTotalImageCount() != 0)
+                        <div class="col-12 slider-control-main-container mb-3">
+                            <div class="slider-control-prev rounded">
+                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                            </div>
+                            <div class="slider-control-next rounded">
+                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
+                            </div>
+                            <div class="slider-container">
 
                                 @foreach($item->images as $img)
-                                    <li><img class="img-fluid" src="{{ asset($img->image) }}"/></li>
+                                    <img class="img-fluid general-img" src="{{ $img->image }}"/>
                                 @endforeach
-
 
                                 @foreach($item->variations as $v)
                                     @if($v->image != null)
-                                        <li><img class="img-fluid" src="{{ asset($v->image) }}"/></li>
+                                        <img class="img-fluid variety-img" id="img-{{ $v->barcode }}"
+                                             src="{{ $v->image }}"/>
                                     @endif
                                 @endforeach
 
-                            </ul>
+                            </div>
                         </div>
-                    </div>
+                        <div class="col-12 slider-control-nav-container mb-3">
+                            <div class="slider-nav-control-prev rounded">
+                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                            </div>
+                            <div class="slider-nav-control-next rounded">
+                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
+                            </div>
+                            <div class="slider-nav-container">
+                                <ul class="slider-nav">
+
+                                    @foreach($item->images as $img)
+                                        <li><img class="img-fluid" src="{{ asset($img->image) }}"/></li>
+                                    @endforeach
+
+
+                                    @foreach($item->variations as $v)
+                                        @if($v->image != null)
+                                            <li><img class="img-fluid" src="{{ asset($v->image) }}"/></li>
+                                        @endif
+                                    @endforeach
+
+                                </ul>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div><!-- Item Images Slider -->
@@ -124,8 +128,8 @@
 
                     <div class="col-12 mb-3">
 
-                    <?php $first = true; ?>
-                    @foreach($item->variations as $v)
+                        <?php $first = true; ?>
+                        @foreach($item->variations as $v)
 
                             @if($v->getDiscountMode() == 'variation')
                                 <div class="h4 price-view discounted-price"
@@ -184,7 +188,7 @@
                                 </div>
 
                             @endif
-                    @endforeach
+                        @endforeach
 
 
                         @if(!empty($item->discounts))
@@ -281,62 +285,63 @@
 @endsection
 
 @section('extraScriptEnd')
-    <script>
-        var slider = tns({
-            container: '.slider-container',
-            items: 1,
+    @if($item->getTotalImageCount() > 1)
+        <script>
+            var slider = tns({
+                container: '.slider-container',
+                items: 1,
 
-            controlsContainer: '.slider-control-main-container',
-            prevButton: '.slider-control-prev',
-            nextButton: '.slider-control-next',
+                controlsContainer: '.slider-control-main-container',
+                prevButton: '.slider-control-prev',
+                nextButton: '.slider-control-next',
 
-            navContainer: '.slider-nav',
-            navAsThumbnails: true,
+                navContainer: '.slider-nav',
+                navAsThumbnails: true,
 
-            autoplay: true,
-            autoplayHoverPause: true,
-            autoplayButtonOutput: false,
-        });
+                autoplay: true,
+                autoplayHoverPause: true,
+                autoplayButtonOutput: false,
+            });
 
-        // Start autoplay
-        slider.play();
+            // Start autoplay
+            slider.play();
 
-        var sliderNav = tns({
-            container: '.slider-nav',
+            var sliderNav = tns({
+                container: '.slider-nav',
 
-            controlsContainer: '.slider-control-nav-container',
-            prevButton: '.slider-nav-control-prev',
-            nextButton: '.slider-nav-control-next',
+                controlsContainer: '.slider-control-nav-container',
+                prevButton: '.slider-nav-control-prev',
+                nextButton: '.slider-nav-control-next',
 
-            nav: false,
-            loop: false,
-            mouseDrag: true,
+                nav: false,
+                loop: false,
+                mouseDrag: true,
 
-            responsive: {
-                992: {
-                    items: 5,
-                    slideBy: 4,
+                responsive: {
+                    992: {
+                        items: {{ $item->getTotalImageCount() <= 5 ? strval($item->getTotalImageCount() - 1) : '5' }},
+                        slideBy: 4,
+                    },
+                    768: {
+                        items: {{ $item->getTotalImageCount() <= 3 ? strval($item->getTotalImageCount() - 1) : '3' }},
+                        slideBy: 1,
+                    },
+                    576: {
+                        items: {{ $item->getTotalImageCount() <= 4 ? strval($item->getTotalImageCount() - 1) : '4' }},
+                        slideBy: 1,
+                    },
+                    288: {
+                        items: {{ $item->getTotalImageCount() <= 3 ? strval($item->getTotalImageCount() - 1) : '3' }},
+                        slideBy: 1,
+                    },
+                    100: {
+                        items: {{ $item->getTotalImageCount() <= 2 ? strval($item->getTotalImageCount() - 1) : '2' }},
+                        slideBy: 1,
+                    }
                 },
-                768: {
-                    items: 3,
-                    slideBy: 1,
-                },
-                576: {
-                    items: 4,
-                    slideBy: 1,
-                },
-                288: {
-                    items: 3,
-                    slideBy: 1,
-                },
-                100: {
-                    items: 2,
-                    slideBy: 1,
-                }
-            },
-        });
-    </script>
-
+            });
+        </script>
+    @endif
 
 
     <script>

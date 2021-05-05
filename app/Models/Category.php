@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public static function getListedItemCount($id){
         $count = Item::join('category_item', 'category_item.item_id', 'items.id')

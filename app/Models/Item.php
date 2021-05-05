@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'name_en', 'desc', 'origin', 'origin_en', 'brand', 'brand_en'];
+    protected $guarded = [];
 
     public static function getListedCount(): int
     {

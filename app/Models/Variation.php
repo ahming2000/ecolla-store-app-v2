@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Variation extends Model
 {
     use HasFactory;
-    protected $fillable = ['name1', 'name2', 'name1_en', 'name2_en', 'barcode', 'price', 'weight', 'stock', 'image'];
+    protected $guarded = [];
 
     public function getDiscountMode(): string
     {

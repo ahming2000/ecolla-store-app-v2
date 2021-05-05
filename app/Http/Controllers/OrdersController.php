@@ -62,7 +62,7 @@ class OrdersController extends Controller
             ]);
         }
 
-        $orderData['receipt_image'] = "http://" . $_SERVER['SERVER_NAME'] . "/uploads/" . $imagePath;
+        $orderData['receipt_image'] = "https://" . $_SERVER['SERVER_NAME'] . "/uploads/" . $imagePath;
 
         $order = new Order();
         foreach ($orderData as $key => $value){

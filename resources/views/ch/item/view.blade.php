@@ -43,7 +43,7 @@
             <!-- Item Images Slider -->
             <div class="col-md-5 mb-4">
                 <div class="row">
-                    @if($item->getTotalImageCount() == 1)
+                    @if($item->getTotalImageCount() == 1 && !empty($item->images->toArray()))
                         <div class="col-12 mb-3">
                             <img class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"/>
                         </div>
@@ -87,7 +87,7 @@
 
                                     @foreach($item->variations as $v)
                                         @if($v->image != null)
-                                            <li><img class="img-fluid" src="{{ $v->image }}"/></li>
+                                            <li><img class="img-fluid" style="max-height: 100px" src="{{ $v->image }}"/></li>
                                         @endif
                                     @endforeach
 
@@ -322,7 +322,7 @@
                     },
                     768: {
                         items: {{ $item->getTotalImageCount() <= 3 ? strval($item->getTotalImageCount() - 1) : '3' }},
-                        slideBy: 1,
+                        slideBy: 4,
                     },
                     576: {
                         items: {{ $item->getTotalImageCount() <= 4 ? strval($item->getTotalImageCount() - 1) : '4' }},

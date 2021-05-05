@@ -87,7 +87,7 @@
 
                                     @foreach($item->variations as $v)
                                         @if($v->image != null)
-                                            <li><img class="img-fluid" src="{{ asset($v->image) }}"/></li>
+                                            <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($v->image) }}"/></li>
                                         @endif
                                     @endforeach
 

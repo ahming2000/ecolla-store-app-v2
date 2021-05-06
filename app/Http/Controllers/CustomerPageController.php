@@ -94,9 +94,9 @@ class CustomerPageController extends Controller
                         'name' => 'required',
                         'phone' => 'required',
                         'addressLine1' => 'required',
-                        'state' => 'required',
-                        'area' => 'required',
-                        'postal_code' => 'required'
+//                        'state' => 'required',
+//                        'area' => 'required',
+//                        'postal_code' => 'required'
                     ]);
 
                     $cart->updateCustomerData($customerData);

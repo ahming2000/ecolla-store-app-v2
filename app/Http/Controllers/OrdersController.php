@@ -53,6 +53,7 @@ class OrdersController extends Controller
             $orderData = array_merge($orderData, [
                 'code' => $orderCode,
                 'mode' => $cart->orderMode,
+                'shipping_fee' => $cart->getShippingFee()
             ]);
         } else{
             $orderData = array_merge($orderData, [
@@ -73,8 +74,6 @@ class OrdersController extends Controller
         foreach($cart->cartItems as $cartItem){
 
             $orderItem = new OrderItem();
-
-            $orderItemDataList = array();
 
             $orderItemData = [
                 'order_id' => $order->id,

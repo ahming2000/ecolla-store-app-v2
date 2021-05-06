@@ -81,7 +81,7 @@
                                 <ul class="slider-nav">
 
                                     @foreach($item->images as $img)
-                                        <li><img class="img-fluid" src="{{ asset($img->image) }}"/></li>
+                                        <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($img->image) }}"/></li>
                                     @endforeach
 
 

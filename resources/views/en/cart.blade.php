@@ -133,9 +133,14 @@
                 <div class="card mb-3">
                     <div class="card-body bg-info">
                         <!-- Delivery Description -->
-                        <h5>Delivery service currently available for Kampar customer only</h5>
+                        <h5>Self Pick-up Service</h5>
                         <p class="text-light">
-                            Shipping Fee：RM2.00
+                            Please fill in the phone number for in-store verification purpose
+                        </p>
+                        <h5>Delivery Service</h5>
+                        <p class="text-light">
+                            Maximum delivery distance: Within 5KM, delivery service not available for more than 5KM distance from store
+                            Shipping Fee：RM3.00
                         </p>
                     </div>
                 </div><!-- Notification -->
@@ -155,7 +160,7 @@
 
                             <select class="form-control mb-3 w-100" name="orderMode">
                                 <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>Pick-Up</option>
-                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>Delivery (Kampar only)</option>
+                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>Delivery (Within 5KM from store)</option>
                             </select>
 
                             @if($cart->orderMode == 'delivery')

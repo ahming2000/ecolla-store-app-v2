@@ -135,9 +135,14 @@
                 <div class="card mb-3">
                     <div class="card-body bg-info">
                         <!-- Delivery Description -->
-                        <h5>外送暂时只开放给金宝顾客</h5>
+                        <h5>预购取货：</h5>
                         <p class="text-light">
-                            外送价钱：RM2.00
+                            请填写电话号码以便能在店里领取您的商品
+                        </p>
+                        <h5>外送：</h5>
+                        <p class="text-light">
+                            运送距离：距离本店5公里以内，暂不开放给5公里外的外送<br>
+                            外送价钱：RM3.00
                         </p>
                     </div>
                 </div><!-- Notification -->
@@ -157,7 +162,7 @@
 
                             <select class="form-control mb-3 w-100" name="orderMode">
                                 <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>预购取货</option>
-                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>外送（仅限金宝区域）</option>
+                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>外送（距离本店5公里内）</option>
                             </select>
 
                             @if($cart->orderMode == 'delivery')

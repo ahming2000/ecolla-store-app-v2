@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 4;
+    public int $VERSION = 5;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
@@ -226,8 +226,8 @@ class Cart
     {
         $fee = 0.0;
 
-        if(strtolower($this->customer->area) == 'kampar'){
-            $fee = 2.0;
+        if(strtolower($this->orderMode) == 'delivery'){
+            $fee = 3.0;
         }
 
         $this->pushSessionCart();

@@ -45,7 +45,7 @@
                                         <!-- Item name display -->
 
                                         <!-- Variety property display -->
-                                        <div class="h6 grey-text">{{ $cartItem->variation->name1_en . ' ' . $cartItem->variation->name2_en }}</div>
+                                        <div class="h6 grey-text">{{ $cartItem->variation->name_en }}</div>
                                         <!-- Variety property display -->
 
                                         <!-- Weight display -->

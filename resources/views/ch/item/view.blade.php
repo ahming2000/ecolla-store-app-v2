@@ -233,7 +233,7 @@
                                                        hidden/>
                                                 <input type="text" class="variety-inventory"
                                                        value="{{ $v->stock }}" hidden/>
-                                                {{ $v->name1 . ' ' . $v->name2 }}
+                                                {{ $v->name }}
                                                 @if($v->stock == 0)
                                                     <span class="badge badge-danger mx-1">已售完<span>
                                                 @endif

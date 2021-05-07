@@ -77,7 +77,8 @@ class OrdersController extends Controller
 
             $orderItemData = [
                 'order_id' => $order->id,
-                'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name1 . ' ' . $cartItem->variation->name2,
+                'name' => $cartItem->variation->item->name . ' ' . $cartItem->variation->name,
+                'name_en' => $cartItem->variation->item->name_en . ' ' . $cartItem->variation->name_en,
                 'barcode' => $cartItem->variation->barcode,
                 'price' => $cartItem->variation->price,
                 'discount_rate' => $cartItem->getDiscountRate(),

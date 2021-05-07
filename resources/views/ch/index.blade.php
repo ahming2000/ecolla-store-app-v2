@@ -11,20 +11,18 @@
     <style>
         .navbar {
             background-color: transparent;
-            transition: background-color 0.5s;
         }
 
-        .navbar-change {
-            background-color: #3c3e44;
-            transition: background-color 0.5s;
+        @media (min-width: 200px) {
+            .navbar-collapse{
+                background-color:#303136;
+            }
         }
 
-        .navbar-custom .navbar-brand {
-            color: white;
-        }
-
-        .navbar-custom .navbar-nav .nav-link, .navbar-custom .fa-bars {
-            color: white;
+        @media (min-width: 1200px) {
+            .navbar-collapse{
+                background-color: transparent;
+            }
         }
     </style>
 @endsection

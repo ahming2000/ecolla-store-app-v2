@@ -5,13 +5,12 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
 }
 
-/* Item page */
+/* Item page tiny slider control position */
 .slider-control-prev, .slider-nav-control-prev, .slider-control-next, .slider-nav-control-next {
     position: absolute;
     background-color: rgba(211,211,211, 0.5);
@@ -39,41 +38,20 @@ input[type=number] {
     margin-right: 17px;
 }
 
-.breadcrumb {
-    background-color: white;
-}
 
-/* Check out */
+
+/* Check out page selected payment method */
 div.payment-method.active {
     border:2px solid #00BFFF;
 }
 
-/*header.php*/
+/* Header */
 .navbar{
     background-color:#303136;
     transition: background-color 0.5s;
 }
-.navbar-change{
-    background-color: #3c3e44;
-    transition: background-color 0.5s;
-}
-.navbar-custom .navbar-brand{
-    color: white;
-}
-.navbar-custom .navbar-nav .nav-link, .navbar-custom .fa-bars{
-    color: white;
-}
-.navbar .nav-item.active .nav-link,
-.navbar .nav-item:hover .nav-link,
-.navbar a.navbar-brand:hover{
-    color: hotpink;
-}
-.strip-header{
-    background-color:#3c3e44;
-    height: 60px;
-}
 
-/*footer.php*/
+/* Footer */
 .fab{
     font-size: 20px;
 }
@@ -84,14 +62,13 @@ div.payment-method.active {
     border: 0;
     border-top: 2px solid hotpink;
     width: 90px;
-    margin: 0;
-    margin-bottom: 20px;
+    margin: 0 0 20px;
 }
 .logo-bt{
     background-color:#303136;
 }
 
-/*index.php*/
+/* Homepage */
 .headtext{
     background-position: center;
     background-repeat: no-repeat;
@@ -107,7 +84,7 @@ div.payment-method.active {
     display: inline;
 }
 
-/*about-us,php*/
+/* About page */
 .about,.us{
     display: inline;
 }
@@ -115,7 +92,7 @@ div.payment-method.active {
     color: hotpink;
 }
 
-/*item-carousel,php*/
+/* Owl Carousel */
 .carousel-inner.vv-3 .carousel-item.active,
 .carousel-inner.vv-3 .carousel-item-next,
 .carousel-inner.vv-3 .carousel-item-prev {
@@ -137,7 +114,7 @@ div.payment-method.active {
     transform: translateX(0);
 }
 
-/* Global css*/
+/***** Global css *****/
 
 /* help on html bookmark jumping to make sure the target is visible below the navbar */
 html {
@@ -152,6 +129,11 @@ body main {
 /* Global background color */
 body {
     background-color: #EEEEEE;
+}
+
+/* Item page breadcrumb */
+.breadcrumb {
+    background-color: white;
 }
 
 /* Extra small columns for image */

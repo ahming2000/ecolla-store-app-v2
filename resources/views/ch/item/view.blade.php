@@ -26,7 +26,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/ch/item') }}">商品列表</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ $item->brand }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $item->origin }}出产</li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $item->name }}</li>
             </ol>
         </nav>

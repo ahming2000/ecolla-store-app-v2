@@ -26,7 +26,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/en/item') }}">Item List</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Made In {{ $item->orgin_en }}</li>
+                <li class="breadcrumb-item active" aria-current="page">Made In {{ $item->origin_en }}</li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $item->name_en }}</li>
             </ol>
         </nav>

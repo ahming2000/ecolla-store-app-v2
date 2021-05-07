@@ -255,7 +255,7 @@
                                            value="{{ $item->getFirstVariation()->stock == 0 ? "0" : "1" }}"
                                            style="width: 45px;" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
                                     <button type="button"
-                                            class="btn btn-primary btn-sm quantity-increase-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
+                                            class="btn btn-primary btn-sm quantity-increase-button" {{ $item->getFirstVariation()->stock <= 1 ? "disabled" : "" }}>
                                         +
                                     </button>
                                 </div>

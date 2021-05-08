@@ -6,6 +6,8 @@
 
 @section('extraStyle')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
+    <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
 
     <style>
         .slider-nav li {
@@ -16,6 +18,8 @@
 
 @section('extraScript')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+    <script src="{{ asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>
 @endsection
 
 @section('content')
@@ -36,9 +40,9 @@
             <div class="alert alert-info text-center" role="alert">
                 {{ session('message') }}
             </div>
-    @endif
+        @endif
 
-    <!-- Item Description -->
+        <!-- Item Information -->
         <div class="row">
             <!-- Item Images Slider -->
             <div class="col-md-5 mb-4">
@@ -96,7 +100,8 @@
                         </div>
                     @endif
                 </div>
-            </div><!-- Item Images Slider -->
+            </div>
+            <!-- Item Images Slider -->
 
             <!-- Item Purchasing Option -->
             <div class="col-md-7 mb-4 p-4">
@@ -215,7 +220,6 @@
                             @csrf
 
                             <div class="row mb-3">
-
                                 <!-- Property selector -->
                                 <div class="col-xs-12 col-sm-4">
                                     <div class="h5">Variation：</div>
@@ -243,7 +247,6 @@
                                         @endforeach
                                     </ol>
                                 </div>
-
                                 <!-- Property selector -->
                             </div>
 
@@ -261,7 +264,6 @@
                                         +
                                     </button>
                                 </div>
-
                                 <!-- Quantity control interface -->
 
                                 <!-- Submit button -->
@@ -270,7 +272,8 @@
                                             id="add-to-cart-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
                                         Add To Cart<i class="icofont icofont-shopping-cart ml-1"></i>
                                     </button>
-                                </div><!-- Submit button -->
+                                </div>
+                                <!-- Submit button -->
                             </div>
                         </form>
                     </div>
@@ -279,12 +282,118 @@
             </div><!-- Item Purchasing Option -->
 
 
-        </div><!-- Item Description -->
+        </div>
+        <!-- Item Information -->
+
+        <!-- Item Description -->
+        <div class="h2" style="font-weight: bold">Item Description</div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <textarea id="desc" hidden>{{ $item->desc }}</textarea>
+                <p id="desc-display"></p>
+            </div>
+        </div>
+        <!-- Item Description -->
+
+        <!-- Recommendation (Random) -->
+        <div class="h2">You may like</div>
+        <div class="row mb-3">
+            <div class="owl-carousel mousescroll owl-theme">
+                @foreach($randomItems as $randomItem)
+                    <div class="item">
+                        <div class="card">
+                            <a href="/en/item/{{ $randomItem->name_en }}">
+                                <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">{{ $randomItem->name_en }}</h5>
+                                <p class="card-text text-muted">
+                                    @if($randomItem->getPriceRange()['min'] == $randomItem->getPriceRange()['max'])
+                                        RM{{ $randomItem->getPriceRange()['min'] }}
+                                    @else
+                                        RM{{ $randomItem->getPriceRange()['min'] }} - RM{{ $randomItem->getPriceRange()['max'] }}
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <!-- Recommendation (Random) -->
+
+        <!-- Similar (Same category) -->
+        <div class="h2">Similar</div>
+        <div class="row mb-3">
+            <div class="owl-carousel mousescroll owl-theme">
+                @foreach($mayLikeItems as $mayLikeItem)
+                    <div class="item">
+                        <div class="card">
+                            <a href="/en/item/{{ $mayLikeItem->name_en }}">
+                                <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">{{ $mayLikeItem->name_en }}</h5>
+                                <p class="card-text text-muted">
+                                    @if($mayLikeItem->getPriceRange()['min'] == $mayLikeItem->getPriceRange()['max'])
+                                        RM{{ $mayLikeItem->getPriceRange()['min'] }}
+                                    @else
+                                        RM{{ $mayLikeItem->getPriceRange()['min'] }} - RM{{ $mayLikeItem->getPriceRange()['max'] }}
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <!-- Similar (Same category) -->
 
     </main>
 @endsection
 
 @section('extraScriptEnd')
+
+    <script>
+        // Convert textarea format to paragraph
+        document.getElementById('desc-display').innerHTML = document.getElementById('desc').value.split('\n').join('<br>').split(' ').join('&nbsp;');
+    </script>
+
+    <script>
+        $('.owl-carousel').owlCarousel({
+            margin: 10,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        });
+        var owl = $('.mousescroll1');
+        owl.on('mousewheel', '.owl-stage', function (e) {
+            if (e.deltaY > 0) {
+                owl.trigger('next.owl');
+            } else {
+                owl.trigger('prev.owl');
+            }
+            e.preventDefault();
+        });
+        var owl1 = $('.mousescroll');
+        owl1.on('mousewheel', '.owl-stage', function (e) {
+            if (e.deltaY > 0) {
+                owl1.trigger('next.owl');
+            } else {
+                owl1.trigger('prev.owl');
+            }
+            e.preventDefault();
+        });
+    </script>
+
     @if($item->getTotalImageCount() > 1)
         <script>
             var slider = tns({

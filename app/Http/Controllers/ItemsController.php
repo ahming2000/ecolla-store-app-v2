@@ -94,7 +94,32 @@ class ItemsController extends Controller
         $item = Item::find($i->id);
         $this->viewCountIncrement($item);
 
-        return view($this->getLang() . '.item.view', compact('item'));
+        $MAX_RECOMMEND_COUNT = 10;
+
+        // Get random item
+        if(Item::all()->count() < $MAX_RECOMMEND_COUNT){
+            $randomItems = Item::all() ?? [];
+        } else{
+            $randomItems = Item::all()->random($MAX_RECOMMEND_COUNT) ?? [];
+        }
+
+        // Get same category item
+        $mayLikeItems = [];
+        $count = 0;
+        $catIds = array_column($item->categories->toArray(), 'id');
+        foreach ($catIds as $catId){
+            if($catId > 10 && $count <= $MAX_RECOMMEND_COUNT){ // Skip default category
+                $categoryItems = DB::table('category_item')->where('category_id', '=', $catId)->get()->toArray();
+                foreach($categoryItems as $ci){
+                    if($ci->item_id != $item->id) { // Avoid same item
+                        $mayLikeItems[] = Item::find($ci->item_id);
+                        $count++;
+                    }
+                }
+            }
+        }
+
+        return view($this->getLang() . '.item.view', compact('item', 'randomItems', 'mayLikeItems'));
     }
 
     public function addToCart(string $name)

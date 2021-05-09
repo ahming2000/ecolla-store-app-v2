@@ -24,6 +24,11 @@
                 background-color: transparent;
             }
         }
+
+        .navbar-change{
+            background-color: #3c3e44;
+            transition: background-color 0.5s;
+        }
     </style>
 @endsection
 

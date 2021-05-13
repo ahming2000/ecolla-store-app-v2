@@ -31,13 +31,14 @@
         }
 
         .headtext{
-            background-position: center;
+            background-image: url({{ asset('img/ads/index-shop-bg.jpg') }});
+            background-position: top;
             background-repeat: no-repeat;
             background-size: cover;
-            padding-top: 200px;
+            padding-top: 15vh;
             color: white;
-            font-size: 50px;
-            height: 60vh;
+            font-size: 4vw;
+            height: 30vh;
             text-align: center;
         }
         .headtext1{
@@ -53,7 +54,7 @@
 @endsection
 
 @section('welcome')
-    <div class="headtext" style="background-image: url({{ asset('img/home/welcome-background.jpeg') }})">
+    <div class="headtext">
         欢迎来到
         <div class="headtext1">Ecolla ε口乐</div>
         零食店官网
@@ -105,31 +106,33 @@
 
         @foreach($itemsGroup as $group)
             <section class="row mb-3">
-                @if(!empty($group['items']->toArray()))
-                    <h3 class="pt-3 pl-5">{{ $group['name'] }}</h3>
-                @endif
-                <div class="owl-carousel mousescroll owl-theme">
-                    @foreach($group['items'] as $item)
-                        <div class="item">
-                            <div class="card">
-                                <a href="/ch/item/{{ $item->name }}">
-                                    <img class="card-img-top" src="{{ $item->getCoverImage() }}">
+                <div class="col-md-10 col-sm-12 offset-md-1">
+                    @if(!empty($group['items']->toArray()))
+                        <h3 class="pt-3 pl-5">{{ $group['name'] }}</h3>
+                    @endif
+                    <div class="owl-carousel mousescroll owl-theme">
+                        @foreach($group['items'] as $item)
+                            <div class="item">
+                                <div class="card">
+                                    <a href="/ch/item/{{ $item->name }}">
+                                        <img class="card-img-top" src="{{ $item->getCoverImage() }}">
 
-                                    <div class="card-body">
-                                        <h5 class="card-title text-truncate" style="color: black">{{ $item->name }}</h5>
-                                        <p class="card-text text-muted">
-                                            @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
-                                                RM{{ $item->getPriceRange()['min'] }}
-                                            @else
-                                                RM{{ $item->getPriceRange()['min'] }} -
-                                                RM{{ $item->getPriceRange()['max'] }}
-                                            @endif
-                                        </p>
-                                    </div>
-                                </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate" style="color: black">{{ $item->name }}</h5>
+                                            <p class="card-text text-muted">
+                                                @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
+                                                    RM{{ $item->getPriceRange()['min'] }}
+                                                @else
+                                                    RM{{ $item->getPriceRange()['min'] }} -
+                                                    RM{{ $item->getPriceRange()['max'] }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             </section>
         @endforeach

@@ -14,18 +14,18 @@
         }
 
         @media (min-width: 200px) {
-            .navbar-collapse{
-                background-color:#303136;
+            .navbar-collapse {
+                background-color: #303136;
             }
         }
 
         @media (min-width: 1200px) {
-            .navbar-collapse{
+            .navbar-collapse {
                 background-color: transparent;
             }
         }
 
-        .navbar-change{
+        .navbar-change {
             background-color: #3c3e44;
             transition: background-color 0.5s;
         }
@@ -40,41 +40,45 @@
 @section('content')
     <main class="container">
 
-        <!-- Advertisement -->
-    {{--        <section class="row mb-3">--}}
-    {{--            <div id="{{ $carousel_desc['id'] }}" class="carousel slide m-0" data-ride="carousel">--}}
-    {{--                <ol class="carousel-indicators">--}}
-    {{--                    @for($i = 0; $i < sizeof($carousel_desc['images']); $i++)--}}
-    {{--                        <li data-target='#{{ $carousel_desc['id'] }}' data-slide-to='{{ $i }}' {{ $i == 0 ? "class='active'" : "" }}></li>--}}
-    {{--                    @endfor--}}
-    {{--                <!-- Original Pattern: <li data-target="#imgSlide" data-slide-to="{slide index}"></li> -->--}}
-    {{--                </ol>--}}
+        <!-- Shop Picture -->
+        <section class="row mb-3">
+            <div class="col-md-10 col-sm-12 offset-md-1">
+                <div id="{{ $carousel_desc['id'] }}" class="carousel slide m-0" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @for($i = 0; $i < sizeof($carousel_desc['images']); $i++)
+                            <li data-target='#{{ $carousel_desc['id'] }}'
+                                data-slide-to='{{ $i }}' {{ $i == 0 ? "class='active'" : "" }}></li>
+                    @endfor
+                    <!-- Original Pattern: <li data-target="#imgSlide" data-slide-to="{slide index}"></li> -->
+                    </ol>
 
-    {{--                <div class="carousel-inner">--}}
-    {{--                    @for($i = 0; $i < sizeof($carousel_desc['images']); $i++)--}}
-    {{--                        <div class="carousel-item {{ $i == 0 ? "active" : "" }}">--}}
-    {{--                            <img class='d-block w-100' src='{{ $carousel_desc['images'][$i] }}' data-interval='{{ $carousel_desc['interval'] }}'>--}}
-    {{--                        </div>--}}
-    {{--                    @endfor--}}
+                    <div class="carousel-inner">
+                        @for($i = 0; $i < sizeof($carousel_desc['images']); $i++)
+                            <div class="carousel-item {{ $i == 0 ? "active" : "" }}">
+                                <img class='d-block w-100' src='{{ $carousel_desc['images'][$i] }}'
+                                     data-interval='{{ $carousel_desc['interval'] }}'>
+                            </div>
+                    @endfor
 
-    {{--                <!----}}
-    {{--                    <div class="carousel-item">--}}
-    {{--                        <img class="d-block w-100" src={img directory} data-interval="10000">--}}
-    {{--                    </div>--}}
-    {{--                 -->--}}
-    {{--                </div>--}}
+                    <!--
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src={img directory} data-interval="10000">
+                        </div>
+                     -->
+                    </div>
 
-    {{--                <a class="carousel-control-prev" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="prev">--}}
-    {{--                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>--}}
-    {{--                    <span class="sr-only">Previous</span>--}}
-    {{--                </a>--}}
-    {{--                <a class="carousel-control-next" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="next">--}}
-    {{--                    <span class="carousel-control-next-icon" aria-hidden="true"></span>--}}
-    {{--                    <span class="sr-only">Next</span>--}}
-    {{--                </a>--}}
-    {{--            </div>--}}
-    {{--        </section>--}}
-    <!-- Advertisement -->
+                    <a class="carousel-control-prev" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#{{ $carousel_desc['id'] }}" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- Shop Picture -->
 
         @foreach($itemsGroup as $group)
             <section class="row mb-3">
@@ -89,7 +93,8 @@
                                     <img class="card-img-top" src="{{ $item->getCoverImage() }}">
 
                                     <div class="card-body">
-                                        <h5 class="card-title text-truncate" style="color: black">{{ $item->name_en }}</h5>
+                                        <h5 class="card-title text-truncate"
+                                            style="color: black">{{ $item->name_en }}</h5>
                                         <p class="card-text text-muted">
                                             @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
                                                 RM{{ $item->getPriceRange()['min'] }}

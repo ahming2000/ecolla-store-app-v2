@@ -22,9 +22,9 @@ class CustomerPageController extends Controller
             'id' => 'imgSlide',
             'interval' => '10000',
             'images' => [
-                'img/ads/ads1.jpg',
-                'img/ads/ads2.jpg',
-                'img/ads/ads3.jpg'
+                'img/home/pic1.jpeg',
+                'img/home/pic2.jpeg',
+                'img/home/pic3.jpeg'
             ]
         ];
 

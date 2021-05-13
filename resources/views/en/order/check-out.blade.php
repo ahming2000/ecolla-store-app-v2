@@ -33,18 +33,14 @@
                         <div class="col-12 d-flex justify-content-center">
 
                             <div class="row">
-                                <div class="col payment-method view zoom active">
-                                    <input type="text" value="tng" hidden/>
-                                    <img class="img-fluid" src="{{ asset('img/payment/tng.png') }}" alt="image">
-                                </div>
-                                <div class="col payment-method view zoom">
-                                    <input type="text" value="boost" hidden/>
-                                    <img class="img-fluid" src="{{ asset('img/payment/boost.png') }}" alt="image">
-                                </div>
-                                <div class="col payment-method view zoom">
-                                    <input type="text" value="bank transfer" hidden/>
-                                    <img class="img-fluid" src="{{ asset('img/payment/bank-transfer.png') }}" alt="image">
-                                </div>
+                                @foreach($payments as $payment)
+                                    <div class="col-4 payment-method view zoom {{ $payment['code'] == 'tng' ? "active" : "" }}">
+                                        <input type="text" value="{{ $payment['code'] }}" hidden/>
+                                        <img class="img-fluid"
+                                             src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"
+                                             alt="{{ $payment['name'] }}">
+                                    </div>
+                                @endforeach
                             </div>
 
                         </div>
@@ -103,7 +99,7 @@
 
                 var method = $(this).children('input').val();
                 $('#selected-payment-method').val(method);
-                url = "{{ asset('img/payment')}}/pay_" + method.toLowerCase() + ".png";
+                url = "{{ asset('img/payment')}}/qr/" + method.toLowerCase() + ".jpeg";
                 window.open(url, 'Image', 'width=400px, height=400px, resizable=1');
             });
 

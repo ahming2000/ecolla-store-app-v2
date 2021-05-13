@@ -19,7 +19,30 @@ class OrdersController extends Controller
         $cart = new Cart();
         $cart->start();
 
-        return view($this->getLang() . '.order.check-out', compact('cart'));
+        $payments = [
+            [
+                'name' => 'Touch \'n Go',
+                'code' => 'tng'
+            ],
+            [
+                'name' => 'Boost Pay',
+                'code' => 'boost'
+            ],
+            [
+                'name' => 'Online Banking',
+                'code' => 'online-banking'
+            ],
+            [
+                'name' => 'Maybank QR Pay',
+                'code' => 'maybank-qr-pay'
+            ],
+            [
+                'name' => 'Quin Pay',
+                'code' => 'quin-pay'
+            ]
+        ];
+
+        return view($this->getLang() . '.order.check-out', compact('cart', 'payments'));
     }
 
     public function store()

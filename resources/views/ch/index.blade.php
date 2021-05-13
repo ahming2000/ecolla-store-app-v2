@@ -32,13 +32,13 @@
 
         .headtext{
             background-image: url({{ asset('img/ads/index-shop-bg.jpg') }});
-            background-position: top;
+            background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            padding-top: 15vh;
+            padding-top: 200px;
             color: white;
-            font-size: 4vw;
-            height: 30vh;
+            font-size: 50px;
+            height: 60vh;
             text-align: center;
         }
         .headtext1{

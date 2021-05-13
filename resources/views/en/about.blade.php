@@ -28,7 +28,7 @@
                     </div>
                     <div class="col pt-5">
                         <h1>Operation Hours</h1>
-                        <p class="mt-4">9 a.m - 10 p.m</p>
+                        <p class="mt-4">10AM - 10PM</p>
                     </div>
                 </div>
             </div>

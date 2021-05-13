@@ -5,7 +5,11 @@
 @endsection
 
 @section('extraStyle')
-
+    <style>
+        div.payment-method.active {
+            border: 2px solid #00BFFF;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -34,7 +38,8 @@
 
                             <div class="row">
                                 @foreach($payments as $payment)
-                                    <div class="col-4 payment-method view zoom {{ $payment['code'] == 'tng' ? "active" : "" }}">
+                                    <div
+                                        class="col-4 payment-method view zoom {{ $payment['code'] == 'tng' ? "active" : "" }}">
                                         <input type="text" value="{{ $payment['code'] }}" hidden/>
                                         <img class="img-fluid"
                                              src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"

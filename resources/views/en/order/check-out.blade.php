@@ -5,7 +5,11 @@
 @endsection
 
 @section('extraStyle')
-
+    <style>
+        div.payment-method.active {
+            border: 2px solid #00BFFF;
+        }
+    </style>
 @endsection
 
 @section('content')

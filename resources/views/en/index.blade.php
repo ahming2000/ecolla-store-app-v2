@@ -29,12 +29,34 @@
             background-color: #3c3e44;
             transition: background-color 0.5s;
         }
+
+        .headtext{
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 200px;
+            color: white;
+            font-size: 50px;
+            height: 60vh;
+            text-align: center;
+        }
+        .headtext1{
+            color: hotpink;
+            display: inline;
+        }
     </style>
 @endsection
 
 @section('extraScript')
     <script src="{{ asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>
+@endsection
+
+@section('welcome')
+    <div class="headtext" style="background-image: url({{ asset('img/home/welcome-background.jpeg') }})">Welcome to
+        <div class="headtext1"> Ecolla</div>
+        Official Snack Shop
+    </div>
 @endsection
 
 @section('content')
@@ -112,13 +134,6 @@
             </section>
         @endforeach
     </main>
-@endsection
-
-@section('welcome')
-    <div class="headtext" style="background-image: url({{ asset('img/ads/index-shop-bg.jpg') }})">Welcome to
-        <div class="headtext1"> Ecolla</div>
-        Official Snack Shop
-    </div>
 @endsection
 
 @section('extraScriptEnd')

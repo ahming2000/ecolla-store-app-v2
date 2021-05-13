@@ -60,7 +60,40 @@ class CustomerPageController extends Controller
             ->where('item_utils.is_listed', '=', 1)
             ->whereIn('id', $idList)->get();
 
-        return view($this->getLang() . '.index', compact('carousel_desc', 'hot_items', 'new_items'));
+
+        $recommended_items_id = DB::table('items')
+            ->select('items.id')
+            ->join('category_item', 'category_item.item_id', 'items.id')
+            ->join('categories', 'categories.id', 'category_item.category_id')
+            ->where('categories.name', '=', '推荐')
+            ->get();
+
+        $idList = array();
+        foreach ($recommended_items_id as $i){
+            $idList[] = $i->id;
+        }
+
+        $recommended_items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
+            ->where('item_utils.is_listed', '=', 1)
+            ->whereIn('id', $idList)->get();
+
+
+        $itemsGroup = [
+            [
+                'name' => '新品',
+                'items' => $new_items
+            ],
+            [
+                'name' => '热卖',
+                'items' => $hot_items
+            ],
+            [
+                'name' => '推荐',
+                'items' => $recommended_items
+            ]
+        ];
+
+        return view($this->getLang() . '.index', compact('carousel_desc', 'itemsGroup'));
     }
 
     public function about(){

@@ -52,8 +52,12 @@ $cart->start();
 
         /* Header */
         .navbar{
-            background-color:#303136;
             transition: background-color 0.5s;
+        }
+
+        #nav-container *{
+            font-weight: bolder;
+            color: #F02B73;
         }
 
         /* Footer */
@@ -83,8 +87,8 @@ $cart->start();
 
     @yield('welcome')
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+        <div class="container" id="nav-container">
             <a class="navbar-brand" href="{{ url('/en') }}">
                 <img src="{{asset('img/icon/ecolla_icon.png')}}" width="30" height="30" class="d-inline-block align-top"
                      alt="" loading="lazy">

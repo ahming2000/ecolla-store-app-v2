@@ -18,16 +18,6 @@ class CustomerPageController extends Controller
 
     public function index(){
 
-        $carousel_desc = [
-            'id' => 'imgSlide',
-            'interval' => '10000',
-            'images' => [
-                'img/home/pic1.jpeg',
-                'img/home/pic2.jpeg',
-                'img/home/pic3.jpeg'
-            ]
-        ];
-
         $hot_items_id = DB::table('items')
             ->select('items.id')
             ->join('category_item', 'category_item.item_id', 'items.id')
@@ -81,19 +71,22 @@ class CustomerPageController extends Controller
         $itemsGroup = [
             [
                 'name' => '新品',
+                'name_en' => 'New Product',
                 'items' => $new_items
             ],
             [
                 'name' => '热卖',
+                'name_en' => 'Hot Selling',
                 'items' => $hot_items
             ],
             [
                 'name' => '推荐',
+                'name_en' => 'Recommended',
                 'items' => $recommended_items
             ]
         ];
 
-        return view($this->getLang() . '.index', compact('carousel_desc', 'itemsGroup'));
+        return view($this->getLang() . '.index', compact('itemsGroup'));
     }
 
     public function about(){

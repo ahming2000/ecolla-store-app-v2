@@ -40,16 +40,17 @@
             <div class="alert alert-info text-center" role="alert">
                 {{ session('message') }}
             </div>
-        @endif
+    @endif
 
-        <!-- Item Information -->
+    <!-- Item Information -->
         <div class="row">
             <!-- Item Images Slider -->
             <div class="col-md-5 mb-4">
                 <div class="row">
                     @if($item->getTotalImageCount() == 1)
                         <div class="col-12 mb-3">
-                             loading="lazy" class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}" loading="lazy"/>
+                            loading="lazy" class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"
+                            loading="lazy"/>
                         </div>
                     @elseif($item->getTotalImageCount() != 0)
                         <div class="col-12 slider-control-main-container mb-3">
@@ -85,13 +86,15 @@
                                 <ul class="slider-nav">
 
                                     @foreach($item->images as $img)
-                                        <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($img->image) }}" loading="lazy"/></li>
+                                        <li><img class="img-fluid" style="max-height: 100px"
+                                                 src="{{ asset($img->image) }}" loading="lazy"/></li>
                                     @endforeach
 
 
                                     @foreach($item->variations as $v)
                                         @if($v->image != null)
-                                            <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($v->image) }}" loading="lazy"/></li>
+                                            <li><img class="img-fluid" style="max-height: 100px"
+                                                     src="{{ asset($v->image) }}" loading="lazy"/></li>
                                         @endif
                                     @endforeach
 
@@ -304,17 +307,20 @@
                         <div class="card">
                             <a href="/en/item/{{ $randomItem->name_en }}">
                                 <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}" loading="lazy">
+
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate"
+                                        style="color: black">{{ $randomItem->name_en }}</h5>
+                                    <p class="card-text text-muted">
+                                        @if($randomItem->getPriceRange()['min'] == $randomItem->getPriceRange()['max'])
+                                            RM{{ $randomItem->getPriceRange()['min'] }}
+                                        @else
+                                            RM{{ $randomItem->getPriceRange()['min'] }} -
+                                            RM{{ $randomItem->getPriceRange()['max'] }}
+                                        @endif
+                                    </p>
+                                </div>
                             </a>
-                            <div class="card-body">
-                                <h5 class="card-title text-truncate">{{ $randomItem->name_en }}</h5>
-                                <p class="card-text text-muted">
-                                    @if($randomItem->getPriceRange()['min'] == $randomItem->getPriceRange()['max'])
-                                        RM{{ $randomItem->getPriceRange()['min'] }}
-                                    @else
-                                        RM{{ $randomItem->getPriceRange()['min'] }} - RM{{ $randomItem->getPriceRange()['max'] }}
-                                    @endif
-                                </p>
-                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -331,17 +337,20 @@
                         <div class="card">
                             <a href="/en/item/{{ $mayLikeItem->name_en }}">
                                 <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}" loading="lazy">
+
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate"
+                                        style="color: black">{{ $mayLikeItem->name_en }}</h5>
+                                    <p class="card-text text-muted">
+                                        @if($mayLikeItem->getPriceRange()['min'] == $mayLikeItem->getPriceRange()['max'])
+                                            RM{{ $mayLikeItem->getPriceRange()['min'] }}
+                                        @else
+                                            RM{{ $mayLikeItem->getPriceRange()['min'] }} -
+                                            RM{{ $mayLikeItem->getPriceRange()['max'] }}
+                                        @endif
+                                    </p>
+                                </div>
                             </a>
-                            <div class="card-body">
-                                <h5 class="card-title text-truncate">{{ $mayLikeItem->name_en }}</h5>
-                                <p class="card-text text-muted">
-                                    @if($mayLikeItem->getPriceRange()['min'] == $mayLikeItem->getPriceRange()['max'])
-                                        RM{{ $mayLikeItem->getPriceRange()['min'] }}
-                                    @else
-                                        RM{{ $mayLikeItem->getPriceRange()['min'] }} - RM{{ $mayLikeItem->getPriceRange()['max'] }}
-                                    @endif
-                                </p>
-                            </div>
                         </div>
                     </div>
                 @endforeach

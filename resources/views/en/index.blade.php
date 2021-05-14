@@ -9,9 +9,20 @@
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
 
     <style>
+        @media (max-width: 500px) {
+            .welcome-text{
+                background-image: url({{ asset('img/home/welcome-background-mobile.jpg') }});
+            }
+        }
+
+        @media (min-width: 500px) {
+            .welcome-text{
+                background-image: url({{ asset('img/home/welcome-background.jpg') }});
+            }
+        }
+
         .welcome-text{
-            background-image: url({{ asset('img/home/welcome-background.jpeg') }});
-            background-position: center;
+            background-position: top;
             background-repeat: no-repeat;
             background-size: cover;
             padding-top: 150px;

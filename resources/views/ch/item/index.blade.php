@@ -15,7 +15,7 @@
                     <div class="form-row">
                         <div class="col-10">
                             <input type="text" class="form-control" maxlength="20" name="search"
-                                   value="{{ isset($_GET["search"]) ? $_GET["search"] : "" }}"/>
+                                   value="{{ $_GET["search"] ?? "" }}"/>
                         </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary p-2 mt-0">搜索</button>

@@ -57,7 +57,9 @@
                                 <div class="item">
                                     <div class="card">
                                         <a href="{{ url('/ch/item/' . $item->name) }}">
-                                            <img class="card-img-top" src="{{ $item->getCoverImage() }}">
+                                            <img class="card-img-top"
+                                                 loading="lazy"
+                                                 src="{{ $item->getCoverImage() }}">
 
                                             <div class="card-body">
                                                 <div class="card-title text-truncate" style="color: black">

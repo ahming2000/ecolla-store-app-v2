@@ -49,26 +49,26 @@
                 <div class="row">
                     @if($item->getTotalImageCount() == 1)
                         <div class="col-12 mb-3">
-                            <img class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"/>
+                             loading="lazy" class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}" loading="lazy"/>
                         </div>
                     @elseif($item->getTotalImageCount() != 0)
                         <div class="col-12 slider-control-main-container mb-3">
                             <div class="slider-control-prev rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}" loading="lazy"/>
                             </div>
                             <div class="slider-control-next rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
+                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}" loading="lazy"/>
                             </div>
                             <div class="slider-container">
 
                                 @foreach($item->images as $img)
-                                    <img class="img-fluid general-img" src="{{ $img->image }}"/>
+                                    <img class="img-fluid general-img" src="{{ $img->image }}" loading="lazy"/>
                                 @endforeach
 
                                 @foreach($item->variations as $v)
                                     @if($v->image != null)
                                         <img class="img-fluid variety-img" id="img-{{ $v->barcode }}"
-                                             src="{{ $v->image }}"/>
+                                             src="{{ $v->image }}" loading="lazy"/>
                                     @endif
                                 @endforeach
 
@@ -76,22 +76,22 @@
                         </div>
                         <div class="col-12 slider-control-nav-container mb-3">
                             <div class="slider-nav-control-prev rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}"/>
+                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}" loading="lazy"/>
                             </div>
                             <div class="slider-nav-control-next rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}"/>
+                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}" loading="lazy"/>
                             </div>
                             <div class="slider-nav-container">
                                 <ul class="slider-nav">
 
                                     @foreach($item->images as $img)
-                                        <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($img->image) }}"/></li>
+                                        <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($img->image) }}" loading="lazy"/></li>
                                     @endforeach
 
 
                                     @foreach($item->variations as $v)
                                         @if($v->image != null)
-                                            <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($v->image) }}"/></li>
+                                            <li><img class="img-fluid" style="max-height: 100px" src="{{ asset($v->image) }}" loading="lazy"/></li>
                                         @endif
                                     @endforeach
 
@@ -303,7 +303,7 @@
                     <div class="item">
                         <div class="card">
                             <a href="/en/item/{{ $randomItem->name_en }}">
-                                <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}">
+                                <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}" loading="lazy">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title text-truncate">{{ $randomItem->name_en }}</h5>
@@ -330,7 +330,7 @@
                     <div class="item">
                         <div class="card">
                             <a href="/en/item/{{ $mayLikeItem->name_en }}">
-                                <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}">
+                                <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}" loading="lazy">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title text-truncate">{{ $mayLikeItem->name_en }}</h5>

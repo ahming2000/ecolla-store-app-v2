@@ -50,7 +50,7 @@
                     <div class="card">
                         @if(!empty($item->images->toArray()))
                             <a href="{{ url('/ch/item/' . $item->name) }}">
-                                <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image">
+                                <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image" loading="lazy">
                             </a>
                         @endif
                         <div class="card-body">

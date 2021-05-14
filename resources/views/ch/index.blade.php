@@ -9,29 +9,22 @@
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
 
     <style>
-
-        @media (max-width: 500px) {
-            .welcome-text{
-                background-image: url({{ asset('img/home/welcome-background-mobile.jpg') }});
-            }
-        }
-
-        @media (min-width: 500px) {
-            .welcome-text{
-                background-image: url({{ asset('img/home/welcome-background.jpg') }});
-            }
+        body main{
+            margin-top: 55px;
         }
 
         .welcome-text{
+            background-image: url({{ asset('img/home/welcome-background.jpeg') }});
             background-position: top;
             background-repeat: no-repeat;
             background-size: cover;
-            padding-top: 150px;
+            padding-top: 115px;
             color: white;
             font-size: 35px;
-            height: 45vh;
+            height: 40vh;
             text-align: center;
         }
+
         .highlighted{
             color: #F02B73;
             display: inline;
@@ -44,50 +37,50 @@
     <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>
 @endsection
 
-@section('welcome')
-    <div class="welcome-text">
-        欢迎来到
-        <div class="highlighted">Ecolla e口乐</div>
-        零食店
-    </div>
-@endsection
-
 @section('content')
-    <main class="container">
-        @foreach($itemsGroup as $group)
-            <section class="row mb-3">
-                <div class="col-md-10 col-sm-12 offset-md-1">
-                    @if(!empty($group['items']->toArray()))
-                        <div class="h2">{{ $group['name'] }}</div>
-                    @endif
-                    <div class="owl-carousel mousescroll owl-theme">
-                        @foreach($group['items'] as $item)
-                            <div class="item">
-                                <div class="card">
-                                    <a href="{{ url('/ch/item/' . $item->name) }}">
-                                        <img class="card-img-top" src="{{ $item->getCoverImage() }}">
+    <main>
+        <div class="welcome-text mb-3">
+            欢迎来到
+            <div class="highlighted">Ecolla e口乐</div>
+            零食店
+        </div>
 
-                                        <div class="card-body">
-                                            <div class="card-title text-truncate" style="color: black">
-                                                {{ $item->name }}
+        <div class="container">
+            @foreach($itemsGroup as $group)
+                <section class="row mb-3">
+                    <div class="col-md-10 col-sm-12 offset-md-1">
+                        @if(!empty($group['items']->toArray()))
+                            <div class="h2">{{ $group['name'] }}</div>
+                        @endif
+                        <div class="owl-carousel mousescroll owl-theme">
+                            @foreach($group['items'] as $item)
+                                <div class="item">
+                                    <div class="card">
+                                        <a href="{{ url('/ch/item/' . $item->name) }}">
+                                            <img class="card-img-top" src="{{ $item->getCoverImage() }}">
+
+                                            <div class="card-body">
+                                                <div class="card-title text-truncate" style="color: black">
+                                                    {{ $item->name }}
+                                                </div>
+                                                <p class="card-text text-muted">
+                                                    @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
+                                                        RM{{ $item->getPriceRange()['min'] }}
+                                                    @else
+                                                        RM{{ $item->getPriceRange()['min'] }} -
+                                                        RM{{ $item->getPriceRange()['max'] }}
+                                                    @endif
+                                                </p>
                                             </div>
-                                            <p class="card-text text-muted">
-                                                @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
-                                                    RM{{ $item->getPriceRange()['min'] }}
-                                                @else
-                                                    RM{{ $item->getPriceRange()['min'] }} -
-                                                    RM{{ $item->getPriceRange()['max'] }}
-                                                @endif
-                                            </p>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            </section>
-        @endforeach
+                </section>
+            @endforeach
+        </div>
     </main>
 @endsection
 

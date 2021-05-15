@@ -23,13 +23,17 @@ class ItemsController extends Controller
         $category = request()->get('category') ?? "";
 
         if($search != "" && $category != ""){
-            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category') AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
+            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category')";
+            $whereClause = $whereClause . "AND (items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
+            $whereClause = $whereClause . "AND item_utils.is_listed = 1";
         } else if ($search != ""){
-            $whereClause = "items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%'";
+            $whereClause = "(items.name LIKE '%$search%' OR items.name_en LIKE '%$search%' OR items.origin LIKE '%$search%' OR items.origin_en LIKE '%$search%' OR items.desc LIKE '%$search%' OR variations.name LIKE '%$search%' OR variations.name_en LIKE '%$search%' OR variations.barcode LIKE '%$search%')";
+            $whereClause = $whereClause . "AND item_utils.is_listed = 1";
         } else if ($category != ""){
-            $whereClause = "categories.name = '$category' OR categories.name_en = '$category'";
+            $whereClause = "(categories.name = '$category' OR categories.name_en = '$category')";
+            $whereClause = $whereClause . "AND item_utils.is_listed = 1";
         } else{
-            $whereClause = "";
+            $whereClause = "item_utils.is_listed = 1";
         }
 
         if($whereClause != ""){
@@ -38,26 +42,20 @@ class ItemsController extends Controller
                 ->join('category_item', 'category_item.item_id', '=', 'items.id')
                 ->join('categories', 'categories.id', '=', 'category_item.category_id')
                 ->join('variations', 'variations.item_id', '=', 'items.id')
+                ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
                 ->whereRaw($whereClause)
                 ->distinct('items.id')
                 ->get();
         } else{
             $items_table = DB::table('items')
                 ->select('items.id')
+                ->join('item_utils', 'item_utils.item_id', '=', 'items.id')
                 ->get();
         }
 
-        $idList = array();
-        foreach ($items_table as $i){
-            $idList[] = $i->id;
-        }
-
-        $items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
-            ->where('item_utils.is_listed', '=', 1)
-            ->whereIn('id', $idList)
+        $items = Item::whereIn('id', array_column($items_table->toArray(), 'id'))
             ->orderBy('created_at', 'desc')
             ->paginate($ITEM_PER_PAGE);
-
 
         $categories = Category::all();
 

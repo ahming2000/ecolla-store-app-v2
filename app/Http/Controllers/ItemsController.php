@@ -55,6 +55,7 @@ class ItemsController extends Controller
         $items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
             ->where('item_utils.is_listed', '=', 1)
             ->whereIn('id', $idList)
+            ->orderBy('created_at', 'desc')
             ->paginate($ITEM_PER_PAGE);
 
 

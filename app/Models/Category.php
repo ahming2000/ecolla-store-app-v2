@@ -11,14 +11,19 @@ class Category extends Model
     protected $guarded = [];
 
     public static function getListedItemCount($id){
-        $count = Item::join('category_item', 'category_item.item_id', 'items.id')
+        return Item::join('category_item', 'category_item.item_id', 'items.id')
             ->join('categories', 'category_item.category_id', 'categories.id')
             ->join('item_utils', 'item_utils.item_id', 'items.id')
             ->where('categories.id', '=', $id)
             ->where('item_utils.is_listed', '=', 1)
             ->count();
+    }
 
-        return $count;
+    public static function getItemCount($id){
+        return Item::join('category_item', 'category_item.item_id', 'items.id')
+            ->join('categories', 'category_item.category_id', 'categories.id')
+            ->where('categories.id', '=', $id)
+            ->count();
     }
 
 }

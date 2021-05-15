@@ -28,17 +28,18 @@
             <div class="col-sm-12 col-md-6">
 
                 <select name="category" id="categorySelector" class="custom-select mb-3" style="width: 100%">
-                    <option value="">全部商品
-                        (<?= \App\Models\Item::getListedCount() ?>)
+                    <option>
+                        全部商品 ({{ \App\Models\Item::getListedCount() }})
                     </option>
 
                     @foreach($categories as $category)
-                        <option
-                            value="{{ $category->name }}"{{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? " selected" : "" }}>
-                            {{ $category->name }} ({{ \App\Models\Category::getListedItemCount($category->id) }})
-                        </option>
+                        @if(\App\Models\Category::getListedItemCount($category->id) != 0)
+                            <option value="{{ $category->name }}"
+                                {{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? "selected" : "" }}>
+                                {{ $category->name }} ({{ \App\Models\Category::getListedItemCount($category->id) }})
+                            </option>
+                        @endif
                     @endforeach
-
                 </select>
             </div><!-- Category Filter -->
         </div>

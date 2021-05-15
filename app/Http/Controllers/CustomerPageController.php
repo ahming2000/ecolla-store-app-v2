@@ -18,6 +18,12 @@ class CustomerPageController extends Controller
 
     public function index(){
 
+        $adsImages = [];
+        for($i = 1; $i <= 17; $i++){
+            $path = "img/ads/$i.jpeg";
+            $adsImages[] = $path;
+        }
+
         $hot_items_id = DB::table('items')
             ->select('items.id')
             ->join('category_item', 'category_item.item_id', 'items.id')
@@ -86,7 +92,7 @@ class CustomerPageController extends Controller
             ]
         ];
 
-        return view($this->getLang() . '.index', compact('itemsGroup'));
+        return view($this->getLang() . '.index', compact('adsImages', 'itemsGroup'));
     }
 
     public function about(){

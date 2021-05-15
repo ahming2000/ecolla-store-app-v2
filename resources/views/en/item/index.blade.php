@@ -28,7 +28,7 @@
             <div class="col-sm-12 col-md-6">
 
                 <select name="category" id="categorySelector" class="custom-select w-100 mb-3">
-                    <option>
+                    <option value="">
                         All ({{ \App\Models\Item::getListedCount() }})
                     </option>
 

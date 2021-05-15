@@ -28,7 +28,7 @@
             <div class="col-sm-12 col-md-6">
 
                 <select name="category" id="categorySelector" class="custom-select mb-3" style="width: 100%">
-                    <option>
+                    <option value="">
                         全部商品 ({{ \App\Models\Item::getListedCount() }})
                     </option>
 

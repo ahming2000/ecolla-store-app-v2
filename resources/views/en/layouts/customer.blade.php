@@ -160,7 +160,7 @@ $cart->start();
         <div class="col">
             <div class="text-center">
                 <img src="{{asset('img/icon/ecolla_icon.png')}}" width="20" height="20" alt="logo" loading="lazy">
-                <span class="font-color">ε口乐 Ecolla</span>
+                <span class="font-color">e口乐 Ecolla</span>
             </div>
         </div>
     </div>

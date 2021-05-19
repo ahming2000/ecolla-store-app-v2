@@ -139,8 +139,11 @@ $cart->start();
                 <div class="col-lg-3 col-mb-3 col-sm-3">
                     <h4 class="font-color font-weight-bold">Our Location</h4>
                     <hr class="footer-hr">
-                    <p class="text-uppercase font-color">2365, Jalan Hala Timah 3 <br>Taman Kolej Perdana
-                        <br>31900 Kampar Negeri Perak</p>
+                    <p class="text-uppercase font-color">
+                        2365, Jalan Hala Timah 3<br>
+                        Taman Bandar Baru<br>
+                        31900 Kampar, Perak
+                    </p>
                 </div>
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">

@@ -72,23 +72,23 @@
 
         <div class="container">
 
-            <div class="row mb-3">
-                <div class="col-md-10 col-sm-12 offset-md-1 slider-control-main-container">
-                    <div class="slider-control-prev rounded">
-                        <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}" loading="lazy"/>
-                    </div>
-                    <div class="slider-control-next rounded">
-                        <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}" loading="lazy"/>
-                    </div>
-                    <div class="slider-container">
+{{--            <div class="row mb-3">--}}
+{{--                <div class="col-md-10 col-sm-12 offset-md-1 slider-control-main-container">--}}
+{{--                    <div class="slider-control-prev rounded">--}}
+{{--                        <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}" loading="lazy"/>--}}
+{{--                    </div>--}}
+{{--                    <div class="slider-control-next rounded">--}}
+{{--                        <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}" loading="lazy"/>--}}
+{{--                    </div>--}}
+{{--                    <div class="slider-container">--}}
 
-                        @foreach($adsImages as $image)
-                            <img class="img-fluid" src="{{ asset($image) }}" loading="lazy"/>
-                        @endforeach
+{{--                        @foreach($adsImages as $image)--}}
+{{--                            <img class="img-fluid" src="{{ asset($image) }}" loading="lazy"/>--}}
+{{--                        @endforeach--}}
 
-                    </div>
-                </div>
-            </div>
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             @foreach($itemsGroup as $group)
                 <section class="row mb-3">
@@ -134,45 +134,45 @@
 @section('extraScriptEnd')
     <script>
 
-        var slider = tns({
-            container: '.slider-container',
-
-            controlsContainer: '.slider-control-main-container',
-            prevButton: '.slider-control-prev',
-            nextButton: '.slider-control-next',
-
-            nav: false,
-            mouseDrag: true,
-            autoplay: true,
-            autoplayHoverPause: true,
-            autoplayButtonOutput: false,
-
-            responsive: {
-                992: {
-                    items: 5,
-                    slideBy: 1,
-                },
-                768: {
-                    items: 4,
-                    slideBy: 1,
-                },
-                576: {
-                    items: 3,
-                    slideBy: 1,
-                },
-                450: {
-                    items: 3,
-                    slideBy: 1,
-                },
-                200: {
-                    items: 2,
-                    slideBy: 1,
-                },
-            },
-        });
-
-        // Start autoplay
-        slider.play();
+        // var slider = tns({
+        //     container: '.slider-container',
+        //
+        //     controlsContainer: '.slider-control-main-container',
+        //     prevButton: '.slider-control-prev',
+        //     nextButton: '.slider-control-next',
+        //
+        //     nav: false,
+        //     mouseDrag: true,
+        //     autoplay: true,
+        //     autoplayHoverPause: true,
+        //     autoplayButtonOutput: false,
+        //
+        //     responsive: {
+        //         992: {
+        //             items: 5,
+        //             slideBy: 1,
+        //         },
+        //         768: {
+        //             items: 4,
+        //             slideBy: 1,
+        //         },
+        //         576: {
+        //             items: 3,
+        //             slideBy: 1,
+        //         },
+        //         450: {
+        //             items: 3,
+        //             slideBy: 1,
+        //         },
+        //         200: {
+        //             items: 2,
+        //             slideBy: 1,
+        //         },
+        //     },
+        // });
+        //
+        // // Start autoplay
+        // slider.play();
 
         $('.owl-carousel').owlCarousel({
             margin: 10,

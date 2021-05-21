@@ -32,7 +32,9 @@
                                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                                         <div class="view zoom z-depth-1 rounded mb-3">
                                             <a href="{{ url('/ch/item/' . $cartItem->variation->item->name) }}">
-                                                <img src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) }}" class="w-100" height="250">
+                                                <img
+                                                    src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) }}"
+                                                    class="w-100" height="250">
                                             </a>
                                         </div>
                                     </div><!-- Cart Item Image -->
@@ -49,7 +51,8 @@
                                         <!-- Variety property display -->
 
                                         <!-- Weight display -->
-                                        <div class="h6 text-muted">{{ number_format($cartItem->variation->weight * $cartItem->quantity, 3) . 'kg' }}</div>
+                                        <div
+                                            class="h6 text-muted">{{ number_format($cartItem->variation->weight * $cartItem->quantity, 3) . 'kg' }}</div>
                                         <!-- Weight display -->
 
                                         <!-- Quantity control -->
@@ -61,19 +64,28 @@
                                                 <form action="{{ url('/ch/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="quantityAdjust">
-                                                    <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
+                                                    <input type="hidden" name="barcode"
+                                                           value="{{ $cartItem->variation->barcode }}">
                                                     <input type="hidden" name="quantityToAdjust" value="-1">
 
-                                                    <button type="submit" class="btn btn-primary quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>-</button>
+                                                    <button type="submit"
+                                                            class="btn btn-primary quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>
+                                                        -
+                                                    </button>
                                                 </form>
-                                                <input type="number" class="mx-3 my-3 cart-item-quantity" value="{{ $cartItem->quantity }}" style="width: 45px" disabled>
+                                                <input type="number" class="mx-3 my-3 cart-item-quantity"
+                                                       value="{{ $cartItem->quantity }}" style="width: 45px" disabled>
                                                 <form action="{{ url('/ch/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="quantityAdjust">
-                                                    <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
+                                                    <input type="hidden" name="barcode"
+                                                           value="{{ $cartItem->variation->barcode }}">
                                                     <input type="hidden" name="quantityToAdjust" value="1">
 
-                                                    <button type="submit" class="btn btn-primary quantity-increase-button" {{ $cartItem->quantity == $cartItem->variation->stock ? "disabled" : "" }}>+</button>
+                                                    <button type="submit"
+                                                            class="btn btn-primary quantity-increase-button" {{ $cartItem->quantity == $cartItem->variation->stock ? "disabled" : "" }}>
+                                                        +
+                                                    </button>
                                                 </form>
                                             </div>
                                         </div><!-- Quantity control -->
@@ -85,8 +97,10 @@
                                                 <form action="{{ url('/ch/cart') }}" method="post">
                                                     @csrf
                                                     <input type="hidden" name="action" value="deleteItem">
-                                                    <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
-                                                    <button type="submit" class="btn btn-primary py-2 px-3 card-link-secondary small">
+                                                    <input type="hidden" name="barcode"
+                                                           value="{{ $cartItem->variation->barcode }}">
+                                                    <button type="submit"
+                                                            class="btn btn-primary py-2 px-3 card-link-secondary small">
                                                         <i class="fas fa-trash-alt mr-1"></i>移除
                                                     </button>
                                                 </form>
@@ -102,7 +116,8 @@
                                                         <del>RM{{ number_format($cartItem->getOriginalSubPrice(), 2, '.', '') }}</del>
                                                     </span>
                                                     <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                    <span class="badge {{ $cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'variation' ? "badge-danger" : "badge-warning" }} mr-1">
+                                                    <span
+                                                        class="badge {{ $cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'variation' ? "badge-danger" : "badge-warning" }} mr-1">
                                                         {{ number_format((1 - $cartItem->getDiscountRate()) * 100, 0, '.', '') }}% OFF
                                                     </span>
                                                 </div>
@@ -155,130 +170,172 @@
                 <!-- Order mode settings -->
                 <div class="card mb-3">
                     <div class="card-body">
-                        <div class="h5 mb-3">订单模式：</div>
+                        <form action="{{ url('/ch/cart') }}" method="post" id="order-mode-selector-form">
+                            @csrf
+
+                            <input type="hidden" name="action" value="updateOrderMode">
+
+                            <div class="h5 mb-3">订单模式：</div>
+
+                            <select class="form-control mb-3 w-100" name="mode" id="order-mode-selector">
+                                <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>
+                                    预购取货
+                                </option>
+                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>
+                                    外送（距离本店5公里内）
+                                </option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <!-- Order mode settings -->
+
+                <!-- Pick up -->
+                <div class="card mb-3" id="pickup-display"
+                     style="{{ $cart->orderMode == 'pickup' ? "" : "display: none;" }}">
+                    <div class="card-body">
+
+                        @if(session()->has('message'))
+                            <div class="alert alert-info text-center" role="alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
                         <form action="{{ url('/ch/cart') }}" method="post">
                             @csrf
-                            <input type="hidden" name="action" value="updateCartSettings">
+                            <input type="hidden" name="action" value="updateCustomerData">
+                            <input type="hidden" name="mode" value="pickup">
 
-                            <select class="form-control mb-3 w-100" name="orderMode">
-                                <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>预购取货</option>
-                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>外送（距离本店5公里内）</option>
-                            </select>
-
-                            @if($cart->orderMode == 'delivery')
-
-                                <input type="hidden" name="customerField" value="enabled">
-
-                                <div class="form-group">
-                                    <label for="name">收货人名字（英语）</label>
-                                    <input type="text"
-                                           class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                           name="name"
-                                           id="name"
-                                           value="{{ $cart->customer->name ?? old('name') ?? "" }}"
-                                           placeholder="请输入可辨识的姓名"/>
-                                    @if ($errors->has('name'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="phone">电话号码</label>
-                                    <input type="text"
-                                           class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                           name="phone"
-                                           id="phone"
-                                           value="{{ $cart->customer->phone ?? old('phone') ?? "" }}"
-                                           placeholder="电话号码">
-                                    @if ($errors->has('phone'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('phone') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="addressLine1">地址</label>
-                                    <input type="text"
-                                           name="addressLine1"
-                                           class="form-control{{ $errors->has('addressLine1') ? ' is-invalid' : '' }}"
-                                           value="{{ $cart->customer->addressLine1 ?? old('addressLine1') ?? "" }}"
-                                           placeholder="门牌/路名"/>
-                                    @if ($errors->has('addressLine1'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('addressLine1') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-{{--                                <div class="form-group">--}}
-{{--                                    <div class="form-row">--}}
-{{--                                        <div class="col">--}}
-{{--                                            <input type="text"--}}
-{{--                                                   name="state"--}}
-{{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
-{{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
-{{--                                                   placeholder="州属"/>--}}
-{{--                                            @if ($errors->has('state'))--}}
-{{--                                                <div class="invalid-feedback">--}}
-{{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col">--}}
-{{--                                            <input type="text" name="area"--}}
-{{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
-{{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
-{{--                                                   placeholder="地区/城市"/>--}}
-{{--                                            @if ($errors->has('area'))--}}
-{{--                                                <div class="invalid-feedback">--}}
-{{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col">--}}
-{{--                                            <input type="text" name="postal_code"--}}
-{{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
-{{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
-{{--                                                   placeholder="邮政编号"/>--}}
-
-{{--                                            @if ($errors->has('postal_code'))--}}
-{{--                                                <div class="invalid-feedback">--}}
-{{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
-                            @else
-
-                                <input type="hidden" name="orderVerifyIdField" value="enabled">
-
-                                <div class="form-group">
-                                    <label for="delivery_id">电话号码</label>
-                                    <input type="text"
-                                           class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
-                                           name="delivery_id"
-                                           id="delivery_id"
-                                           value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
-                                           placeholder="电话号码">
-                                    @if ($errors->has('delivery_id'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('delivery_id') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="form-group">
+                                <label for="delivery_id">电话号码</label>
+                                <input type="text"
+                                       class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
+                                       name="delivery_id"
+                                       id="delivery_id"
+                                       value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
+                                       placeholder="电话号码">
+                                @if ($errors->has('delivery_id'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('delivery_id') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
 
                             <button class="btn btn-primary btn-block" type="submit">保存</button>
                         </form>
+
                     </div>
-                </div><!-- Order mode settings -->
+                </div>
+                <!-- Pick up -->
+
+                <!-- Delivery -->
+                <div class="card mb-3" id="delivery-display"
+                     style="{{ $cart->orderMode == 'delivery' ? "" : "display: none;" }}">
+                    <div class="card-body">
+
+                        @if(session()->has('message'))
+                            <div class="alert alert-info text-center" role="alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ url('/ch/cart') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="action" value="updateCustomerData">
+                            <input type="hidden" name="mode" value="delivery">
+
+                            <div class="form-group">
+                                <label for="name">收货人名字（英语）</label>
+                                <input type="text"
+                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                       name="name"
+                                       id="name"
+                                       value="{{ $cart->customer->name ?? old('name') ?? "" }}"
+                                       placeholder="请输入可辨识的姓名"/>
+                                @if ($errors->has('name'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="phone">电话号码</label>
+                                <input type="text"
+                                       class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
+                                       name="phone"
+                                       id="phone"
+                                       value="{{ $cart->customer->phone ?? old('phone') ?? "" }}"
+                                       placeholder="电话号码">
+                                @if ($errors->has('phone'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="addressLine1">地址</label>
+                                <input type="text"
+                                       name="addressLine1"
+                                       class="form-control{{ $errors->has('addressLine1') ? ' is-invalid' : '' }}"
+                                       value="{{ $cart->customer->addressLine1 ?? old('addressLine1') ?? "" }}"
+                                       placeholder="门牌/路名"/>
+                                @if ($errors->has('addressLine1'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('addressLine1') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+                            {{--                                <div class="form-group">--}}
+                            {{--                                    <div class="form-row">--}}
+                            {{--                                        <div class="col">--}}
+                            {{--                                            <input type="text"--}}
+                            {{--                                                   name="state"--}}
+                            {{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
+                            {{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
+                            {{--                                                   placeholder="州属"/>--}}
+                            {{--                                            @if ($errors->has('state'))--}}
+                            {{--                                                <div class="invalid-feedback">--}}
+                            {{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <div class="col">--}}
+                            {{--                                            <input type="text" name="area"--}}
+                            {{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
+                            {{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
+                            {{--                                                   placeholder="地区/城市"/>--}}
+                            {{--                                            @if ($errors->has('area'))--}}
+                            {{--                                                <div class="invalid-feedback">--}}
+                            {{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <div class="col">--}}
+                            {{--                                            <input type="text" name="postal_code"--}}
+                            {{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
+                            {{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
+                            {{--                                                   placeholder="邮政编号"/>--}}
+
+                            {{--                                            @if ($errors->has('postal_code'))--}}
+                            {{--                                                <div class="invalid-feedback">--}}
+                            {{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </div>--}}
+
+                            <button class="btn btn-primary btn-block" type="submit">保存</button>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Delivery -->
 
                 <!-- Order summary -->
                 <div class="card mb-3">
@@ -302,7 +359,9 @@
                         </ul>
 
                         <form action="/ch/check-out" method="get">
-                            <button class="btn btn-primary btn-block" type="submit" id="submit_btn" {{ $cart->canCheckOut ? "" : "disabled" }}>前往付款</button>
+                            <button class="btn btn-primary btn-block" type="submit"
+                                    id="submit_btn" {{ $cart->canCheckOut ? "" : "disabled" }}>前往付款
+                            </button>
                         </form>
                     </div>
                 </div><!-- Order summary -->
@@ -312,4 +371,12 @@
         </div>
     </main>
 
+@endsection
+
+@section('extraScriptEnd')
+    <script>
+        $(document).on('change', '#order-mode-selector', function () {
+            $('#order-mode-selector-form').submit();
+        });
+    </script>
 @endsection

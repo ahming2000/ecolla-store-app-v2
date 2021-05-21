@@ -140,10 +140,14 @@ class CustomerPageController extends Controller
         $cart = session(Cart::$DEFAULT_SESSION_NAME);
 
         switch ($action){
-            case 'updateCartSettings':
-                $orderMode = request()->get('orderMode');
+            case 'updateOrderMode':
+                $orderMode = request('mode');
+                $cart->changeOrderMode($orderMode);
+                break;
+            case 'updateCustomerData':
+                $orderMode = request('mode');
 
-                if($orderMode == 'delivery' && request()->get('customerField') != null){
+                if($orderMode == 'delivery'){
                     $customerData = request()->validate([
                         'name' => 'required',
                         'phone' => 'required',
@@ -153,16 +157,17 @@ class CustomerPageController extends Controller
 //                        'postal_code' => 'required'
                     ]);
 
+                    $cart->changeOrderMode($orderMode);
                     $cart->updateCustomerData($customerData);
-                } else if($orderMode == 'pickup' && request()->get('orderVerifyIdField') != null){
+                } else if($orderMode == 'pickup'){
                     $pickUpData = request()->validate([
                         'delivery_id' => 'required'
                     ]);
 
-                    $cart->updateOrderVerifyId($pickUpData);
-                } else{
                     $cart->changeOrderMode($orderMode);
+                    $cart->updateOrderVerifyId($pickUpData);
                 }
+
                 break;
             case 'quantityAdjust':
                 $barcode = request()->get('barcode');

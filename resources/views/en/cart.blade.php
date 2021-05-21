@@ -153,130 +153,173 @@
                 <!-- Order mode settings -->
                 <div class="card mb-3">
                     <div class="card-body">
-                        <div class="h5 mb-3">Order Mode：</div>
-                        <form action="{{ url('/en/cart') }}" method="post">
+
+                        <form action="{{ url('/en/cart') }}" method="post" id="order-mode-selector-form">
                             @csrf
-                            <input type="hidden" name="action" value="updateCartSettings">
 
-                            <select class="form-control mb-3 w-100" name="orderMode">
-                                <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>Pick-Up</option>
-                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>Delivery (Within 5KM from store)</option>
+                            <input type="hidden" name="action" value="updateOrderMode">
+
+                            <div class="h5 mb-3">Order Mode：</div>
+
+                            <select class="form-control mb-3 w-100" name="mode" id="order-mode-selector">
+                                <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>
+                                    Pick-Up
+                                </option>
+                                <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>
+                                    Delivery (Within 5KM from store)
+                                </option>
                             </select>
-
-                            @if($cart->orderMode == 'delivery')
-
-                                <input type="hidden" name="customerField" value="enabled">
-
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text"
-                                           class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                           name="name"
-                                           id="name"
-                                           value="{{ $cart->customer->name ?? old('name') ?? "" }}"
-                                           placeholder="Please enter the recognizable name"/>
-                                    @if ($errors->has('name'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input type="text"
-                                           class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                           name="phone"
-                                           id="phone"
-                                           value="{{ $cart->customer->phone ?? old('phone') ?? "" }}"
-                                           placeholder="Phone">
-                                    @if ($errors->has('phone'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('phone') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="addressLine1">Address</label>
-                                    <input type="text"
-                                           name="addressLine1"
-                                           class="form-control{{ $errors->has('addressLine1') ? ' is-invalid' : '' }}"
-                                           value="{{ $cart->customer->addressLine1 ?? old('addressLine1') ?? "" }}"
-                                           placeholder="House/Street Number"/>
-                                    @if ($errors->has('addressLine1'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('addressLine1') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-
-{{--                                <div class="form-group">--}}
-{{--                                    <div class="form-row">--}}
-{{--                                        <div class="col">--}}
-{{--                                            <input type="text"--}}
-{{--                                                   name="state"--}}
-{{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
-{{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
-{{--                                                   placeholder="State"/>--}}
-{{--                                            @if ($errors->has('state'))--}}
-{{--                                                <div class="invalid-feedback">--}}
-{{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col">--}}
-{{--                                            <input type="text" name="area"--}}
-{{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
-{{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
-{{--                                                   placeholder="Area/City"/>--}}
-{{--                                            @if ($errors->has('area'))--}}
-{{--                                                <div class="invalid-feedback">--}}
-{{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col">--}}
-{{--                                            <input type="text" name="postal_code"--}}
-{{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
-{{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
-{{--                                                   placeholder="Postal Code"/>--}}
-
-{{--                                            @if ($errors->has('postal_code'))--}}
-{{--                                                <div class="invalid-feedback">--}}
-{{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
-                            @else
-
-                                <input type="hidden" name="orderVerifyIdField" value="enabled">
-
-                                <div class="form-group">
-                                    <label for="delivery_id">Phone Number</label>
-                                    <input type="text"
-                                           class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
-                                           name="delivery_id"
-                                           id="delivery_id"
-                                           value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
-                                           placeholder="Phone Number">
-                                    @if ($errors->has('delivery_id'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('delivery_id') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-
-                            <button class="btn btn-primary btn-block" type="submit">Save</button>
                         </form>
                     </div>
-                </div><!-- Order mode settings -->
+                </div>
+                <!-- Order mode settings -->
+
+                <!-- Pick up -->
+                <div class="card mb-3" id="pickup-display"
+                     style="{{ $cart->orderMode == 'pickup' ? "" : "display: none;" }}">
+                    <div class="card-body">
+
+                        @if(session()->has('message'))
+                            <div class="alert alert-info text-center" role="alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ url('/en/cart') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="action" value="updateCustomerData">
+                            <input type="hidden" name="mode" value="pickup">
+
+                            <div class="form-group">
+                                <label for="delivery_id">Phone Number</label>
+                                <input type="text"
+                                       class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
+                                       name="delivery_id"
+                                       id="delivery_id"
+                                       value="{{ $cart->deliveryId ?? old('delivery_id') ?? "" }}"
+                                       placeholder="Phone Number">
+                                @if ($errors->has('delivery_id'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('delivery_id') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <button class="btn btn-primary btn-block" type="submit">保存</button>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Pick up -->
+
+                <!-- Delivery -->
+                <div class="card mb-3" id="delivery-display"
+                     style="{{ $cart->orderMode == 'delivery' ? "" : "display: none;" }}">
+                    <div class="card-body">
+
+                        @if(session()->has('message'))
+                            <div class="alert alert-info text-center" role="alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ url('/en/cart') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="action" value="updateCustomerData">
+                            <input type="hidden" name="mode" value="delivery">
+
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text"
+                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                       name="name"
+                                       id="name"
+                                       value="{{ $cart->customer->name ?? old('name') ?? "" }}"
+                                       placeholder="Please enter the recognizable name"/>
+                                @if ($errors->has('name'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text"
+                                       class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
+                                       name="phone"
+                                       id="phone"
+                                       value="{{ $cart->customer->phone ?? old('phone') ?? "" }}"
+                                       placeholder="Phone">
+                                @if ($errors->has('phone'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="addressLine1">Address</label>
+                                <input type="text"
+                                       name="addressLine1"
+                                       class="form-control{{ $errors->has('addressLine1') ? ' is-invalid' : '' }}"
+                                       value="{{ $cart->customer->addressLine1 ?? old('addressLine1') ?? "" }}"
+                                       placeholder="House/Street Number"/>
+                                @if ($errors->has('addressLine1'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('addressLine1') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+                            {{--                                <div class="form-group">--}}
+                            {{--                                    <div class="form-row">--}}
+                            {{--                                        <div class="col">--}}
+                            {{--                                            <input type="text"--}}
+                            {{--                                                   name="state"--}}
+                            {{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
+                            {{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
+                            {{--                                                   placeholder="State"/>--}}
+                            {{--                                            @if ($errors->has('state'))--}}
+                            {{--                                                <div class="invalid-feedback">--}}
+                            {{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <div class="col">--}}
+                            {{--                                            <input type="text" name="area"--}}
+                            {{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
+                            {{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
+                            {{--                                                   placeholder="Area/City"/>--}}
+                            {{--                                            @if ($errors->has('area'))--}}
+                            {{--                                                <div class="invalid-feedback">--}}
+                            {{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <div class="col">--}}
+                            {{--                                            <input type="text" name="postal_code"--}}
+                            {{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
+                            {{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
+                            {{--                                                   placeholder="Postal Code"/>--}}
+
+                            {{--                                            @if ($errors->has('postal_code'))--}}
+                            {{--                                                <div class="invalid-feedback">--}}
+                            {{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            @endif--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </div>--}}
+
+                            <button class="btn btn-primary btn-block" type="submit">保存</button>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Delivery -->
 
                 <!-- Order summary -->
                 <div class="card mb-3">
@@ -310,4 +353,12 @@
         </div>
     </main>
 
+@endsection
+
+@section('extraScriptEnd')
+    <script>
+        $(document).on('change', '#order-mode-selector', function () {
+            $('#order-mode-selector-form').submit();
+        });
+    </script>
 @endsection

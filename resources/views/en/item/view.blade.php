@@ -365,7 +365,7 @@
 
     <script>
         // Convert textarea format to paragraph
-        document.getElementById('desc-display').innerHTML = document.getElementById('desc').value.split('\n').join('<br>').split(' ').join('&nbsp;');
+        document.getElementById('desc-display').innerHTML = document.getElementById('desc').value.split('\n').join('<br>');
     </script>
 
     <script>

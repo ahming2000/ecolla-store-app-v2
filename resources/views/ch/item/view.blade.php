@@ -289,7 +289,7 @@
         <div class="h2" style="font-weight: bold">商品描述</div>
         <div class="row mb-3">
             <div class="col-12">
-                <textarea id="desc" hidden>{{ $item->desc }}</textarea>
+                <textarea class="form-control" id="desc" readonly hidden>{{ $item->desc }}</textarea>
                 <p id="desc-display"></p>
             </div>
         </div>
@@ -362,7 +362,7 @@
 
     <script>
         // Convert textarea format to paragraph
-        document.getElementById('desc-display').innerHTML = document.getElementById('desc').value.split('\n').join('<br>').split(' ').join('&nbsp;');
+        document.getElementById('desc-display').innerHTML = document.getElementById('desc').value.split('\n').join('<br>');
     </script>
 
     <script>

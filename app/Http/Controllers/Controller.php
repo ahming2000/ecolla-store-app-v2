@@ -11,6 +11,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected int $DEFAULT_CATEGORY_COUNT = 4;
+
     protected function getLang(){
         return substr($_SERVER['REQUEST_URI'], 1, 2);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemUtil;
+use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Session\Cart;
 use Illuminate\Http\Request;
@@ -16,8 +17,7 @@ class ItemsController extends Controller
 
     public function index()
     {
-
-        $ITEM_PER_PAGE = DB::table('system_configs')->select('value')->where('name', '=', 'maxRecordsPerPage')->first()->value;
+        $ITEM_PER_PAGE = SystemConfig::where('name', '=', 'clt_i_recordPerPage')->first()->value;
 
         $search = request()->get('search') ?? "";
         $category = request()->get('category') ?? "";

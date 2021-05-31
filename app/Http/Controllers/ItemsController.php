@@ -97,9 +97,9 @@ class ItemsController extends Controller
 
         // Get random item
         if(Item::all()->count() < $MAX_RECOMMEND_COUNT){
-            $randomItems = Item::all() ?? [];
+            $randomItems = Item::where('id', '!=', $item->id) ?? [];
         } else{
-            $randomItems = Item::all()->random($MAX_RECOMMEND_COUNT) ?? [];
+            $randomItems = Item::all()->random($MAX_RECOMMEND_COUNT)->where('id', '!=', $item->id) ?? [];
         }
 
         // Get same category item
@@ -107,7 +107,7 @@ class ItemsController extends Controller
         $count = 0;
         $catIds = array_column($item->categories->toArray(), 'id');
         foreach ($catIds as $catId){
-            if($catId > 10 && $count <= $MAX_RECOMMEND_COUNT){ // Skip default category
+            if($catId > $this->DEFAULT_CATEGORY_COUNT && $count <= $MAX_RECOMMEND_COUNT){ // Skip default category
                 $categoryItems = DB::table('category_item')->where('category_id', '=', $catId)->get()->toArray();
                 foreach($categoryItems as $ci){
                     if($ci->item_id != $item->id) { // Avoid same item

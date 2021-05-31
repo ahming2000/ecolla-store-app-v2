@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/EcollaClient.iml" filepath="$PROJECT_DIR$/.idea/EcollaClient.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../EcollaManagement/.idea/EcollaManagement.iml" filepath="$PROJECT_DIR$/../EcollaManagement/.idea/EcollaManagement.iml" />
     </modules>
   </component>
 </project>

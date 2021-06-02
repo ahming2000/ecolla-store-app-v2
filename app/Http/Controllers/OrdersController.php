@@ -6,6 +6,7 @@ use App\Exceptions\OrderLogicErrorException;
 use App\Models\ItemUtil;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\SystemConfig;
 use App\Session\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +66,7 @@ class OrdersController extends Controller
             'receipt_image' => ['required', 'image']
         ]);
 
-        $prefix = DB::table('system_configs')->where('name', '=', 'orderCodePrefix')->value('value');
+        $prefix = SystemConfig::where('name', '=', 'clt_o_codePrefix')->value('value');
         $dateTime = date('Y-m-d H:i:s');
         $orderCode = $prefix . date_format(date_create($dateTime), "YmdHis");
 
@@ -86,7 +87,7 @@ class OrdersController extends Controller
             ]);
         }
 
-        $orderData['receipt_image'] = "https://" . $_SERVER['SERVER_NAME'] . "/uploads/" . $imagePath;
+        $orderData['receipt_image'] =  $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . "/uploads/" . $imagePath;
 
         $order = new Order();
         foreach ($orderData as $key => $value){

@@ -20,20 +20,6 @@ $cart->start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/609cd8eab1d5182476b87883/1f5iaulqg';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
-
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 
@@ -72,6 +58,32 @@ $cart->start();
         .logo-bt{
             background-color:#303136;
         }
+
+        /* WhatsApp Button */
+        .whatsapp-button{
+            width: 60px;
+            height: 60px;
+            background: #2fe577;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 30px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 100;
+            transition: background 0.25s;
+            outline: blue;
+            border: none;
+            cursor: pointer;
+        }
+        .whatsapp-button:active{
+            background: grey;
+        }
     </style>
 
     @yield('extraStyle')
@@ -83,6 +95,8 @@ $cart->start();
 @yield('extraScript')
 
 <header>
+
+    <a href="https://wa.link/fcfum1" title="通过WhatsApp联系我们！" target="_blank" class="whatsapp-button"><i class="icofont icofont-brand-whatsapp"></i></a>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
         <div class="container" id="nav-container">
@@ -151,9 +165,12 @@ $cart->start();
                 <div class="col-lg-3 col-mb-3 col-sm-3">
                     <h4 class='font-color font-weight-bold'>联系我们</h4>
                     <hr class="footer-hr">
-                    <p class="font-color">
-                        <i class="icofont icofont-facebook pr-2"></i><a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278">Ecolla e口乐</a>
-                    </p>
+                    <span class="font-color">
+                        <i class="icofont icofont-facebook pr-2"></i><a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278">e口乐官方脸书</a>
+                    </span><br>
+                    <span class="font-color">
+                        <i class="icofont icofont-whatsapp pr-2"></i><a href="https://wa.link/fcfum1" target="_blank">WhatsApp 客服</a>
+                    </span>
                 </div>
             </div>
 

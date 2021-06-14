@@ -133,7 +133,7 @@ class ItemsController extends Controller
 
         session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($v->id), $data['quantity']);
 
-        header('refresh: 0');
+        return redirect('/' . $this->getLang() . '/item');
     }
 
     private function viewCountIncrement($item){

@@ -42,7 +42,7 @@
 
             @if(session()->has('message'))
                 <div class="alert alert-info text-center" role="alert">
-                    {{ session('message') }}
+                    {!! session('message') !!}
                 </div>
             @endif
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Item;
+use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Session\Cart;
 use Illuminate\Http\Request;
@@ -14,85 +16,6 @@ class CustomerPageController extends Controller
     public function redirect(){
         $path = $_SERVER['REQUEST_URI'];
         return redirect('ch' . $path);
-    }
-
-    public function index(){
-
-        $adsImages = [];
-        for($i = 1; $i <= 17; $i++){
-            $path = "img/ads/$i.jpeg";
-            $adsImages[] = $path;
-        }
-
-        $hot_items_id = DB::table('items')
-            ->select('items.id')
-            ->join('category_item', 'category_item.item_id', 'items.id')
-            ->join('categories', 'categories.id', 'category_item.category_id')
-            ->where('categories.name', '=', '热卖')
-            ->get();
-
-        $idList = array();
-        foreach ($hot_items_id as $i){
-            $idList[] = $i->id;
-        }
-
-        $hot_items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
-            ->where('item_utils.is_listed', '=', 1)
-            ->whereIn('id', $idList)->get();
-
-        $new_items_id = DB::table('items')
-            ->select('items.id')
-            ->join('category_item', 'category_item.item_id', 'items.id')
-            ->join('categories', 'categories.id', 'category_item.category_id')
-            ->where('categories.name', '=', '新品')
-            ->get();
-
-        $idList = array();
-        foreach ($new_items_id as $i){
-            $idList[] = $i->id;
-        }
-
-        $new_items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
-            ->where('item_utils.is_listed', '=', 1)
-            ->whereIn('id', $idList)->get();
-
-
-        $recommended_items_id = DB::table('items')
-            ->select('items.id')
-            ->join('category_item', 'category_item.item_id', 'items.id')
-            ->join('categories', 'categories.id', 'category_item.category_id')
-            ->where('categories.name', '=', '推荐')
-            ->get();
-
-        $idList = array();
-        foreach ($recommended_items_id as $i){
-            $idList[] = $i->id;
-        }
-
-        $recommended_items = Item::join('item_utils', 'item_utils.item_id', '=', 'items.id')
-            ->where('item_utils.is_listed', '=', 1)
-            ->whereIn('id', $idList)->get();
-
-
-        $itemsGroup = [
-            [
-                'name' => '新品',
-                'name_en' => 'New Product',
-                'items' => $new_items
-            ],
-            [
-                'name' => '热卖',
-                'name_en' => 'Hot Selling',
-                'items' => $hot_items
-            ],
-            [
-                'name' => '推荐',
-                'name_en' => 'Recommended',
-                'items' => $recommended_items
-            ]
-        ];
-
-        return view($this->getLang() . '.index', compact('adsImages', 'itemsGroup'));
     }
 
     public function about(){

@@ -30,8 +30,7 @@ Route::get('/order-tracking', [CustomerPageController::class, 'redirect'])->name
 
 // Chinese customer link
 Route::prefix('ch')->group(function(){
-    Route::get('/', [CustomerPageController::class, 'index'])->name('ch.index');
-    Route::get('/about', [CustomerPageController::class, 'about'])->name('ch.about');
+    Route::get('/', [ItemsController::class, 'index'])->name('ch.index');
     Route::get('/payment-method', [CustomerPageController::class, 'paymentMethod'])->name('ch.paymentMethod');
     Route::get('/cart', [CustomerPageController::class, 'cart'])->name('ch.cart');
     Route::post('/cart', [CustomerPageController::class, 'cartOperation'])->name('ch.cartOperation');
@@ -48,8 +47,7 @@ Route::prefix('ch')->group(function(){
 
 // English customer link
 Route::prefix('en')->group(function (){
-    Route::get('/', [CustomerPageController::class, 'index'])->name('en.index');
-    Route::get('/about', [CustomerPageController::class, 'about'])->name('en.about');
+    Route::get('/', [ItemsController::class, 'index'])->name('en.index');
     Route::get('/payment-method', [CustomerPageController::class, 'paymentMethod'])->name('en.paymentMethod');
     Route::get('/cart', [CustomerPageController::class, 'cart'])->name('en.cart');
     Route::post('/cart', [CustomerPageController::class, 'cartOperation'])->name('ch.cartOperation');

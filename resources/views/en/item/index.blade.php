@@ -6,11 +6,11 @@
 
 @section('extraStyle')
     <style>
-        body main{
+        body main {
             margin-top: 55px;
         }
 
-        .welcome-text{
+        .welcome-text {
             background-image: url({{ asset('img/home/welcome-background.jpeg') }});
             background-position: top;
             background-repeat: no-repeat;
@@ -22,21 +22,21 @@
             text-align: center;
         }
 
-        .highlighted{
+        .highlighted {
             color: #F02B73;
             display: inline;
         }
 
         .slider-control-prev, .slider-control-next {
             position: absolute;
-            background-color: rgba(153,153,153, 0.5);
+            background-color: rgba(153, 153, 153, 0.5);
             border: none;
             font-size: 20px;
             cursor: pointer;
             z-index: 2;
         }
 
-        .slider-control-prev, .slider-control-next{
+        .slider-control-prev, .slider-control-next {
             top: 33%;
         }
 
@@ -61,9 +61,16 @@
         </div>
 
         <div class="container">
+                @if(session()->has('message'))
+                    <div class="alert alert-info text-center" role="alert">
+                        {{ session('message') }}
+                    </div>
+                @endif
             <div class="row mb-3">
 
-                <!-- Item Searching -->
+
+
+            <!-- Item Searching -->
                 <div class="col-sm-12 col-md-6">
                     <form action="{{ url('/en/item') }}" method="get">
                         <div class="form-row">
@@ -90,7 +97,8 @@
                             @if(\App\Models\Category::getListedItemCount($category->id) != 0)
                                 <option
                                     value="{{ $category->name_en }}"{{ @$_GET['category'] == $category->name || @$_GET['category'] == $category->name_en ? " selected" : "" }}>
-                                    {{ $category->name_en }} ({{ \App\Models\Category::getListedItemCount($category->id) }})
+                                    {{ $category->name_en }}
+                                    ({{ \App\Models\Category::getListedItemCount($category->id) }})
                                 </option>
                             @endif
                         @endforeach
@@ -105,7 +113,8 @@
                         <div class="card">
                             @if(!empty($item->images->toArray()))
                                 <a href="{{ url('/en/item/' . $item->name_en) }}">
-                                    <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image" loading="lazy">
+                                    <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image"
+                                         loading="lazy">
                                 </a>
                             @endif
                             <div class="card-body">

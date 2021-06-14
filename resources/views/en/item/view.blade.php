@@ -49,7 +49,7 @@
                 <div class="row">
                     @if($item->getTotalImageCount() == 1)
                         <div class="col-12 mb-3">
-                            loading="lazy" class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"
+                            <img class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"
                             loading="lazy"/>
                         </div>
                     @elseif($item->getTotalImageCount() != 0)

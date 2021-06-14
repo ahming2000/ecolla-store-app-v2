@@ -113,13 +113,14 @@ $cart->start();
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch') }}">主页</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/item') }}">所有商品列表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/item') }}">主页</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/ch/payment-method') }}">付款方式</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/about') }}">关于我们</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/ch/order-tracking') }}">订单追踪</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/cart') }}"><i
-                                class="icofont icofont-shopping-cart mx-1"></i><span><?= $cart->getCartCount() ?></span></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/ch/cart') }}">
+                            <i class="icofont icofont-shopping-cart mx-1"></i><?= $cart->getCartCount() ?>
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             华文
@@ -199,15 +200,13 @@ $cart->start();
         if (getCurrentFileName() === "ch") {
             $(".navbar-nav li:nth-child(1)").addClass("active");
         } else if (getCurrentFileName() === "item") {
-            $(".navbar-nav li:nth-child(2)").addClass("active");
+            $(".navbar-nav li:nth-child(1)").addClass("active");
         } else if (getCurrentFileName() === "payment-method") {
-            $(".navbar-nav li:nth-child(3)").addClass("active");
-        } else if (getCurrentFileName() === "about") {
-            $(".navbar-nav li:nth-child(4)").addClass("active");
+            $(".navbar-nav li:nth-child(2)").addClass("active");
         } else if (getCurrentFileName() === "order-tracking") {
-            $(".navbar-nav li:nth-child(5)").addClass("active");
+            $(".navbar-nav li:nth-child(3)").addClass("active");
         } else if (getCurrentFileName() === "cart") {
-            $(".navbar-nav li:nth-child(6)").addClass("active");
+            $(".navbar-nav li:nth-child(4)").addClass("active");
         }
 
     });

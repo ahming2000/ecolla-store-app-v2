@@ -101,7 +101,7 @@
                                                            value="{{ $cartItem->variation->barcode }}">
                                                     <button type="submit"
                                                             class="btn btn-primary py-2 px-3 card-link-secondary small">
-                                                        <i class="fas fa-trash-alt mr-1"></i>移除
+                                                        <i class="icofont icofont-trash mr-1"></i>移除
                                                     </button>
                                                 </form>
                                             </div>

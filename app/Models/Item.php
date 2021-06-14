@@ -68,6 +68,14 @@ class Item extends Model
         return $total;
     }
 
+    public function getTotalStock(){
+        $total = 0;
+        foreach ($this->variations as $variation){
+            $total += $variation->stock;
+        }
+        return $total;
+    }
+
     public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Variation::class, 'item_id', 'id');

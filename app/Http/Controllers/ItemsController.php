@@ -97,25 +97,30 @@ class ItemsController extends Controller
 
         // Get random item
         if(Item::all()->count() < $MAX_RECOMMEND_COUNT){
-            $randomItems = Item::where('id', '!=', $item->id) ?? [];
+            $randomItems = Item::where('id', '!=', $item->id)->get() ?? [];
         } else{
-            $randomItems = Item::all()->random($MAX_RECOMMEND_COUNT)->where('id', '!=', $item->id) ?? [];
+            $randomItems = Item::all()->where('id', '!=', $item->id)->random($MAX_RECOMMEND_COUNT) ?? [];
         }
 
         // Get same category item
         $mayLikeItems = [];
-        $count = 0;
+        $ids = [];
         $catIds = array_column($item->categories->toArray(), 'id');
         foreach ($catIds as $catId){
-            if($catId > 10 && $count <= $MAX_RECOMMEND_COUNT){ // Skip default category
+            if($catId > 10){ // Skip default category
                 $categoryItems = DB::table('category_item')->where('category_id', '=', $catId)->get()->toArray();
                 foreach($categoryItems as $ci){
                     if($ci->item_id != $item->id) { // Avoid same item
-                        $mayLikeItems[] = Item::find($ci->item_id);
-                        $count++;
+                        $ids[] = $ci->item_id;
                     }
                 }
             }
+        }
+
+        if(sizeof($ids) < $MAX_RECOMMEND_COUNT){
+            $mayLikeItems = Item::whereIn('id', $ids)->get() ?? [];
+        } else {
+            $mayLikeItems = Item::all()->whereIn('id', $ids)->random($MAX_RECOMMEND_COUNT) ?? [];
         }
 
         return view($this->getLang() . '.item.view', compact('item', 'randomItems', 'mayLikeItems'));
@@ -133,7 +138,7 @@ class ItemsController extends Controller
 
         session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($v->id), $data['quantity']);
 
-        header('refresh: 0');
+        return redirect('/' . $this->getLang() . '/item');
     }
 
     private function viewCountIncrement($item){

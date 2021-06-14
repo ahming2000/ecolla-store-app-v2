@@ -14,10 +14,20 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 5;
+    public int $VERSION = 6;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
+    private array $messages = [
+        'ch' => [
+            'addToCart_success' => "成功加入购物篮！<a href='/ch/cart'>点击</a>进入购物篮！",
+            'addToCart_exceedStockLimit' => "库存已到上线！",
+        ],
+        'en' => [
+            'addToCart_success' => "Add to cart successfully! <a href='/en/cart'>Click here</a> to redirect to cart page!",
+            'addToCart_exceedStockLimit' => "Stock exceed the limit!",
+        ],
+    ];
 
     public array $cartItems;
     public string $orderMode;
@@ -70,11 +80,10 @@ class Cart
                 // Only add to max stock
                 if($cartItem->quantity + $quantity > $cartItem->variation->stock){
                     $cartItem->quantity = $cartItem->variation->stock;
-                    // TODO - Convert flash message to only en or ch
-                    Session::flash('message', '库存已到上线！Stock exceed the limit!');
+                    Session::flash('message', $this->messages[$this->getLang()]['addToCart_exceedStockLimit']);
                 } else{
                     $cartItem->quantity += $quantity;
-                    Session::flash('message', '已加入购物篮！Add to cart successfully!');
+                    Session::flash('message', $this->messages[$this->getLang()]['addToCart_success']);
                 }
 
                 $hasNotDuplicated = false;
@@ -83,7 +92,7 @@ class Cart
 
         if($hasNotDuplicated){
             $this->cartItems[] = new CartItem($variation, $quantity);
-            Session::flash('message', '已加入购物篮！Add to cart successfully!');
+            Session::flash('message', $this->messages[$this->getLang()]['addToCart_success']);
         }
 
         $this->pushSessionCart();
@@ -232,6 +241,10 @@ class Cart
 
         $this->pushSessionCart();
         return $fee;
+    }
+
+    private function getLang(){
+        return substr($_SERVER['REQUEST_URI'], 1, 2);
     }
 
 }

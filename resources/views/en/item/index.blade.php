@@ -138,7 +138,7 @@
 
                                 <div class="row">
                                     <div class="col text-left">
-                                        <i class="icofont icofont-cart-alt"></i> {{ $item->util->sold }}
+                                        <i class="icofont icofont-box"></i> {{ $item->getTotalStock() }}
                                     </div>
                                     <div class="col text-right">
                                         <i class="icofont icofont-eye"></i> {{ $item->util->view_count }}

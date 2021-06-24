@@ -302,7 +302,7 @@
                 @foreach($randomItems as $randomItem)
                     <div class="item">
                         <div class="card">
-                            <a href="/ch/item/{{ $randomItem->name }}">
+                            <a href="/ch/item/{{ $randomItem->id }}">
                                 <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}" loading="lazy">
 
                                 <div class="card-body">
@@ -332,7 +332,7 @@
                 @foreach($mayLikeItems as $mayLikeItem)
                     <div class="item">
                         <div class="card">
-                            <a href="/ch/item/{{ $mayLikeItem->name }}">
+                            <a href="/ch/item/{{ $mayLikeItem->id }}">
                                 <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}" loading="lazy">
 
                                 <div class="card-body">

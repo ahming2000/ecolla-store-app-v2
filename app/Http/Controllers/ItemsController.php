@@ -84,6 +84,7 @@ class ItemsController extends Controller
             ->where('item_utils.is_listed', '=', 1)
             ->where('items.name', '=', $name)
             ->orWhere('items.name_en', '=', $name)
+            ->orWhere('items.id', '=', $name)
             ->first();
 
         if ($i == null) {

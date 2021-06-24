@@ -88,13 +88,13 @@
                     <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                         <div class="card">
                             @if(!empty($item->images->toArray()))
-                                <a href="{{ url('/ch/item/' . $item->name) }}">
+                                <a href="{{ url('/ch/item/' . $item->id) }}">
                                     <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image" loading="lazy">
                                 </a>
                             @endif
                             <div class="card-body">
                                 <h6 class="card-title text-truncate">
-                                    <a href="{{ url('/ch/item/' . $item->name) }}">
+                                    <a href="{{ url('/ch/item/' . $item->id) }}">
                                         <span style="color: black">{{ $item->name }}</span>
                                     </a>
                                 </h6>

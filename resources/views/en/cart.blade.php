@@ -31,7 +31,7 @@
                                     <!-- Cart Item Image -->
                                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                                         <div class="view zoom z-depth-1 rounded mb-3">
-                                            <a href="{{ url('/en/item/' . $cartItem->variation->item->name_en) }}">
+                                            <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}">
                                                 <img src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) }}" class="w-100" height="250">
                                             </a>
                                         </div>

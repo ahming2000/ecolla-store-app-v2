@@ -112,14 +112,14 @@
                     <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                         <div class="card">
                             @if(!empty($item->images->toArray()))
-                                <a href="{{ url('/en/item/' . $item->name_en) }}">
+                                <a href="{{ url('/en/item/' . $item->id) }}">
                                     <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image"
                                          loading="lazy">
                                 </a>
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title text-truncate">
-                                    <a href="{{ url('/en/item/' . $item->name_en) }}">
+                                    <a href="{{ url('/en/item/' . $item->id) }}">
                                         <span style="color: black">{{ $item->name_en }}</span>
                                     </a>
                                 </h5>

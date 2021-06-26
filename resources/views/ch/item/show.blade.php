@@ -1,31 +1,20 @@
 @extends('ch.layouts.app')
 
 @section('title')
-    {{ $item->name }} | Ecolla ε口乐
+    {{ $item->name }} | Ecolla e口乐
 @endsection
 
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
-
-    <style>
-        .slider-nav li {
-            display: inline;
-        }
-
-        .no-anchor-style, .no-anchor-style:hover, .no-anchor-style:focus, .no-anchor-style:active {
-            text-decoration: none;
-            color: inherit;
-        }
-    </style>
 @endsection
 
 @section('content')
 
     <main class="container">
 
-        <!-- Breadcrumb -->
+        {{-- Breadcrumb --}}
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/ch/item') }}">商品列表</a></li>
@@ -33,13 +22,15 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ $item->name }}</li>
             </ol>
         </nav>
-        <!-- Breadcrumb -->
+        {{-- Breadcrumb --}}
 
+        {{-- Message --}}
         @if(session()->has('message'))
             <div class="alert alert-info text-center" role="alert">
                 {{ session('message') }}
             </div>
         @endif
+        {{-- Message --}}
 
         <div class="row">
 
@@ -97,7 +88,7 @@
             <div class="col-12 col-lg-7 mb-4 p-4">
                 <div class="row">
 
-                    <!-- Item category badge -->
+                    {{-- Item category badge --}}
                     <div class="col-12 mb-3">
                         @foreach($item->categories as $cat)
                             <a class="no-anchor-style" href="{{ url('/ch/item?category=' . $cat->name) }}">
@@ -108,18 +99,22 @@
                             </a>
                         @endforeach
                     </div>
-                    <!-- Item category badge -->
+                    {{-- Item category badge --}}
 
+                    {{-- Item Name --}}
                     <div class="col-12">
                         <div class="h2 font-weight-bold">{{ $item->name }}</div>
                     </div>
+                    {{-- Item Name --}}
 
+                    {{-- Item Util Info --}}
                     <div class="col-12">
                         <div class="h6 text-muted">
                             <span>已售出 {{ $item->util->sold }} 个</span> |
                             <span>{{ $item->util->view_count }} 次浏览</span>
                         </div>
                     </div>
+                    {{-- Item Util Info --}}
 
                     <div class="col-12 mb-3">
 
@@ -201,13 +196,14 @@
                     </div>
 
                     <div class="col-12">
+
                         <form action="{{ url('/ch/item/' . $item->name) }}" method="post">
 
                             @csrf
 
                             <div class="row mb-3">
 
-                                <!-- Property selector -->
+                                {{-- Property selector --}}
                                 <div class="col-xs-12 col-sm-4">
                                     <div class="h5">规格：</div>
                                 </div>
@@ -235,11 +231,11 @@
                                         @endforeach
                                     </ol>
                                 </div>
-                                <!-- Property selector -->
+                                {{-- Property selector --}}
                             </div>
 
                             <div class="row mb-3 text-center">
-                                <!-- Quantity control interface -->
+                                {{-- Quantity control interface --}}
                                 <div class="col-xs-12 col-sm-7 col-lg-6 quantity-button-control mt-2">
                                     <button type="button"
                                             class="btn btn-primary btn-sm quantity-decrease-button"
@@ -253,26 +249,26 @@
                                         +
                                     </button>
                                 </div>
-                                <!-- Quantity control interface -->
+                                {{-- Quantity control interface --}}
 
-                                <!-- Submit button -->
+                                {{-- Submit button --}}
                                 <div class="col-xs-12 col-sm-5 col-lg-6">
                                     <button class="btn btn-primary" type="submit"
                                             id="add-to-cart-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
                                         <i class="icofont icofont-shopping-cart ml-1"></i> 加入购物车
                                     </button>
                                 </div>
-                                <!-- Submit button -->
+                                {{-- Submit button --}}
 
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- Item Purchasing Option -->
+            {{-- Item Purchasing Option --}}
         </div>
 
-        <!-- Item Description -->
+        {{-- Item Description --}}
         <div class="h2" style="font-weight: bold">商品描述</div>
         <div class="row mb-3">
             <div class="col-12">
@@ -280,9 +276,9 @@
                 <p id="desc-display"></p>
             </div>
         </div>
-        <!-- Item Description -->
+        {{-- Item Description --}}
 
-        <!-- Recommendation (Random) -->
+        {{-- Recommendation (Random) --}}
         <div class="h2">你可能喜欢</div>
         <div class="row mb-3">
             <div class="owl-carousel mousescroll owl-theme">
@@ -311,9 +307,9 @@
                 @endforeach
             </div>
         </div>
-        <!-- Recommendation (Random) -->
+        {{-- Recommendation (Random) --}}
 
-        <!-- Similar (Same category) -->
+        {{-- Similar (Same category) --}}
         <div class="h2">类似商品</div>
         <div class="row mb-3">
             <div class="owl-carousel mousescroll owl-theme">
@@ -342,13 +338,12 @@
                 @endforeach
             </div>
         </div>
-        <!-- Similar (Same category) -->
+        {{-- Similar (Same category) --}}
 
     </main>
 @endsection
 
 @section('script')
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
     <script src="{{ asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>

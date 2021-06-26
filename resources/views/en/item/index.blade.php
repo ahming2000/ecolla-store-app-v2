@@ -11,7 +11,7 @@
         }
 
         .welcome-text {
-            background-image: url({{ asset('img/home/welcome-background.jpeg') }});
+            background-image: url({{ asset('img/welcome.jpeg') }});
             background-position: top;
             background-repeat: no-repeat;
             background-size: cover;
@@ -52,9 +52,8 @@
 
             <div class="row mb-3">
 
-
                 <!-- Search -->
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 mb-2">
                     <form action="{{ url('/en/item') }}" method="get">
                         <div class="d-flex justify-content-between">
                             <div class="flex-grow-1 me-2">
@@ -73,7 +72,7 @@
                 <!-- Search -->
 
                 <!-- Category Filter -->
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 mb-2">
                     <select class="form-select shadow" name="category" id="categorySelector">
                         <option value="">
                             All ({{ \App\Models\Item::getListedCount() }})
@@ -91,6 +90,7 @@
                     </select>
                 </div>
                 <!-- Category Filter -->
+
             </div>
 
             <div class="row mb-3">

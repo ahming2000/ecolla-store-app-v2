@@ -93,7 +93,7 @@ $cart->start();
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
         <div class="container" id="nav-container">
             <a class="navbar-brand" href="{{ url('/en') }}">
-                <img src="{{asset('img/icon/ecolla_icon.png')}}"
+                <img src="{{asset('img/ecolla_icon.png')}}"
                      width="30" height="30"
                      class="d-inline-block align-top"
                      alt="" loading="lazy">
@@ -106,7 +106,7 @@ $cart->start();
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/en/item') }}">Home Page</a>
+                        <a class="nav-link" href="{{ url('/en/item') }}">Item List</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/en/payment-method') }}">Payment Method</a>
@@ -178,7 +178,7 @@ $cart->start();
     <div class="row m-0 pt-3 pb-3 logo-bt">
         <div class="col">
             <div class="text-center">
-                <img src="{{asset('img/icon/ecolla_icon.png')}}" width="20" height="20" alt="logo" loading="lazy">
+                <img src="{{asset('img/ecolla_icon.png')}}" width="20" height="20" alt="logo" loading="lazy">
                 <span class="font-color">e口乐 Ecolla</span>
             </div>
         </div>

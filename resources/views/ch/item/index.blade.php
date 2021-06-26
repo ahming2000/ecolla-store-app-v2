@@ -11,7 +11,7 @@
         }
 
         .welcome-text {
-            background-image: url({{ asset('img/home/welcome-background.jpeg') }});
+            background-image: url({{ asset('img/welcome.jpeg') }});
             background-position: top;
             background-repeat: no-repeat;
             background-size: cover;

@@ -19,7 +19,7 @@
 
                         @if($cart->getCartCount() == 0)
                             <div class="text-center">
-                                <img src="{{ asset('img/icon/empty-cart.png') }}" width="150" height="150"/>
+                                <img src="{{ asset('img/empty-cart.png') }}" width="150" height="150"/>
                                 <div class="h5 p-2">您的购物车为空</div>
                             </div>
                         @endif

@@ -1,7 +1,7 @@
-@extends('en.layouts.customer')
+@extends('en.layouts.app')
 
 @section('title')
-    {{ $item->name }} | Ecolla ε口乐
+    {{ $item->name_en }} | Ecolla ε口乐
 @endsection
 
 @section('extraStyle')

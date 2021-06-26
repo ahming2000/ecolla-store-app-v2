@@ -1,4 +1,4 @@
-@extends('ch.layouts.customer')
+@extends('ch.layouts.app')
 
 @section('title')
     付款 | Ecolla e口乐

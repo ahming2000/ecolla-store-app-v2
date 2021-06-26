@@ -1,4 +1,4 @@
-@extends('en.layouts.customer')
+@extends('en.layouts.app')
 
 @section('title')
     Cart | Ecolla ε口乐

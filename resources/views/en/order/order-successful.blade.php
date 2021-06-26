@@ -1,4 +1,4 @@
-@extends('en.layouts.customer')
+@extends('en.layouts.app')
 
 @section('title')
     下单成功 | Ecolla ε口乐

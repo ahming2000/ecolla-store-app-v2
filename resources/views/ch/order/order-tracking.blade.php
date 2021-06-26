@@ -1,4 +1,4 @@
-@extends('ch.layouts.customer')
+@extends('ch.layouts.app')
 
 @section('content')
     <main class="container"> <!--put content-->

@@ -124,7 +124,7 @@ class ItemsController extends Controller
             $mayLikeItems = Item::all()->whereIn('id', $ids)->random($MAX_RECOMMEND_COUNT) ?? [];
         }
 
-        return view($this->getLang() . '.item.view', compact('item', 'randomItems', 'mayLikeItems'));
+        return view($this->getLang() . '.item.show', compact('item', 'randomItems', 'mayLikeItems'));
     }
 
     public function addToCart(string $name)

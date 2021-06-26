@@ -1,10 +1,10 @@
-@extends('ch.layouts.customer')
+@extends('ch.layouts.app')
 
 @section('title')
     {{ $item->name }} | Ecolla ε口乐
 @endsection
 
-@section('extraStyle')
+@section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
@@ -13,13 +13,12 @@
         .slider-nav li {
             display: inline;
         }
-    </style>
-@endsection
 
-@section('extraScript')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
-    <script src="{{ asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>
+        .no-anchor-style, .no-anchor-style:hover, .no-anchor-style:focus, .no-anchor-style:active {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -27,7 +26,7 @@
     <main class="container">
 
         <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/ch/item') }}">商品列表</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $item->origin }}出产</li>
@@ -40,88 +39,77 @@
             <div class="alert alert-info text-center" role="alert">
                 {{ session('message') }}
             </div>
-    @endif
+        @endif
 
-    <!-- Item Information -->
         <div class="row">
-            <!-- Item Images Slider -->
-            <div class="col-md-5 mb-4">
-                <div class="row">
-                    @if($item->getTotalImageCount() == 1 && !empty($item->images->toArray()))
-                        <div class="col-12 mb-3">
-                            <img class="img-fluid general-img" src="{{ asset($item->images[0]->image) }}"
-                                 loading="lazy"/>
-                        </div>
-                    @elseif($item->getTotalImageCount() != 0)
-                        <div class="col-12 slider-control-main-container mb-3">
-                            <div class="slider-control-prev rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}" loading="lazy"/>
-                            </div>
-                            <div class="slider-control-next rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}" loading="lazy"/>
-                            </div>
-                            <div class="slider-container">
 
+            <div class="col-12 col-lg-5 mb-4">
+
+                <div class="row">
+
+                    {{-- Image Slider --}}
+                    <div class="col-12 mb-3 slider-main-container">
+                        <button class="slider-control-prev"><</button>
+                        <div class="slider-container">
+                            @if($item->images != null)
                                 @foreach($item->images as $img)
-                                    <img class="img-fluid general-img" src="{{ asset($img->image) }}" loading="lazy"/>
+                                    <img class="img-fluid general-img"
+                                         src="{{ asset($img->image) }}" loading="lazy" alt="">
                                 @endforeach
+                            @endif
 
-                                @foreach($item->variations as $v)
-                                    @if($v->image != null)
-                                        <img class="img-fluid variety-img" id="img-{{ $v->barcode }}"
-                                             src="{{ asset($v->image) }}" loading="lazy"/>
-                                    @endif
-                                @endforeach
-
-                            </div>
-                        </div>
-                        <div class="col-12 slider-control-nav-container mb-3">
-                            <div class="slider-nav-control-prev rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/prev-button-alt.png') }}" loading="lazy"/>
-                            </div>
-                            <div class="slider-nav-control-next rounded">
-                                <img class="img-fluid" src="{{ asset('img/alt/next-button-alt.png') }}" loading="lazy"/>
-                            </div>
-                            <div class="slider-nav-container">
-                                <ul class="slider-nav">
-
-                                    @foreach($item->images as $img)
-                                        <li><img class="img-fluid" style="max-height: 100px" src="{{ $img->image }}"
-                                                 loading="lazy"/></li>
-                                    @endforeach
-
-
-                                    @foreach($item->variations as $v)
-                                        @if($v->image != null)
-                                            <li><img class="img-fluid" style="max-height: 100px" src="{{ $v->image }}"
-                                                     loading="lazy"/></li>
-                                        @endif
-                                    @endforeach
-
-                                </ul>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-            <!-- Item Images Slider -->
-
-            <!-- Item Purchasing Option -->
-            <div class="col-md-7 mb-4 p-4">
-                <div class="row">
-                    <!-- Item category badge -->
-                    <div class="col-12 mb-3">
-                        <div class="row">
-                            @foreach($item->categories as $cat)
-                                <a href="{{ url('/ch/item?category=' . $cat->name) }}">
-                                    <span class="badge badge-pill secondary-color mr-1 p-2">{{ $cat->name }}</span>
-                                </a>
+                            @foreach($item->variations as $v)
+                                @if($v->image != null)
+                                    <img class="img-fluid variety-img" id="img-{{ $v->barcode }}"
+                                         src="{{ asset($v->image) }}" loading="lazy" alt="">
+                                @endif
                             @endforeach
                         </div>
+                        <button class="slider-control-next">></button>
+                    </div>
+                    {{-- Image Slider --}}
+
+                    {{-- Slider Navigator --}}
+                    <div class="col-12 mb-3">
+                        <ul class="slider-nav">
+                            @foreach($item->images as $img)
+                                <li class="me-1">
+                                    <img class="img-fluid" style="max-height: 100px"
+                                         src="{{ $img->image }}" loading="lazy" alt="">
+                                </li>
+                            @endforeach
+
+                            @foreach($item->variations as $v)
+                                @if($v->image != null)
+                                    <li class="me-1">
+                                        <img class="img-fluid" style="max-height: 100px"
+                                             src="{{ $v->image }}" loading="lazy" alt="">
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    {{-- Slider Navigator --}}
+
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-7 mb-4 p-4">
+                <div class="row">
+
+                    <!-- Item category badge -->
+                    <div class="col-12 mb-3">
+                        @foreach($item->categories as $cat)
+                            <a class="no-anchor-style" href="{{ url('/ch/item?category=' . $cat->name) }}">
+                                <span class="badge rounded-pill mr-1 p-2"
+                                      style="background-color: mediumpurple">
+                                    {{ $cat->name }}
+                                </span>
+                            </a>
+                        @endforeach
                     </div>
                     <!-- Item category badge -->
 
-                    <!-- Item information -->
                     <div class="col-12">
                         <div class="h2 font-weight-bold">{{ $item->name }}</div>
                     </div>
@@ -152,7 +140,7 @@
                                             RM{{ number_format($v->price * $v->discount->rate, 2, '.', '') }}
                                         </strong>
                                     </span>
-                                    <span class="badge badge-danger mr-1">
+                                    <span class="badge rounded-pill bg-danger mr-1">
                                         {{ number_format((1 - $v->discount->rate) * 100, 0, '.', '') }}% OFF
                                     </span>
                                     <br>
@@ -179,7 +167,7 @@
                                                 <span class="orange-text font-weight-bold">
                                                     <strong>RM{{ number_format($v->price * $w->rate, 2, '.', '') }}</strong>
                                                 </span>
-                                                <span class="badge badge-warning mr-1">
+                                                <span class="badge rounded-pill bg-warning mr-1">
                                                     {{ number_format((1 - $w->rate) * 100, 0, '.', '') }}% OFF
                                                 </span>
                                                 <span class="grey-text mr-1" style="font-size: 10px">
@@ -211,7 +199,6 @@
                             @endforeach
                         @endif
                     </div>
-                    <!-- Item information -->
 
                     <div class="col-12">
                         <form action="{{ url('/ch/item/' . $item->name) }}" method="post">
@@ -242,7 +229,7 @@
                                                        value="{{ $v->stock }}" hidden/>
                                                 {{ $v->name }}
                                                 @if($v->stock == 0)
-                                                    <span class="badge badge-danger mx-1">已售完<span>
+                                                    <span class="badge rounded-pill bg-danger mx-1">已售完<span>
                                                 @endif
                                             </li>
                                         @endforeach
@@ -270,12 +257,13 @@
 
                                 <!-- Submit button -->
                                 <div class="col-xs-12 col-sm-5 col-lg-6">
-                                    <button class="btn secondary-color" type="submit"
+                                    <button class="btn btn-primary" type="submit"
                                             id="add-to-cart-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
-                                        加入购物车<i class="icofont icofont-shopping-cart ml-1"></i>
+                                        <i class="icofont icofont-shopping-cart ml-1"></i> 加入购物车
                                     </button>
                                 </div>
                                 <!-- Submit button -->
+
                             </div>
                         </form>
                     </div>
@@ -283,7 +271,6 @@
             </div>
             <!-- Item Purchasing Option -->
         </div>
-        <!-- Item Information -->
 
         <!-- Item Description -->
         <div class="h2" style="font-weight: bold">商品描述</div>
@@ -301,13 +288,13 @@
             <div class="owl-carousel mousescroll owl-theme">
                 @foreach($randomItems as $randomItem)
                     <div class="item">
-                        <div class="card">
-                            <a href="/ch/item/{{ $randomItem->id }}">
+                        <a class="no-anchor-style" href="/ch/item/{{ $randomItem->id }}">
+                            <div class="card">
+
                                 <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}" loading="lazy">
 
                                 <div class="card-body">
-                                    <h5 class="card-title text-truncate"
-                                        style="color: black">{{ $randomItem->name }}</h5>
+                                    <div class="h5 card-title text-truncate">{{ $randomItem->name }}</div>
                                     <p class="card-text text-muted">
                                         @if($randomItem->getPriceRange()['min'] == $randomItem->getPriceRange()['max'])
                                             RM{{ $randomItem->getPriceRange()['min'] }}
@@ -317,8 +304,9 @@
                                         @endif
                                     </p>
                                 </div>
-                            </a>
-                        </div>
+
+                            </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -331,13 +319,13 @@
             <div class="owl-carousel mousescroll owl-theme">
                 @foreach($mayLikeItems as $mayLikeItem)
                     <div class="item">
-                        <div class="card">
-                            <a href="/ch/item/{{ $mayLikeItem->id }}">
+                        <a class="no-anchor-style" href="/ch/item/{{ $mayLikeItem->id }}">
+                            <div class="card">
+
                                 <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}" loading="lazy">
 
                                 <div class="card-body">
-                                    <h5 class="card-title text-truncate"
-                                        style="color: black">{{ $mayLikeItem->name }}</h5>
+                                    <div class="h5 card-title text-truncate">{{ $mayLikeItem->name }}</div>
                                     <p class="card-text text-muted">
                                         @if($mayLikeItem->getPriceRange()['min'] == $mayLikeItem->getPriceRange()['max'])
                                             RM{{ $mayLikeItem->getPriceRange()['min'] }}
@@ -347,8 +335,9 @@
                                         @endif
                                     </p>
                                 </div>
-                            </a>
-                        </div>
+
+                            </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -358,7 +347,11 @@
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+    <script src="{{ asset('vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-mousewheel-master/jquery.mousewheel.min.js') }}"></script>
 
     <script>
         // Convert textarea format to paragraph
@@ -400,63 +393,34 @@
         });
     </script>
 
-    @if($item->getTotalImageCount() > 1)
-        <script>
-            var slider = tns({
-                container: '.slider-container',
-                items: 1,
+    <script>
+        let slider = tns({
+            container: '.slider-container',
+            items: 1,
 
-                controlsContainer: '.slider-control-main-container',
-                prevButton: '.slider-control-prev',
-                nextButton: '.slider-control-next',
+            prevButton: '.slider-control-prev',
+            nextButton: '.slider-control-next',
 
-                navContainer: '.slider-nav',
-                navAsThumbnails: true,
+            navContainer: '.slider-nav',
+            navAsThumbnails: true,
 
-                autoplay: true,
-                autoplayHoverPause: true,
-                autoplayButtonOutput: false,
-            });
+            autoplay: true,
+            autoplayHoverPause: true,
+            autoplayButtonOutput: false,
+        });
 
-            // Start autoplay
-            slider.play();
+        // Start autoplay
+        slider.play();
 
-            var sliderNav = tns({
-                container: '.slider-nav',
-
-                controlsContainer: '.slider-control-nav-container',
-                prevButton: '.slider-nav-control-prev',
-                nextButton: '.slider-nav-control-next',
-
-                nav: false,
-                loop: false,
-                mouseDrag: true,
-
-                responsive: {
-                    992: {
-                        items: {{ $item->getTotalImageCount() <= 5 ? strval($item->getTotalImageCount() - 1) : '5' }},
-                        slideBy: 4,
-                    },
-                    768: {
-                        items: {{ $item->getTotalImageCount() <= 3 ? strval($item->getTotalImageCount() - 1) : '3' }},
-                        slideBy: 4,
-                    },
-                    576: {
-                        items: {{ $item->getTotalImageCount() <= 4 ? strval($item->getTotalImageCount() - 1) : '4' }},
-                        slideBy: 1,
-                    },
-                    288: {
-                        items: {{ $item->getTotalImageCount() <= 3 ? strval($item->getTotalImageCount() - 1) : '3' }},
-                        slideBy: 1,
-                    },
-                    100: {
-                        items: {{ $item->getTotalImageCount() <= 2 ? strval($item->getTotalImageCount() - 1) : '2' }},
-                        slideBy: 1,
-                    }
-                },
-            });
-        </script>
-    @endif
+        let sliderNav = tns({
+            container: '.slider-nav',
+            nav: false,
+            loop: false,
+            mouseDrag: true,
+            controls: false,
+            items: 5,
+        });
+    </script>
 
 
     <script>

@@ -1,10 +1,10 @@
-@extends('en.layouts.customer')
+@extends('en.layouts.app')
 
 @section('title')
     Ecolla Official Snack Shop
 @endsection
 
-@section('extraStyle')
+@section('style')
     <style>
         body main {
             margin-top: 55px;
@@ -27,33 +27,15 @@
             display: inline;
         }
 
-        .slider-control-prev, .slider-control-next {
-            position: absolute;
-            background-color: rgba(153, 153, 153, 0.5);
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .slider-control-prev, .slider-control-next {
-            top: 33%;
-        }
-
-        .slider-control-prev {
-            right: 91%;
-            margin-left: 17px;
-        }
-
-        .slider-control-next {
-            left: 91%;
-            margin-right: 17px;
+        .price-text-normal {
+            color: brown;
         }
     </style>
 @endsection
 
 @section('content')
     <main>
+
         <div class="welcome-text mb-3">
             Welcome to
             <div class="highlighted">Ecolla</div>
@@ -61,34 +43,38 @@
         </div>
 
         <div class="container">
-                @if(session()->has('message'))
-                    <div class="alert alert-info text-center" role="alert">
-                        {!! session('message') !!}
-                    </div>
-                @endif
+
+            @if(session()->has('message'))
+                <div class="alert alert-info text-center" role="alert">
+                    {!! session('message') !!}
+                </div>
+            @endif
+
             <div class="row mb-3">
 
 
 
-            <!-- Item Searching -->
+            <!-- Search -->
                 <div class="col-sm-12 col-md-6">
                     <form action="{{ url('/en/item') }}" method="get">
-                        <div class="form-row">
-                            <div class="col-10">
-                                <input type="text" class="form-control" maxlength="20" name="search"
-                                       value="{{ $_GET["search"] ?? "" }}"/>
+                        <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1 me-2">
+                                <input type="text" class="form-control shadow" maxlength="20" name="search"
+                                       value="{{ $_GET["search"] ?? "" }}" placeholder="Search name, barcode, variation, origin, item desc">
                             </div>
-                            <div class="col-2">
-                                <button type="submit" class="btn btn-primary p-2 mt-0">Search</button>
+                            <div>
+                                <button type="submit" class="btn btn-primary shadow">
+                                    <i class="icofont icofont-search"></i> Search
+                                </button>
                             </div>
                         </div>
                     </form>
-                </div><!-- Item Searching -->
+                </div>
+                <!-- Search -->
 
                 <!-- Category Filter -->
                 <div class="col-sm-12 col-md-6">
-
-                    <select name="category" id="categorySelector" class="custom-select w-100 mb-3">
+                    <select class="form-select shadow" name="category" id="categorySelector">
                         <option value="">
                             All ({{ \App\Models\Item::getListedCount() }})
                         </option>
@@ -103,63 +89,78 @@
                             @endif
                         @endforeach
                     </select>
-                </div><!-- Category Filter -->
+                </div>
+                <!-- Category Filter -->
             </div>
-
 
             <div class="row mb-3">
                 @foreach($items as $item)
-                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                        <div class="card">
+                    <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
+                        <div class="card shadow" onclick="window.location.href = '{{ url('/en/item/' . $item->id) }}'">
+
+                            {{-- Image --}}
                             @if(!empty($item->images->toArray()))
                                 <a href="{{ url('/en/item/' . $item->id) }}">
                                     <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image"
                                          loading="lazy">
                                 </a>
                             @endif
-                            <div class="card-body">
-                                <h5 class="card-title text-truncate">
-                                    <a href="{{ url('/en/item/' . $item->id) }}">
-                                        <span style="color: black">{{ $item->name_en }}</span>
-                                    </a>
-                                </h5>
+                            {{-- Image --}}
 
-                                <span style="color: brown;">
-                                @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
+                            <div class="card-body">
+
+                                {{-- Title --}}
+                                <div class="h5 card-title text-truncate">
+                                    {{ $item->name_en }}
+                                </div>
+                                {{-- Title --}}
+
+                                {{-- Price --}}
+                                <span class="price-text-normal">
+                                    @if($item->getPriceRange()['min'] == $item->getPriceRange()['max'])
                                         RM{{ $item->getPriceRange()['min'] }}
                                     @else
                                         RM{{ $item->getPriceRange()['min'] }} - RM{{ $item->getPriceRange()['max'] }}
                                     @endif
-                            </span>
+                                </span>
+                                {{-- Price --}}
 
+                                {{-- Wholesale Badge --}}
                                 @if(!empty($item->discounts->toArray()))
-                                    <span class="badge badge-info">Wholesale</span>
+                                    <span class="badge rounded-pill bg-info">Wholesale</span>
                                 @endif
+                                {{-- Wholesale Badge --}}
 
-                                <div class="row">
-                                    <div class="col text-left">
+                                {{-- Stock & Total View --}}
+                                <div class="d-flex justify-content-between">
+                                    <div>
                                         <i class="icofont icofont-box"></i> {{ $item->getTotalStock() }}
                                     </div>
-                                    <div class="col text-right">
+                                    <div>
                                         <i class="icofont icofont-eye"></i> {{ $item->util->view_count }}
                                     </div>
                                 </div>
+                                {{-- Stock & Total View --}}
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
 
+            {{-- Pagination Links --}}
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-center">
                     {{ $items->links() }}
                 </div>
             </div>
+            {{-- Pagination Links --}}
+
         </div>
+
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).ready(function () {
             // Category bar onchange bar

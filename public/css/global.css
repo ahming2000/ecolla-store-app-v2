@@ -1,3 +1,26 @@
+/* Space between header and content */
+body main {
+    margin-top: 80px;
+}
+
+/* Global background color */
+body {
+    background-color: #EEEEEE;
+}
+
+/* Item page breadcrumb */
+.breadcrumb {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Remove anchor style */
+.no-anchor-style, .no-anchor-style:hover, .no-anchor-style:focus, .no-anchor-style:active {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* Input arrow disable */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -15,6 +38,10 @@ input[type=number] {
     align-items: center;
     display: flex;
     position: relative;
+}
+
+.slider-nav li {
+    display: inline;
 }
 
 .slider-control-prev, .slider-control-next{
@@ -62,28 +89,4 @@ input[type=number] {
 .carousel-inner.vv-3 .carousel-item-right,
 .carousel-inner.vv-3 .carousel-item-left {
     transform: translateX(0);
-}
-
-/***** Global css *****/
-/* Space between header and content */
-body main {
-    margin-top: 80px;
-}
-
-/* Global background color */
-body {
-    background-color: #EEEEEE;
-}
-
-/* Item page breadcrumb */
-.breadcrumb {
-    background-color: white;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-/* Remove anchor style */
-.no-anchor-style, .no-anchor-style:hover, .no-anchor-style:focus, .no-anchor-style:active {
-    text-decoration: none;
-    color: inherit;
 }

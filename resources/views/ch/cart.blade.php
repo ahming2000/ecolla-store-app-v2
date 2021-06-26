@@ -373,7 +373,7 @@
 
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).on('change', '#order-mode-selector', function () {
             $('#order-mode-selector-form').submit();

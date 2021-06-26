@@ -4,7 +4,7 @@
     Payment | Ecolla e口乐
 @endsection
 
-@section('extraStyle')
+@section('style')
     <style>
         div.payment-method.active {
             border: 2px solid #00BFFF;
@@ -91,7 +91,7 @@
 
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init(); //For uploaded file name to show

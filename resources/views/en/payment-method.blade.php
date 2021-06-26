@@ -30,7 +30,7 @@
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).ready(function () {
             $(".payment-method").on("click", function () {

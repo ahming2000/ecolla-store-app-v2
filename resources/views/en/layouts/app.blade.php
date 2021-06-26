@@ -76,8 +76,6 @@ $cart->start();
 
     @yield('style')
 
-    @yield('extraStyle') {{-- TODO - Plan to remove later on --}}
-
 </head>
 
 <body>
@@ -187,38 +185,7 @@ $cart->start();
     </div>
 </footer>
 
-<script>
-    $(document).ready(function () {
-
-        function getCurrentFileName() {
-            const pagePathName = $(location).attr('href');
-            return pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
-        }
-
-        if (getCurrentFileName() === "en") {
-            $(".navbar-nav li:nth-child(1)").addClass("active");
-            $(".navbar-nav li:nth-child(1)").attr("aria-current", "page");
-        } else if (getCurrentFileName() === "item") {
-            $(".navbar-nav li:nth-child(1)").addClass("active");
-            $(".navbar-nav li:nth-child(1)").attr("aria-current", "page");
-        } else if (getCurrentFileName() === "payment-method") {
-            $(".navbar-nav li:nth-child(2)").addClass("active");
-            $(".navbar-nav li:nth-child(2)").attr("aria-current", "page");
-        }else if (getCurrentFileName() === "order-tracking") {
-            $(".navbar-nav li:nth-child(3)").addClass("active");
-            $(".navbar-nav li:nth-child(3)").attr("aria-current", "page");
-        } else if (getCurrentFileName() === "cart") {
-            $(".navbar-nav li:nth-child(4)").addClass("active");
-            $(".navbar-nav li:nth-child(4)").attr("aria-current", "page");
-        }
-    });
-</script>
-
 @yield('script')
-
-@yield('extraScript') {{-- TODO - Plan to remove later on --}}
-
-@yield('extraScriptEnd') {{-- TODO - Plan to remove later on --}}
 
 </body>
 </html>

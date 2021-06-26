@@ -14,19 +14,11 @@ $cart->start();
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-xs-kit.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('vendor/icofont/icofont.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 
@@ -36,10 +28,6 @@ $cart->start();
         }
 
         /* Header */
-        .navbar{
-            transition: background-color 0.5s;
-        }
-
         #nav-container *{
             font-weight: bolder;
             color: #F02B73;
@@ -51,7 +39,7 @@ $cart->start();
         }
         .footer-hr{
             border: 0;
-            border-top: 2px solid hotpink;
+            border-top: 2px solid #F02B73;
             width: 90px;
             margin: 0 0 20px;
         }
@@ -86,57 +74,67 @@ $cart->start();
         }
     </style>
 
-    @yield('extraStyle')
+    @yield('style')
+
+    @yield('extraStyle') {{-- TODO - Plan to remove later on --}}
 
 </head>
 
 <body>
 
-@yield('extraScript')
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <header>
 
-    <a href="https://wa.link/fcfum1" title="通过WhatsApp联系我们！" target="_blank" class="whatsapp-button"><i class="icofont icofont-brand-whatsapp"></i></a>
+    <a href="https://wa.link/2e1z4h" title="Contact Us with WhatsApp!" target="_blank" class="whatsapp-button">
+        <i class="icofont icofont-brand-whatsapp"></i>
+    </a>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
         <div class="container" id="nav-container">
-            <a class="navbar-brand" href="{{ url('/ch') }}">
+            <a class="navbar-brand" href="{{ url('/en') }}">
                 <img src="{{asset('img/icon/ecolla_icon.png')}}"
                      width="30" height="30"
                      class="d-inline-block align-top"
                      alt="" loading="lazy">
-                e口乐
+                Ecolla
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="icofont icofont-navigation-menu"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/item') }}">主页</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/payment-method') }}">付款方式</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/ch/order-tracking') }}">订单追踪</a></li>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/ch/cart') }}">
+                        <a class="nav-link" href="{{ url('/en/item') }}">Home Page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/en/payment-method') }}">Payment Method</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/en/order-tracking') }}">Order Tracking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/en/cart') }}">
                             <i class="icofont icofont-shopping-cart mx-1"></i><?= $cart->getCartCount() ?>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            华文
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            English
                         </a>
 
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url('/en' . substr($_SERVER['REQUEST_URI'], 3)) }}">English</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{{ url('/ch' . substr($_SERVER['REQUEST_URI'], 3)) }}">华文</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
-    @yield('welcome')
-
 </header>
 
 @yield('content')
@@ -154,7 +152,7 @@ $cart->start();
                 </div>
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">
-                    <h4 class="font-color font-weight-bold">我们的位置</h4>
+                    <h4 class="font-color font-weight-bold">Our Location</h4>
                     <hr class="footer-hr">
                     <p class="text-uppercase font-color">
                         2365, Jalan Hala Timah 3<br>
@@ -164,13 +162,13 @@ $cart->start();
                 </div>
 
                 <div class="col-lg-3 col-mb-3 col-sm-3">
-                    <h4 class='font-color font-weight-bold'>联系我们</h4>
+                    <h4 class='font-color font-weight-bold'>Contact Us</h4>
                     <hr class="footer-hr">
                     <span class="font-color">
-                        <i class="icofont icofont-facebook pr-2"></i><a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278">e口乐官方脸书</a>
+                        <i class="icofont icofont-facebook pr-2"></i><a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278" target="_blank">Ecolla Official Facebook</a>
                     </span><br>
                     <span class="font-color">
-                        <i class="icofont icofont-whatsapp pr-2"></i><a href="https://wa.link/fcfum1" target="_blank">WhatsApp 客服</a>
+                        <i class="icofont icofont-whatsapp pr-2"></i><a href="https://wa.link/2e1z4h" target="_blank">WhatsApp Customer Services</a>
                     </span>
                 </div>
             </div>
@@ -182,7 +180,7 @@ $cart->start();
     <div class="row m-0 pt-3 pb-3 logo-bt">
         <div class="col">
             <div class="text-center">
-                <img src="{{ asset('img/icon/ecolla_icon.png') }}" width="20" height="20" alt="logo" loading="lazy">
+                <img src="{{asset('img/icon/ecolla_icon.png')}}" width="20" height="20" alt="logo" loading="lazy">
                 <span class="font-color">e口乐 Ecolla</span>
             </div>
         </div>
@@ -197,36 +195,30 @@ $cart->start();
             return pagePathName.substring(pagePathName.lastIndexOf("/") + 1);
         }
 
-        if (getCurrentFileName() === "ch") {
+        if (getCurrentFileName() === "en") {
             $(".navbar-nav li:nth-child(1)").addClass("active");
+            $(".navbar-nav li:nth-child(1)").attr("aria-current", "page");
         } else if (getCurrentFileName() === "item") {
             $(".navbar-nav li:nth-child(1)").addClass("active");
+            $(".navbar-nav li:nth-child(1)").attr("aria-current", "page");
         } else if (getCurrentFileName() === "payment-method") {
             $(".navbar-nav li:nth-child(2)").addClass("active");
-        } else if (getCurrentFileName() === "order-tracking") {
+            $(".navbar-nav li:nth-child(2)").attr("aria-current", "page");
+        }else if (getCurrentFileName() === "order-tracking") {
             $(".navbar-nav li:nth-child(3)").addClass("active");
+            $(".navbar-nav li:nth-child(3)").attr("aria-current", "page");
         } else if (getCurrentFileName() === "cart") {
             $(".navbar-nav li:nth-child(4)").addClass("active");
+            $(".navbar-nav li:nth-child(4)").attr("aria-current", "page");
         }
-
-    });
-
-    $(document).ready(function () {
-        $('.navbar').addClass('navbar-custom');
-        // Transition effect for navbar
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 5) {
-                $('.navbar').addClass('navbar-change');
-                $('.navbar').removeClass('navbar-custom');
-            } else {
-                $('.navbar').addClass('navbar-custom');
-                $('.navbar').removeClass('navbar-change');
-            }
-        });
     });
 </script>
 
-@yield('extraScriptEnd')
+@yield('script')
+
+@yield('extraScript') {{-- TODO - Plan to remove later on --}}
+
+@yield('extraScriptEnd') {{-- TODO - Plan to remove later on --}}
 
 </body>
 </html>

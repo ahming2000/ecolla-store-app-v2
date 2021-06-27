@@ -59,7 +59,7 @@
 
                                             <!-- Item Name -->
                                             <div class="h4 font-weight-bold text-truncate">
-                                                <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}"
+                                                <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}"
                                                    class="no-anchor-style">
                                                     {{ $cartItem->variation->item->name_en }}
                                                 </a>

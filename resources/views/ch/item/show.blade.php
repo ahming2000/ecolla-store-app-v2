@@ -40,7 +40,8 @@
 
                     {{-- Image Slider --}}
                     <div class="col-12 mb-3 slider-main-container">
-                        <button class="slider-control-prev"><</button>
+                        @if($item->getTotalImageCount() != 0)
+                            <button class="slider-control-prev"><</button>@endif
                         <div class="slider-container">
                             @if($item->images != null)
                                 @foreach($item->images as $img)
@@ -56,7 +57,8 @@
                                 @endif
                             @endforeach
                         </div>
-                        <button class="slider-control-next">></button>
+                        @if($item->getTotalImageCount() != 0)
+                            <button class="slider-control-next">></button>@endif
                     </div>
                     {{-- Image Slider --}}
 
@@ -85,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-lg-7 mb-4 p-4">
+            <div class="col-12 col-lg-7 p-4">
                 <div class="row">
 
                     {{-- Item category badge --}}
@@ -108,7 +110,7 @@
                     {{-- Item Name --}}
 
                     {{-- Item Util Info --}}
-                    <div class="col-12">
+                    <div class="col-12 mb-3">
                         <div class="h6 text-muted">
                             <span>已售出 {{ $item->util->sold }} 个</span> |
                             <span>{{ $item->util->view_count }} 次浏览</span>
@@ -116,156 +118,161 @@
                     </div>
                     {{-- Item Util Info --}}
 
-                    <div class="col-12 mb-3">
+                    <div class="col-12">
 
-                        <?php $first = true; ?>
-                        @foreach($item->variations as $v)
+                        <form action="{{ url('/ch/item/' . $item->id) }}" method="post">
+                            @csrf
 
-                            @if($v->getDiscountMode() == 'variation')
-                                <div class="h4 price-view discounted-price"
-                                     id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>>
-                                    <?php $first = false; ?>
-                                    <span class="grey-text mr-1" style="font-size: 15px">
+                            @foreach($item->variations as $variation)
+
+                                <div class="card variation mb-1">
+
+                                    {{-- Variation Token --}}
+                                    <input type="text" class="id" value="{{ $variation->id }}" hidden>
+                                    <input type="text" class="stock" value="{{ $variation->stock }}" hidden>
+                                    {{-- Variation Token --}}
+
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+
+                                            <div>
+
+                                                <h5 class="card-title">
+
+                                                    {{-- Item Name --}}
+                                                    {{ $variation->name }}
+                                                    {{-- Item Name --}}
+
+                                                    {{-- TODO - Discount Percentage --}}
+
+                                                    @if($variation->stock == 0)
+                                                        <span class="badge rounded-pill bg-danger mx-1">已售完<span>
+                                                    @endif
+
+                                                </h5>
+
+                                                {{-- Price --}}
+                                                <div class="price">
+                                                    <?php $first = true; ?>
+                                                    @foreach($item->variations as $v)
+
+                                                        @if($v->getDiscountMode() == 'variation')
+                                                            <div class="h4 price-view discounted-price"
+                                                                 id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>>
+                                                                <?php $first = false; ?>
+                                                                <span class="mr-1" style="color: grey;font-size: 15px">
                                         <del>
                                             RM{{ number_format($v->price, 2, '.', '') }}
                                         </del>
                                     </span>
-                                    <span class="red-text font-weight-bold mr-1">
+                                                                <span class="font-weight-bold mr-1" style="color: red">
                                         <strong>
                                             RM{{ number_format($v->price * $v->discount->rate, 2, '.', '') }}
                                         </strong>
                                     </span>
-                                    <span class="badge rounded-pill bg-danger mr-1">
+                                                                <span class="badge rounded-pill bg-danger mr-1">
                                         {{ number_format((1 - $v->discount->rate) * 100, 0, '.', '') }}% OFF
                                     </span>
-                                    <br>
-                                </div>
-                            @else
+                                                                <br>
+                                                            </div>
+                                                        @else
 
-                                <div class="h4 price-view pl-3 font-weight-bold blue-text"
-                                     id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>>
-                                    <?php $first = false; ?>
+                                                            <div class="h4 price-view pl-3 font-weight-bold" style="color: blue"
+                                                                 id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>>
+                                                                <?php $first = false; ?>
 
-                                    @if($v->getDiscountMode() == 'wholesale')
+                                                                @if($v->getDiscountMode() == 'wholesale')
 
-                                        <div
-                                            class="price-view-normal" {{ $item->getSortedWholesales()[0]->min == 1 ? "hidden" : "" }}>
-                                            <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
-                                        </div>
+                                                                    <div
+                                                                        class="price-view-normal" {{ $item->getSortedWholesales()[0]->min == 1 ? "hidden" : "" }}>
+                                                                        <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
+                                                                    </div>
 
-                                        @foreach($item->getSortedWholesales() as $w)
-                                            <div class="price-view-wholesale wholesale-{{ $w->min }}"
-                                                {{ $w->step == 1 && $w->min == 1 ? "" : "hidden" }}>
-                                                <span class="grey-text mr-1" style="font-size: 15px">
+                                                                    @foreach($item->getSortedWholesales() as $w)
+                                                                        <div
+                                                                            class="price-view-wholesale wholesale-{{ $w->min }}"
+                                                                            {{ $w->step == 1 && $w->min == 1 ? "" : "hidden" }}>
+                                                <span class="mr-1" style="font-size: 15px;color: grey">
                                                     <del>RM{{ number_format($v->price, 2, '.', '') }}</del>
                                                 </span>
-                                                <span class="orange-text font-weight-bold">
+                                                                            <span class="font-weight-bold" style="color: orange">
                                                     <strong>RM{{ number_format($v->price * $w->rate, 2, '.', '') }}</strong>
                                                 </span>
-                                                <span class="badge rounded-pill bg-warning mr-1">
+                                                                            <span
+                                                                                class="badge rounded-pill bg-warning mr-1">
                                                     {{ number_format((1 - $w->rate) * 100, 0, '.', '') }}% OFF
                                                 </span>
-                                                <span class="grey-text mr-1" style="font-size: 10px">
+                                                                            <span class="mr-1"
+                                                                                  style="font-size: 10px;color: grey">
                                                     （批发价）
                                                 </span>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="price-view-normal">
-                                            <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @else
+                                                                    <div class="price-view-normal">
+                                                                        <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
 
-                            @endif
-                        @endforeach
+                                                        @endif
+                                                    @endforeach
 
-                        @if(!empty($item->discounts))
-                            <?php $first = true; ?>
-                            @foreach($item->getSortedWholesales() as $w)
-                                <div class="h6 wholesale-view" <?= $first ? "" : "hidden"; ?>>
-                                    <?php $first = false; ?>
+                                                    @if(!empty($item->discounts))
+                                                        <?php $first = true; ?>
+                                                        @foreach($item->getSortedWholesales() as $w)
+                                                            <div
+                                                                class="h6 wholesale-view" <?= $first ? "" : "hidden"; ?>>
+                                                                <?php $first = false; ?>
 
-                                    <input type="number" class="wholesale-min" value="{{ $w->min }}" hidden/>
-                                    <span class="grey-text">
+                                                                <input type="number" class="wholesale-min"
+                                                                       value="{{ $w->min }}" hidden/>
+                                                                <span class="grey-text">
                                         购买至{{ $w->min }}件可以以批发价 RM{{ number_format($item->getFirstVariation()->price * $w->rate, 2, '.', '') }} 购买
                                     </span>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                                {{-- Price --}}
+
+                                            </div>
+
+                                            {{-- Quantity Control --}}
+                                            <div class="d-flex justify-content-between align-content-center my-auto" style="max-height: 35px">
+                                                <button type="button"
+                                                        class="btn btn-primary btn-sm me-3 px-3 quantity-dec" disabled>
+                                                    -
+                                                </button>
+                                                <input type="number" class="form-control form-control-sm quantity-input"
+                                                       value="0" name="variation[{{ $variation->id }}][quantity]" style="width: 45px" disabled>
+                                                <button type="button"
+                                                        class="btn btn-primary btn-sm ms-3 px-3 quantity-inc" disabled>
+                                                    +
+                                                </button>
+                                            </div>
+                                            {{-- Quantity Control --}}
+
+                                        </div>
+
+                                    </div>
                                 </div>
+
                             @endforeach
-                        @endif
-                    </div>
 
-                    <div class="col-12">
-
-                        <form action="{{ url('/ch/item/' . $item->name) }}" method="post">
-
-                            @csrf
-
-                            <div class="row mb-3">
-
-                                {{-- Property selector --}}
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="h5">规格：</div>
-                                </div>
-
-                                <input id="barcode" type="text" name="barcode"
-                                       value="{{ $item->getFirstVariation()->barcode }}" hidden/>
-                                <input id="inventory" type="text"
-                                       value="{{ $item->getFirstVariation()->stock }}" hidden/>
-
-                                <div class="col-xs-12 col-sm-8">
-                                    <ol class="list-group variety-selector">
-                                        <?php $first = true; ?>
-                                        @foreach($item->variations as $v)
-                                            <li class="list-group-item <?= $first ? "active" : "" ?>"> <?php $first = false; ?>
-                                                <input type="text" class="variety-barcode"
-                                                       value="{{ $v->barcode }}"
-                                                       hidden/>
-                                                <input type="text" class="variety-inventory"
-                                                       value="{{ $v->stock }}" hidden/>
-                                                {{ $v->name }}
-                                                @if($v->stock == 0)
-                                                    <span class="badge rounded-pill bg-danger mx-1">已售完<span>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ol>
-                                </div>
-                                {{-- Property selector --}}
+                            <div class="mt-3 text-center">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="icofont icofont-shopping-cart ml-1"></i> 加入购物车
+                                </button>
                             </div>
 
-                            <div class="row mb-3 text-center">
-                                {{-- Quantity control interface --}}
-                                <div class="col-xs-12 col-sm-7 col-lg-6 quantity-button-control mt-2">
-                                    <button type="button"
-                                            class="btn btn-primary btn-sm quantity-decrease-button"
-                                            disabled>-
-                                    </button>
-                                    <input type="number" class="mx-2" id="quantity" name="quantity"
-                                           value="{{ $item->getFirstVariation()->stock == 0 ? "0" : "1" }}"
-                                           style="width: 45px;" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
-                                    <button type="button"
-                                            class="btn btn-primary btn-sm quantity-increase-button" {{ $item->getFirstVariation()->stock <= 1 ? "disabled" : "" }}>
-                                        +
-                                    </button>
-                                </div>
-                                {{-- Quantity control interface --}}
-
-                                {{-- Submit button --}}
-                                <div class="col-xs-12 col-sm-5 col-lg-6">
-                                    <button class="btn btn-primary" type="submit"
-                                            id="add-to-cart-button" {{ $item->getFirstVariation()->stock == 0 ? "disabled" : "" }}>
-                                        <i class="icofont icofont-shopping-cart ml-1"></i> 加入购物车
-                                    </button>
-                                </div>
-                                {{-- Submit button --}}
-
-                            </div>
                         </form>
+
                     </div>
+
                 </div>
             </div>
-            {{-- Item Purchasing Option --}}
+
         </div>
 
         {{-- Item Description --}}
@@ -420,235 +427,306 @@
 
     <script>
 
+
+        function quantityControl(variation) {
+            let input = variation.find('.quantity-input');
+            let decButton = variation.find('.quantity-dec');
+            let incButton = variation.find('.quantity-inc');
+
+            let current = parseInt(input.val());
+            let min = 0;
+            let max = parseInt(variation.find('.stock').val());
+
+            if (max === 0) {
+                decButton.prop('disabled', true);
+                incButton.prop('disabled', true);
+                input.prop('disabled', true);
+            } else {
+                input.prop('disabled', false);
+                if (current <= min) {
+                    decButton.prop('disabled', true)
+                    incButton.prop('disabled', false);
+                } else if (current >= max) {
+                    decButton.prop('disabled', false)
+                    incButton.prop('disabled', true);
+                } else {
+                    decButton.prop('disabled', false);
+                    incButton.prop('disabled', false);
+                }
+            }
+        }
+
+        function quantityUpdate(variation, quantity) {
+            let input = variation.find('.quantity-input');
+
+            let min = 0;
+            let max = parseInt(variation.find('.stock').val());
+
+            if (quantity > max) {
+                input.val(max);
+            } else if (quantity < min) {
+                input.val(min);
+            } else {
+                input.val(quantity);
+            }
+
+            quantityControl(variation);
+        }
+
+
         $(document).ready(function () {
 
-            function quantityReset() {
-                $("#quantity").val(1);
-                $("#quantity").removeAttr("disabled");
-                $(".quantity-decrease-button").attr("disabled", "disabled");
-                $(".quantity-increase-button").removeAttr("disabled");
+            // Loop all to check the status of the quantity control
+            let variations = $('.variation');
+            for (let i = 0; i < variations.length; i++) {
+                quantityControl(variations.eq(i));
             }
 
-            function quantityControlDisable() {
-                $("#quantity").val(0);
-                $("#quantity").attr("disabled", "disabled");
-                $(".quantity-decrease-button").attr("disabled", "disabled");
-                $(".quantity-increase-button").attr("disabled", "disabled");
-            }
+            $('.quantity-input').on('change', function () {
+                let current = parseInt($(this).val());
+                quantityUpdate($(this).closest('.variation'), current);
+            });
 
-            function quantityToMaxInventory(inventoryQuantity) {
-                $("#quantity").val(inventoryQuantity);
-                $("#quantity").removeAttr("disabled");
-                $(".quantity-decrease-button").removeAttr("disabled");
-                $(".quantity-increase-button").attr("disabled", "disabled");
-            }
+            $('.quantity-inc').on('click', function () {
+                let input = $(this).closest('.variation').find('.quantity-input');
+                let current = parseInt(input.val());
+                quantityUpdate($(this).closest('.variation'), current + 1);
+            });
 
-            function quantityUnlockControl() {
-                $(".quantity-decrease-button").removeAttr("disabled");
-                $(".quantity-increase-button").removeAttr("disabled");
-            }
+            $('.quantity-dec').on('click', function () {
+                let input = $(this).closest('.variation').find('.quantity-input');
+                let current = parseInt(input.val());
+                quantityUpdate($(this).closest('.variation'), current - 1);
+            });
+
+
+            // function quantityReset() {
+            //     $("#quantity").val(1);
+            //     $("#quantity").removeAttr("disabled");
+            //     $(".quantity-decrease-button").attr("disabled", "disabled");
+            //     $(".quantity-increase-button").removeAttr("disabled");
+            // }
+            //
+            // function quantityControlDisable() {
+            //     $("#quantity").val(0);
+            //     $("#quantity").attr("disabled", "disabled");
+            //     $(".quantity-decrease-button").attr("disabled", "disabled");
+            //     $(".quantity-increase-button").attr("disabled", "disabled");
+            // }
+            //
+            // function quantityToMaxInventory(inventoryQuantity) {
+            //     $("#quantity").val(inventoryQuantity);
+            //     $("#quantity").removeAttr("disabled");
+            //     $(".quantity-decrease-button").removeAttr("disabled");
+            //     $(".quantity-increase-button").attr("disabled", "disabled");
+            // }
+            //
+            // function quantityUnlockControl() {
+            //     $(".quantity-decrease-button").removeAttr("disabled");
+            //     $(".quantity-increase-button").removeAttr("disabled");
+            // }
 
 
             // Selected property controller
-            $(".variety-selector li").on("click", function () {
-
-                var quantity = parseInt($("#quantity").val());
-                var selectedVarietyInventory = parseInt($(this).children(".variety-inventory").val());
-                var selectedVarietyBarcode = $(this).children(".variety-barcode").val();
-
-                // List responsive
-                $(".variety-selector li").removeClass("active");
-                $(this).addClass("active");
-
-                // Change the variety barcode
-                $("#barcode").val(selectedVarietyBarcode);
-
-                // Change the price viewing
-                $(".price-view").attr("hidden", "hidden");
-                $("#variety-" + selectedVarietyBarcode).removeAttr("hidden");
-
-                // Change the wholesale information view
-                if ($("#variety-" + selectedVarietyBarcode).hasClass("discounted-price")) {
-                    $(".wholesale-view").hide();
-                } else {
-                    $(".wholesale-view").show();
-                }
-
-                // Change the variety total inventory quantity
-                $("#inventory").val(selectedVarietyInventory);
-
-                // Disable add to cart button if the variety total quantity is 0 (sold out)
-                if (selectedVarietyInventory == 0) {
-                    $("#add-to-cart-button").attr("disabled", "disabled");
-                } else {
-                    $("#add-to-cart-button").removeAttr("disabled");
-                }
-
-                // Adjust quantity input to inventory maximum if quantity exceed the max inventory
-                if (selectedVarietyInventory == 0) {
-                    quantityControlDisable();
-                } else {
-                    if (quantity == 0) { //Previously is 0
-                        quantityReset();
-                    } else {
-                        if (quantity != 1) {
-                            if (quantity >= selectedVarietyInventory) { // Previous quantity is larger than the current variety max inventory
-                                quantityToMaxInventory(selectedVarietyInventory);
-                            } else {
-                                quantityUnlockControl();
-                            }
-                        }
-                    }
-                }
-
-                // Navigate to selected variety image
-                var totalGeneralImg = $(".slider-container").children(".general-img").length - 2; // Get the total number of images
-                var selectedImageIndex = totalGeneralImg; // Initialize
-                for (i = 0; i < $(".variety-selector li").length; i++) { // Get index of the image
-                    var v = $(".variety-selector li").eq(i).children(".variety-barcode").val();
-                    if ($("#img-" + v).val() != undefined) {
-                        selectedImageIndex++;
-                        if (v === selectedVarietyBarcode) {
-                            break;
-                        }
-                    }
-                }
-                if ($("#img-" + selectedVarietyBarcode).val() != undefined) slider.goTo(selectedImageIndex); // Make sure image is existed before use goto function
-            });
+            // $(".variety-selector li").on("click", function () {
+            //
+            //     var quantity = parseInt($("#quantity").val());
+            //     var selectedVarietyInventory = parseInt($(this).children(".variety-inventory").val());
+            //     var selectedVarietyBarcode = $(this).children(".variety-barcode").val();
+            //
+            //     // List responsive
+            //     $(".variety-selector li").removeClass("active");
+            //     $(this).addClass("active");
+            //
+            //     // Change the variety barcode
+            //     $("#barcode").val(selectedVarietyBarcode);
+            //
+            //     // Change the price viewing
+            //     $(".price-view").attr("hidden", "hidden");
+            //     $("#variety-" + selectedVarietyBarcode).removeAttr("hidden");
+            //
+            //     // Change the wholesale information view
+            //     if ($("#variety-" + selectedVarietyBarcode).hasClass("discounted-price")) {
+            //         $(".wholesale-view").hide();
+            //     } else {
+            //         $(".wholesale-view").show();
+            //     }
+            //
+            //     // Change the variety total inventory quantity
+            //     $("#inventory").val(selectedVarietyInventory);
+            //
+            //     // Disable add to cart button if the variety total quantity is 0 (sold out)
+            //     if (selectedVarietyInventory == 0) {
+            //         $("#add-to-cart-button").attr("disabled", "disabled");
+            //     } else {
+            //         $("#add-to-cart-button").removeAttr("disabled");
+            //     }
+            //
+            //     // Adjust quantity input to inventory maximum if quantity exceed the max inventory
+            //     if (selectedVarietyInventory == 0) {
+            //         quantityControlDisable();
+            //     } else {
+            //         if (quantity == 0) { //Previously is 0
+            //             quantityReset();
+            //         } else {
+            //             if (quantity != 1) {
+            //                 if (quantity >= selectedVarietyInventory) { // Previous quantity is larger than the current variety max inventory
+            //                     quantityToMaxInventory(selectedVarietyInventory);
+            //                 } else {
+            //                     quantityUnlockControl();
+            //                 }
+            //             }
+            //         }
+            //     }
+            //
+            //     // Navigate to selected variety image
+            //     var totalGeneralImg = $(".slider-container").children(".general-img").length - 2; // Get the total number of images
+            //     var selectedImageIndex = totalGeneralImg; // Initialize
+            //     for (i = 0; i < $(".variety-selector li").length; i++) { // Get index of the image
+            //         var v = $(".variety-selector li").eq(i).children(".variety-barcode").val();
+            //         if ($("#img-" + v).val() != undefined) {
+            //             selectedImageIndex++;
+            //             if (v === selectedVarietyBarcode) {
+            //                 break;
+            //             }
+            //         }
+            //     }
+            //     if ($("#img-" + selectedVarietyBarcode).val() != undefined) slider.goTo(selectedImageIndex); // Make sure image is existed before use goto function
+            // });
 
             //Quantity input onchange detect logic with inventory
-            $("#quantity").on("change", function () {
-                var selectedVarietyInventory = parseInt($(".variety-selector li.active").children(".variety-inventory").val());
-                var quantity = parseInt($("#quantity").val());
-
-                if (quantity >= selectedVarietyInventory) { // Previous quantity is larger than the current variety max inventory
-                    quantityToMaxInventory(selectedVarietyInventory);
-                } else if (quantity <= 0) {
-                    quantityReset();
-                } else {
-                    quantityUnlockControl();
-                }
-
-                // Update wholesale information
-                var quantity = parseInt($("#quantity").val());
-                // Get wholesale range index
-                var currentWholesaleIndex = -1; //Default does not involve in any wholesale
-                //if($(".wholesale-view").eq(0).find(".wholesale-min").val() == 1) currentWholesaleIndex = 0; // If the first wholesale min is 1, set index to 0
-                for (var i = 0; i < $(".wholesale-view").length; i++) {
-                    if (i != $(".wholesale-view").length - 1) {
-                        if (quantity >= $(".wholesale-view").eq(i).find(".wholesale-min").val()) {
-                            if (quantity < $(".wholesale-view").eq(i + 1).find(".wholesale-min").val()) {
-                                currentWholesaleIndex = i;
-                                break;
-                            }
-                        } else {
-                            break; // Current quantity didnt reach wholesale min
-                        }
-                    } else {
-                        currentWholesaleIndex = $(".wholesale-view").length - 1; // Last and to infinity
-                    }
-                }
-
-                // Update price view and information
-                if (currentWholesaleIndex >= 0) {
-                    $(".price-view-normal").attr("hidden", "hidden");
-
-                    $(".price-view-wholesale").attr("hidden", "hidden");
-                    min = $(".wholesale-view").eq(currentWholesaleIndex).find(".wholesale-min").val();
-                    $(".wholesale-" + min).removeAttr("hidden");
-
-                    $(".wholesale-view").attr("hidden", "hidden");
-                    $(".wholesale-view").eq(currentWholesaleIndex + 1).removeAttr("hidden");
-                } else {
-                    $(".price-view-normal").removeAttr("hidden");
-
-                    $(".price-view-wholesale").attr("hidden", "hidden");
-
-                    $(".wholesale-view").attr("hidden", "hidden");
-                    $(".wholesale-view").eq(0).removeAttr("hidden");
-                }
-            });
+            // $("#quantity").on("change", function () {
+            //     var selectedVarietyInventory = parseInt($(".variety-selector li.active").children(".variety-inventory").val());
+            //     var quantity = parseInt($("#quantity").val());
+            //
+            //     if (quantity >= selectedVarietyInventory) { // Previous quantity is larger than the current variety max inventory
+            //         quantityToMaxInventory(selectedVarietyInventory);
+            //     } else if (quantity <= 0) {
+            //         quantityReset();
+            //     } else {
+            //         quantityUnlockControl();
+            //     }
+            //
+            //     // Update wholesale information
+            //     var quantity = parseInt($("#quantity").val());
+            //     // Get wholesale range index
+            //     var currentWholesaleIndex = -1; //Default does not involve in any wholesale
+            //     //if($(".wholesale-view").eq(0).find(".wholesale-min").val() == 1) currentWholesaleIndex = 0; // If the first wholesale min is 1, set index to 0
+            //     for (var i = 0; i < $(".wholesale-view").length; i++) {
+            //         if (i != $(".wholesale-view").length - 1) {
+            //             if (quantity >= $(".wholesale-view").eq(i).find(".wholesale-min").val()) {
+            //                 if (quantity < $(".wholesale-view").eq(i + 1).find(".wholesale-min").val()) {
+            //                     currentWholesaleIndex = i;
+            //                     break;
+            //                 }
+            //             } else {
+            //                 break; // Current quantity didnt reach wholesale min
+            //             }
+            //         } else {
+            //             currentWholesaleIndex = $(".wholesale-view").length - 1; // Last and to infinity
+            //         }
+            //     }
+            //
+            //     // Update price view and information
+            //     if (currentWholesaleIndex >= 0) {
+            //         $(".price-view-normal").attr("hidden", "hidden");
+            //
+            //         $(".price-view-wholesale").attr("hidden", "hidden");
+            //         min = $(".wholesale-view").eq(currentWholesaleIndex).find(".wholesale-min").val();
+            //         $(".wholesale-" + min).removeAttr("hidden");
+            //
+            //         $(".wholesale-view").attr("hidden", "hidden");
+            //         $(".wholesale-view").eq(currentWholesaleIndex + 1).removeAttr("hidden");
+            //     } else {
+            //         $(".price-view-normal").removeAttr("hidden");
+            //
+            //         $(".price-view-wholesale").attr("hidden", "hidden");
+            //
+            //         $(".wholesale-view").attr("hidden", "hidden");
+            //         $(".wholesale-view").eq(0).removeAttr("hidden");
+            //     }
+            // });
 
             // Quantity controller
-            $(".quantity-button-control button").on("click", function () {
-
-                // Inventory quantity (max)
-                let INVENTORY = $("#inventory").val();
-
-                // Current quantity
-                var quantity = $(this).parent().children('input').val();
-
-                // Increase button clicked
-                if ($(this).hasClass("quantity-increase-button")) {
-
-                    // Increase quantity
-                    $(this).parent().children('input').val(++quantity);
-
-                    // Disable button when reach maximum
-                    if ($(this).parent().children('input').val() == INVENTORY) {
-                        $(this).attr('disabled', 'disabled');
-                        $(this).parent().children('.quantity-decrease-button').removeAttr('disabled');
-                    } else {
-                        $(this).removeAttr('disabled');
-                        $(this).parent().children('.quantity-decrease-button').removeAttr('disabled');
-                    }
-                }
-                // Decrease button clicked
-                else if ($(this).hasClass("quantity-decrease-button")) {
-
-                    // Decrease quantity
-                    $(this).parent().children('input').val(--quantity);
-
-                    // Disable button when reach minimum
-                    if ($(this).parent().children('input').val() == 1) {
-                        $(this).parent().children('.quantity-increase-button').removeAttr('disabled');
-                        $(this).attr('disabled', 'disabled');
-                    } else {
-                        $(this).parent().children('.quantity-increase-button').removeAttr('disabled');
-                        $(this).removeAttr('disabled');
-                    }
-                }
-
-                // Update wholesale information
-                var quantity = parseInt($(this).parent().children('input').val());
-                // Get wholesale range index
-                var currentWholesaleIndex = -1; //Default does not involve in any wholesale
-                //if($(".wholesale-view").eq(0).find(".wholesale-min").val() == 1) currentWholesaleIndex = 0; // If the first wholesale min is 1, set index to 0
-                for (var i = 0; i < $(".wholesale-view").length; i++) {
-                    if (i != $(".wholesale-view").length - 1) {
-                        if (quantity >= $(".wholesale-view").eq(i).find(".wholesale-min").val()) {
-                            if (quantity < $(".wholesale-view").eq(i + 1).find(".wholesale-min").val()) {
-                                currentWholesaleIndex = i;
-                                break;
-                            }
-                        } else {
-                            break; // Current quantity didnt reach wholesale min
-                        }
-                    } else {
-                        currentWholesaleIndex = $(".wholesale-view").length - 1; // Last and to infinity
-                    }
-                }
-
-                // Update price view and information
-                if (currentWholesaleIndex >= 0) {
-                    $(".price-view-normal").attr("hidden", "hidden");
-
-                    $(".price-view-wholesale").attr("hidden", "hidden");
-                    min = $(".wholesale-view").eq(currentWholesaleIndex).find(".wholesale-min").val();
-                    $(".wholesale-" + min).removeAttr("hidden");
-
-                    $(".wholesale-view").attr("hidden", "hidden");
-                    $(".wholesale-view").eq(currentWholesaleIndex + 1).removeAttr("hidden");
-                } else {
-                    $(".price-view-normal").removeAttr("hidden");
-
-                    $(".price-view-wholesale").attr("hidden", "hidden");
-
-                    $(".wholesale-view").attr("hidden", "hidden");
-                    $(".wholesale-view").eq(0).removeAttr("hidden");
-                }
-
-            });
+            // $(".quantity-button-control button").on("click", function () {
+            //
+            //     // Inventory quantity (max)
+            //     let INVENTORY = $("#inventory").val();
+            //
+            //     // Current quantity
+            //     var quantity = $(this).parent().children('input').val();
+            //
+            //     // Increase button clicked
+            //     if ($(this).hasClass("quantity-increase-button")) {
+            //
+            //         // Increase quantity
+            //         $(this).parent().children('input').val(++quantity);
+            //
+            //         // Disable button when reach maximum
+            //         if ($(this).parent().children('input').val() == INVENTORY) {
+            //             $(this).attr('disabled', 'disabled');
+            //             $(this).parent().children('.quantity-decrease-button').removeAttr('disabled');
+            //         } else {
+            //             $(this).removeAttr('disabled');
+            //             $(this).parent().children('.quantity-decrease-button').removeAttr('disabled');
+            //         }
+            //     }
+            //     // Decrease button clicked
+            //     else if ($(this).hasClass("quantity-decrease-button")) {
+            //
+            //         // Decrease quantity
+            //         $(this).parent().children('input').val(--quantity);
+            //
+            //         // Disable button when reach minimum
+            //         if ($(this).parent().children('input').val() == 1) {
+            //             $(this).parent().children('.quantity-increase-button').removeAttr('disabled');
+            //             $(this).attr('disabled', 'disabled');
+            //         } else {
+            //             $(this).parent().children('.quantity-increase-button').removeAttr('disabled');
+            //             $(this).removeAttr('disabled');
+            //         }
+            //     }
+            //
+            //     // Update wholesale information
+            //     var quantity = parseInt($(this).parent().children('input').val());
+            //     // Get wholesale range index
+            //     var currentWholesaleIndex = -1; //Default does not involve in any wholesale
+            //     //if($(".wholesale-view").eq(0).find(".wholesale-min").val() == 1) currentWholesaleIndex = 0; // If the first wholesale min is 1, set index to 0
+            //     for (var i = 0; i < $(".wholesale-view").length; i++) {
+            //         if (i != $(".wholesale-view").length - 1) {
+            //             if (quantity >= $(".wholesale-view").eq(i).find(".wholesale-min").val()) {
+            //                 if (quantity < $(".wholesale-view").eq(i + 1).find(".wholesale-min").val()) {
+            //                     currentWholesaleIndex = i;
+            //                     break;
+            //                 }
+            //             } else {
+            //                 break; // Current quantity didnt reach wholesale min
+            //             }
+            //         } else {
+            //             currentWholesaleIndex = $(".wholesale-view").length - 1; // Last and to infinity
+            //         }
+            //     }
+            //
+            //     // Update price view and information
+            //     if (currentWholesaleIndex >= 0) {
+            //         $(".price-view-normal").attr("hidden", "hidden");
+            //
+            //         $(".price-view-wholesale").attr("hidden", "hidden");
+            //         min = $(".wholesale-view").eq(currentWholesaleIndex).find(".wholesale-min").val();
+            //         $(".wholesale-" + min).removeAttr("hidden");
+            //
+            //         $(".wholesale-view").attr("hidden", "hidden");
+            //         $(".wholesale-view").eq(currentWholesaleIndex + 1).removeAttr("hidden");
+            //     } else {
+            //         $(".price-view-normal").removeAttr("hidden");
+            //
+            //         $(".price-view-wholesale").attr("hidden", "hidden");
+            //
+            //         $(".wholesale-view").attr("hidden", "hidden");
+            //         $(".wholesale-view").eq(0).removeAttr("hidden");
+            //     }
+            //
+            // });
 
         });
     </script>

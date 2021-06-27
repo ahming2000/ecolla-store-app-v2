@@ -4,9 +4,6 @@ use App\Http\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerPageController;
 use App\Http\Controllers\ItemsController;
-use App\Http\Controllers\ItemsManageController;
-use App\Http\Controllers\AdminPageController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes

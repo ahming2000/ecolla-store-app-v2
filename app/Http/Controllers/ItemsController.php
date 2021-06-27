@@ -127,17 +127,15 @@ class ItemsController extends Controller
         return view($this->getLang() . '.item.show', compact('item', 'randomItems', 'mayLikeItems'));
     }
 
-    public function addToCart(string $name)
+    public function addToCart(Item $item)
     {
-
         $data = request()->all();
 
-        $v = DB::table('variations')
-            ->select('*')
-            ->where('barcode', '=', $data['barcode'])
-            ->first();
-
-        session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($v->id), $data['quantity']);
+        foreach($data['variation'] as $id => $variation){
+            if($variation['quantity'] != 0){
+                session(Cart::$DEFAULT_SESSION_NAME)->addItem(Variation::find($id), $variation['quantity']);
+            }
+        }
 
         return redirect('/' . $this->getLang() . '/item');
     }

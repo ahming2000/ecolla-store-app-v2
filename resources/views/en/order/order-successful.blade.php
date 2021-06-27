@@ -11,32 +11,31 @@
 
 
             <div class="col-xs-12 col-sm-8 offset-sm-2">
-                <div class="row mb-3 justify-content-center align-items-center">
-                    <img class="img-fluid" src="{{ asset('img/order-successful.png') }}" style="height: 150px;" />
+                <div class="row mb-3">
+                    <div class="col-6 col-md-4 offset-3 offset-md-4">
+                        <img class="img-fluid w-100" src="{{ asset('img/order-successful.png') }}">
+                    </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-12 text-center">
+                <div class="row">
+                    <div class="col-12 text-center mb-3">
                         Order Successfully!<br>
                         <span class="text-muted">Thank you for your support!<br>We will process your order ASAP!</span><br>
                     </div>
-                </div>
 
-                <div class="row mb-5">
-                    <div class="col-sm-12 col-md-6 lime lighten-3 text-center mx-auto p-3 mb-2">
-                        <b>{{ session('orderCode') }}</b>
+                    <div class="col-12 col-md-6 offset-md-3 text-center">
+                        {{ session('orderCode') }}
                     </div>
-                    <div class="col-12 text-center">Order Tracking ID</div>
-                </div>
 
-                <div class="row justify-content-center align-items-center">
-                    <div class="d-flex mx-1">
-                        <button type="button" class="btn btn-primary btn-block" onclick="goToOrderTracking()">Track Your Order</button>
-                        <button type="button" class="btn btn-primary btn-block" onclick="goToItemList()">Browse More Item</button>
+                    <div class="col-12 text-center mb-4">Order Tracking ID</div>
+
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary mx-1" onclick="goToOrderTracking()">Track Your Order</button>
+                        <button type="button" class="btn btn-primary mx-1" onclick="goToItemList()">Browse More Item</button>
                     </div>
                 </div>
+
             </div>
-
 
         </div>
 

@@ -45,7 +45,8 @@
 
                                     <!-- Image -->
                                     <div class="col-4 col-lg-3">
-                                        <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}" class="no-anchor-style">
+                                        <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}"
+                                           class="no-anchor-style">
                                             <img class="img-fluid rounded-3" alt=""
                                                  src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) ?? "" }}">
                                         </a>
@@ -58,7 +59,10 @@
 
                                             <!-- Item Name -->
                                             <div class="h4 font-weight-bold text-truncate">
-                                                {{ $cartItem->variation->item->name }}
+                                                <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}"
+                                                   class="no-anchor-style">
+                                                    {{ $cartItem->variation->item->name }}
+                                                </a>
                                             </div>
                                             <!-- Item Name -->
 
@@ -123,7 +127,8 @@
                                                        value="{{ $cartItem->variation->barcode }}">
                                                 <input type="hidden" name="quantityToAdjust" value="-1">
 
-                                                <button class="btn btn-primary btn-sm mx-3 px-3 quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>
+                                                <button
+                                                    class="btn btn-primary btn-sm mx-3 px-3 quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>
                                                     -
                                                 </button>
                                             </form>

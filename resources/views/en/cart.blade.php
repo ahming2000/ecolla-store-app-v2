@@ -45,7 +45,8 @@
 
                                     <!-- Image -->
                                     <div class="col-4 col-lg-3">
-                                        <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}" class="no-anchor-style">
+                                        <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}"
+                                           class="no-anchor-style">
                                             <img class="img-fluid rounded-3" alt=""
                                                  src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) ?? "" }}">
                                         </a>
@@ -57,11 +58,12 @@
                                         <div class="d-flex justify-content-between align-content-center">
 
                                             <!-- Item Name -->
-                                            <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}" class="no-anchor-style">
-                                                <div class="h4 font-weight-bold text-truncate">
+                                            <div class="h4 font-weight-bold text-truncate">
+                                                <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}"
+                                                   class="no-anchor-style">
                                                     {{ $cartItem->variation->item->name_en }}
-                                                </div>
-                                            </a>
+                                                </a>
+                                            </div>
                                             <!-- Item Name -->
 
                                             <!-- Item Remove Button -->
@@ -125,7 +127,8 @@
                                                        value="{{ $cartItem->variation->barcode }}">
                                                 <input type="hidden" name="quantityToAdjust" value="-1">
 
-                                                <button class="btn btn-primary btn-sm mx-3 px-3 quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>
+                                                <button
+                                                    class="btn btn-primary btn-sm mx-3 px-3 quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>
                                                     -
                                                 </button>
                                             </form>
@@ -168,7 +171,8 @@
                         </p>
                         <h5>Delivery Service</h5>
                         <p class="text-light">
-                            Maximum delivery distance: Within 5KM, delivery service not available for more than 5KM distance from store<br>
+                            Maximum delivery distance: Within 5KM, delivery service not available for more than 5KM
+                            distance from store<br>
                             Shipping Fee：RM3.00
                         </p>
                     </div>
@@ -183,7 +187,7 @@
                 <div class="card shadow mb-3">
                     <div class="card-body">
 
-                        <div class="h5 mb-3">Order Mode: </div>
+                        <div class="h5 mb-3">Order Mode:</div>
 
                         <form action="{{ url('/en/cart') }}" method="post" id="order-mode-selector-form">
                             @csrf

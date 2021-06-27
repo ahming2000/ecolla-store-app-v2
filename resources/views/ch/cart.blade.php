@@ -57,9 +57,11 @@
                                         <div class="d-flex justify-content-between align-content-center">
 
                                             <!-- Item Name -->
-                                            <div class="h4 font-weight-bold text-truncate">
-                                                {{ $cartItem->variation->item->name }}
-                                            </div>
+                                            <a href="{{ url('/ch/item/' . $cartItem->variation->item->id) }}" class="no-anchor-style">
+                                                <div class="h4 font-weight-bold text-truncate">
+                                                    {{ $cartItem->variation->item->name }}
+                                                </div>
+                                            </a>
                                             <!-- Item Name -->
 
                                             <!-- Item Remove Button -->

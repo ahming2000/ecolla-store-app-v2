@@ -40,7 +40,7 @@
 
                     {{-- Image Slider --}}
                     <div class="col-12 mb-3 slider-main-container">
-                        <button class="slider-control-prev"><</button>
+                        @if($item->getTotalImageCount() != 0)<button class="slider-control-prev"><</button>@endif
                         <div class="slider-container">
                             @if($item->images != null)
                                 @foreach($item->images as $img)
@@ -56,7 +56,7 @@
                                 @endif
                             @endforeach
                         </div>
-                        <button class="slider-control-next">></button>
+                        @if($item->getTotalImageCount() != 0)<button class="slider-control-next">></button>@endif
                     </div>
                     {{-- Image Slider --}}
 

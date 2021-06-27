@@ -9,6 +9,16 @@
         div.payment-method.active {
             border: 2px solid #00BFFF;
         }
+
+        .scrollable {
+            white-space: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scrollable div{
+            display: inline-block;
+        }
     </style>
 @endsection
 
@@ -28,58 +38,52 @@
 
                     @csrf
 
-                    <div class="form-row mb-3 p-3">
-                        <div class="col-12">
+                    <div class="row mb-3 p-3">
+                        <div class="col-12 mb-2">
                             <input type="text" name="payment_method" id="selected-payment-method" value="tng" hidden/>
                             <label>Please choose your payment method</label>
                         </div>
 
-                        <div class="col-12 d-flex justify-content-center">
+                        <div class="col-12 scrollable mb-3">
 
-                            <div class="row">
-                                @foreach($payments as $payment)
-                                    <div class="col-4 payment-method view zoom {{ $payment['code'] == 'tng' ? "active" : "" }}">
-                                        <input type="text" value="{{ $payment['code'] }}" hidden/>
-                                        <img class="img-fluid"
-                                             src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"
-                                             alt="{{ $payment['name'] }}">
-                                    </div>
-                                @endforeach
-                            </div>
+                            @foreach($payments as $payment)
+                                <div class="rounded-3 bg-white me-2 payment-method {{ $payment['code'] == 'tng' ? "active" : "" }}">
+                                    <input type="text" value="{{ $payment['code'] }}" hidden/>
+                                    <img class="img-fluid" style="width: 100px"
+                                         src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"
+                                         alt="{{ $payment['name'] }}">
+                                </div>
+                            @endforeach
 
                         </div>
 
                         <div class="col-12 text-center">
-                            <span class="orange-text" style="font-size: 25px;">
+                            <div class="h4" style="color: orange">
                                 <strong>Please remember to upload the receipt before check out!</strong>
-                            </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Receipt upload</label>
-                        <div class="custom-file">
-                            <input type="file"
-                                   class="custom-file-input{{ $errors->has('receipt_image') ? ' is-invalid' : '' }}"
-                                   name="receipt_image" id="receipt" aria-describedby="receiptHelp"
-                                   value="{{ old('receipt_image') ?? "" }}">
-                            <label class="custom-file-label" for="receipt" data-browse="Upload">Please upload your receipt</label>
-                            @if ($errors->has('receipt_image'))
-                                <div class="invalid-feedback">
-                                    <strong>{{ $errors->first('receipt_image') }}</strong>
-                                </div>
-                            @endif
+                    <div class="input-group">
+                        <input type="file"
+                               class="form-control {{ $errors->has('receipt_image') ? ' is-invalid' : '' }}"
+                               name="receipt_image" id="receipt" aria-describedby="receiptHelp"
+                               value="{{ old('receipt_image') ?? "" }}">
+                        <label for="receipt" class="input-group-text">Upload</label>
+                        @if ($errors->has('receipt_image'))
+                            <div class="invalid-feedback">
+                                <strong>{{ $errors->first('receipt_image') }}</strong>
+                            </div>
+                        @endif
+                    </div>
+
                             <small id="receiptHelp" class="form-text text-muted">Image format support ".jpg", ".jpeg", ".gif",
                                 ".png", ".bpm"<br>File size support less than 5MB</small>
 
-                        </div>
-                    </div>
-
-
                     <div class="text-center">
-                        <input class="btn btn-primary"
-                               type="submit" value="Submit" name="submit"
-                               style="width: 200px;"/>
+                        <button class="btn btn-primary px-5" type="submit">
+                            Submit
+                        </button>
                     </div>
 
                 </form>
@@ -94,7 +98,6 @@
 @section('script')
     <script>
         $(document).ready(function () {
-            bsCustomFileInput.init(); //For uploaded file name to show
 
             // For payment method select
             $(".payment-method").on("click", function () {

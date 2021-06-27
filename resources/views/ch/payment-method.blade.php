@@ -1,7 +1,7 @@
 @extends('ch.layouts.app')
 
 @section('title')
-    付款方式 | Ecolla ε口乐
+    付款方式 | Ecolla e口乐
 @endsection
 
 @section('content')

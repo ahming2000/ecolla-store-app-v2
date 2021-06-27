@@ -1,7 +1,7 @@
 @extends('en.layouts.app')
 
 @section('title')
-    Payment Method | Ecolla ε口乐
+    Payment Method | Ecolla e口乐
 @endsection
 
 @section('content')

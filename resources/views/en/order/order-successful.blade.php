@@ -1,4 +1,4 @@
-@extends('en.layouts.customer')
+@extends('en.layouts.app')
 
 @section('title')
     下单成功 | Ecolla ε口乐
@@ -12,7 +12,7 @@
 
             <div class="col-xs-12 col-sm-8 offset-sm-2">
                 <div class="row mb-3 justify-content-center align-items-center">
-                    <img class="img-fluid" src="{{ asset('img/deco/order-successful-deco.png') }}" style="height: 150px;" />
+                    <img class="img-fluid" src="{{ asset('img/order-successful.png') }}" style="height: 150px;" />
                 </div>
 
                 <div class="row mb-3">
@@ -44,7 +44,7 @@
 
 @endsection
 
-@section('extraScript')
+@section('script')
     <script>
         function goToOrderTracking() {
             window.location.href = "/en/order-tracking?code={{ session('orderCode') }}";

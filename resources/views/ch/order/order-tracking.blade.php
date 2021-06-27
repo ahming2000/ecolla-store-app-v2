@@ -1,4 +1,4 @@
-@extends('ch.layouts.customer')
+@extends('ch.layouts.app')
 
 @section('content')
     <main class="container"> <!--put content-->
@@ -20,7 +20,7 @@
 
 
                 <div class="col-12 mb-3">
-                    <img src="{{ asset('img/deco/order-tracking-deco.jpg') }}" style="width: 100%;" />
+                    <img src="{{ asset('img/order-tracking.jpg') }}" style="width: 100%;" />
                 </div>
 
                 <div class="col-12">

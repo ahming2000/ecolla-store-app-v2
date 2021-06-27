@@ -1,25 +1,40 @@
-@extends('en.layouts.customer')
+@extends('en.layouts.app')
 
 @section('title')
-    Cart | Ecolla ε口乐
+    Cart | Ecolla e口乐
 @endsection
 
 @section('content')
     <main class="container">
         <div class="row">
 
-            <!-- Cart item and notification -->
             <div class="col-lg-8">
 
                 <!-- Cart items -->
-                <div class="card mb-3">
+                <div class="card shadow mb-3">
                     <div class="card-body" id="cartItemList">
 
-                        <div class="h4 pl-3 mb-3">Cart（{{ $cart->getCartCount() }}）</div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="h4">
+                                Cart（{{ $cart->getCartCount() }}）
+                            </div>
+                            @if($cart->getCartCount() != 0)
+                                <div>
+                                    <form action="{{ url('/en/cart') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="action" value="resetCart">
+                                        <button class="btn btn-outline-danger">
+                                            <i class="icofont icofont-trash"></i> Clear
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+
 
                         @if($cart->getCartCount() == 0)
                             <div class="text-center">
-                                <img src="{{ asset('img/icon/empty-cart.png') }}" width="150" height="150"/>
+                                <img src="{{ asset('img/empty-cart.png') }}" width="150" height="150" alt="">
                                 <div class="h5 p-2">Your Cart is Empty</div>
                             </div>
                         @endif
@@ -28,109 +43,121 @@
                             <div class="col-12 mb-3" id="{{ $cartItem->variation->barcode }}">
                                 <div class="row">
 
-                                    <!-- Cart Item Image -->
-                                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
-                                        <div class="view zoom z-depth-1 rounded mb-3">
-                                            <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}">
-                                                <img src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) }}" class="w-100" height="250">
-                                            </a>
-                                        </div>
-                                    </div><!-- Cart Item Image -->
+                                    <!-- Image -->
+                                    <div class="col-4 col-lg-3">
+                                        <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}" class="no-anchor-style">
+                                            <img class="img-fluid rounded-3" alt=""
+                                                 src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) ?? "" }}">
+                                        </a>
+                                    </div>
+                                    <!-- Image -->
 
-                                    <!-- Cart item information -->
-                                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7 col-xl-7">
+                                    <div class="col-8 col-lg-9">
 
-                                        <!-- Item name display -->
-                                        <div class="h4 font-weight-bold">{{ $cartItem->variation->item->name_en }}</div>
-                                        <!-- Item name display -->
+                                        <div class="d-flex justify-content-between align-content-center">
 
-                                        <!-- Variety property display -->
-                                        <div class="h6 grey-text">{{ $cartItem->variation->name_en }}</div>
-                                        <!-- Variety property display -->
-
-                                        <!-- Weight display -->
-                                        <div class="h6 text-muted">{{ number_format($cartItem->variation->weight * $cartItem->quantity, 3) . 'kg' }}</div>
-                                        <!-- Weight display -->
-
-                                        <!-- Quantity control -->
-                                        <div class="row align-items-center">
-                                            <div class="col-xs-12 col-sm-12 col-md-3">
-                                                Quantity：
+                                            <!-- Item Name -->
+                                            <div class="h4 font-weight-bold text-truncate">
+                                                {{ $cartItem->variation->item->name_en }}
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-9 d-flex justify-content-center">
-                                                <form action="{{ url('/en/cart') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="action" value="quantityAdjust">
-                                                    <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
-                                                    <input type="hidden" name="quantityToAdjust" value="-1">
+                                            <!-- Item Name -->
 
-                                                    <button type="submit" class="btn btn-primary quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>-</button>
-                                                </form>
-                                                <input type="number" class="mx-3 my-3 cart-item-quantity" value="{{ $cartItem->quantity }}" style="width: 45px" disabled>
-                                                <form action="{{ url('/en/cart') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="action" value="quantityAdjust">
-                                                    <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
-                                                    <input type="hidden" name="quantityToAdjust" value="1">
-
-                                                    <button type="submit" class="btn btn-primary quantity-increase-button" {{ $cartItem->quantity == $cartItem->variation->stock ? "disabled" : "" }}>+</button>
-                                                </form>
-                                            </div>
-                                        </div><!-- Quantity control -->
-
-                                        <!-- Remove button and price display -->
-                                        <div class="d-flex justify-content-between align-items-center">
-
+                                            <!-- Item Remove Button -->
                                             <div>
                                                 <form action="{{ url('/en/cart') }}" method="post">
                                                     @csrf
+
                                                     <input type="hidden" name="action" value="deleteItem">
-                                                    <input type="hidden" name="barcode" value="{{ $cartItem->variation->barcode }}">
-                                                    <button type="submit" class="btn btn-primary py-2 px-3 card-link-secondary small">
-                                                        <i class="icofont icofont-trash mr-1"></i>Remove
+                                                    <input type="hidden" name="barcode"
+                                                           value="{{ $cartItem->variation->barcode }}">
+                                                    <button class="btn btn-danger btn-sm rounded-pill px-3">
+                                                        X
                                                     </button>
                                                 </form>
                                             </div>
+                                            <!-- Item Remove Button -->
 
-                                            @if($cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'normal')
-                                                <div>
+                                        </div>
+
+                                        <!-- Variation Name -->
+                                        <div class="h6 grey-text">
+                                            {{ $cartItem->variation->name_en }}
+                                        </div>
+                                        <!-- Variation Name -->
+
+                                        <div class="d-flex justify-content-between mb-3">
+
+                                            <!-- Weight -->
+                                            <div class="h6 text-muted">
+                                                {{ number_format($cartItem->variation->weight * $cartItem->quantity, 3) . 'kg' }}
+                                            </div>
+                                            <!-- Weight -->
+
+                                            {{-- Price --}}
+                                            <div class="h6">
+                                                @if($cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'normal')
                                                     <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                </div>
-                                            @else
-                                                <div>
+                                                @else
                                                     <span class="grey-text mr-1" style="font-size: 15px">
-                                                        <del>RM{{ number_format($cartItem->getOriginalSubPrice(), 2, '.', '') }}</del>
-                                                    </span>
-                                                    <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                    <span class="badge {{ $cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'variation' ? "badge-danger" : "badge-warning" }} mr-1">
+                                                    <del>RM{{ number_format($cartItem->getOriginalSubPrice(), 2, '.', '') }}</del>
+                                                </span>
+                                                    <span>
+                                                    RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}
+                                                </span>
+                                                    <span
+                                                        class="badge rounded-pill {{ $cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'variation' ? "bg-danger" : "bg-warning" }} me-1">
                                                         {{ number_format((1 - $cartItem->getDiscountRate()) * 100, 0, '.', '') }}% OFF
-                                                    </span>
-                                                </div>
-                                            @endif
-                                        </div><!-- Remove button and price -->
+                                                </span>
+                                                @endif
+                                            </div>
+                                            {{-- Price --}}
 
-                                    </div><!-- Cart item information price display-->
+                                        </div>
+
+                                        <!-- Quantity control -->
+                                        <div class="col-12 d-flex justify-content-center">
+                                            <form action="{{ url('/en/cart') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="action" value="quantityAdjust">
+                                                <input type="hidden" name="barcode"
+                                                       value="{{ $cartItem->variation->barcode }}">
+                                                <input type="hidden" name="quantityToAdjust" value="-1">
+
+                                                <button class="btn btn-primary btn-sm mx-3 px-3 quantity-decrease-button" {{ $cartItem->quantity == 1 ? "disabled" : "" }}>
+                                                    -
+                                                </button>
+                                            </form>
+                                            <input type="number" class="form-control form-control-sm cart-item-quantity"
+                                                   value="{{ $cartItem->quantity }}" style="width: 45px" disabled>
+                                            <form action="{{ url('/en/cart') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="action" value="quantityAdjust">
+                                                <input type="hidden" name="barcode"
+                                                       value="{{ $cartItem->variation->barcode }}">
+                                                <input type="hidden" name="quantityToAdjust" value="1">
+
+                                                <button type="submit"
+                                                        class="btn btn-primary btn-sm mx-3 px-3 quantity-increase-button" {{ $cartItem->quantity == $cartItem->variation->stock ? "disabled" : "" }}>
+                                                    +
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <!-- Quantity control -->
+
+                                    </div>
 
                                 </div>
                             </div>
 
                         @endforeach
 
-                        @if($cart->getCartCount() != 0)
-                            <div class="col-12">
-                                <form action="{{ url('/en/cart') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="action" value="resetCart">
-                                    <button class="btn btn-primary btn-block" type="submit">Empty Cart</button>
-                                </form>
-                            </div>
-                        @endif
 
                     </div>
-                </div><!-- Cart items -->
+                </div>
+                <!-- Cart items -->
 
                 <!-- Notification -->
-                <div class="card mb-3">
+                <div class="card shadow mb-3">
                     <div class="card-body bg-info">
                         <!-- Delivery Description -->
                         <h5>Self Pick-up Service</h5>
@@ -139,43 +166,44 @@
                         </p>
                         <h5>Delivery Service</h5>
                         <p class="text-light">
-                            Maximum delivery distance: Within 5KM, delivery service not available for more than 5KM distance from store
+                            Maximum delivery distance: Within 5KM, delivery service not available for more than 5KM distance from store<br>
                             Shipping Fee：RM3.00
                         </p>
                     </div>
-                </div><!-- Notification -->
+                </div>
+                <!-- Notification -->
 
-            </div><!-- Cart item and notification -->
+            </div>
 
-            <!-- Order mode settings and order summary -->
             <div class="col-lg-4">
 
                 <!-- Order mode settings -->
-                <div class="card mb-3">
+                <div class="card shadow mb-3">
                     <div class="card-body">
+
+                        <div class="h5 mb-3">Order Mode: </div>
 
                         <form action="{{ url('/en/cart') }}" method="post" id="order-mode-selector-form">
                             @csrf
 
                             <input type="hidden" name="action" value="updateOrderMode">
 
-                            <div class="h5 mb-3">Order Mode：</div>
-
-                            <select class="form-control mb-3 w-100" name="mode" id="order-mode-selector">
+                            <select class="form-select mb-3" name="mode" id="order-mode-selector">
                                 <option value="pickup" {{ $cart->orderMode == 'pickup' ? " selected" : "" }}>
-                                    Pick-Up
+                                    Pick-up
                                 </option>
                                 <option value="delivery" {{ $cart->orderMode == 'delivery' ? " selected" : "" }}>
-                                    Delivery (Within 5KM from store)
+                                    Delivery (Within 5km from store)
                                 </option>
                             </select>
+
                         </form>
                     </div>
                 </div>
                 <!-- Order mode settings -->
 
                 <!-- Pick up -->
-                <div class="card mb-3" id="pickup-display"
+                <div class="card shadow mb-3" id="pickup-display"
                      style="{{ $cart->orderMode == 'pickup' ? "" : "display: none;" }}">
                     <div class="card-body">
 
@@ -190,8 +218,8 @@
                             <input type="hidden" name="action" value="updateCustomerData">
                             <input type="hidden" name="mode" value="pickup">
 
-                            <div class="form-group">
-                                <label for="delivery_id">Phone Number</label>
+                            <div class="mb-3">
+                                <label for="delivery_id" class="mb-2">Phone Number</label>
                                 <input type="text"
                                        class="form-control{{ $errors->has('delivery_id') ? ' is-invalid' : '' }}"
                                        name="delivery_id"
@@ -205,7 +233,8 @@
                                 @endif
                             </div>
 
-                            <button class="btn btn-primary btn-block" type="submit">保存</button>
+                            <button class="btn btn-primary w-100" type="submit">Save</button>
+
                         </form>
 
                     </div>
@@ -213,7 +242,7 @@
                 <!-- Pick up -->
 
                 <!-- Delivery -->
-                <div class="card mb-3" id="delivery-display"
+                <div class="card shadow mb-3" id="delivery-display"
                      style="{{ $cart->orderMode == 'delivery' ? "" : "display: none;" }}">
                     <div class="card-body">
 
@@ -228,8 +257,8 @@
                             <input type="hidden" name="action" value="updateCustomerData">
                             <input type="hidden" name="mode" value="delivery">
 
-                            <div class="form-group">
-                                <label for="name">Name</label>
+                            <div class="mb-3">
+                                <label for="name" class="mb-2">Name</label>
                                 <input type="text"
                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                        name="name"
@@ -244,8 +273,8 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
+                            <div class="mb-3">
+                                <label for="phone" class="mb-2">Phone</label>
                                 <input type="text"
                                        class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
                                        name="phone"
@@ -260,8 +289,8 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label for="addressLine1">Address</label>
+                            <div class="mb-3">
+                                <label for="addressLine1" class="mb-2">Address</label>
                                 <input type="text"
                                        name="addressLine1"
                                        class="form-control{{ $errors->has('addressLine1') ? ' is-invalid' : '' }}"
@@ -281,7 +310,7 @@
                             {{--                                                   name="state"--}}
                             {{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
                             {{--                                                   value="{{ $cart->customer->state ?? old('state') ?? "" }}"--}}
-                            {{--                                                   placeholder="State"/>--}}
+                            {{--                                                   placeholder="州属"/>--}}
                             {{--                                            @if ($errors->has('state'))--}}
                             {{--                                                <div class="invalid-feedback">--}}
                             {{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
@@ -292,7 +321,7 @@
                             {{--                                            <input type="text" name="area"--}}
                             {{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
                             {{--                                                   value="{{ $cart->customer->area ?? old('area') ?? "" }}"--}}
-                            {{--                                                   placeholder="Area/City"/>--}}
+                            {{--                                                   placeholder="地区/城市"/>--}}
                             {{--                                            @if ($errors->has('area'))--}}
                             {{--                                                <div class="invalid-feedback">--}}
                             {{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
@@ -303,7 +332,7 @@
                             {{--                                            <input type="text" name="postal_code"--}}
                             {{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
                             {{--                                                   value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}"--}}
-                            {{--                                                   placeholder="Postal Code"/>--}}
+                            {{--                                                   placeholder="邮政编号"/>--}}
 
                             {{--                                            @if ($errors->has('postal_code'))--}}
                             {{--                                                <div class="invalid-feedback">--}}
@@ -314,7 +343,7 @@
                             {{--                                    </div>--}}
                             {{--                                </div>--}}
 
-                            <button class="btn btn-primary btn-block" type="submit">保存</button>
+                            <button class="btn btn-primary w-100" type="submit">Save</button>
                         </form>
 
                     </div>
@@ -322,7 +351,7 @@
                 <!-- Delivery -->
 
                 <!-- Order summary -->
-                <div class="card mb-3">
+                <div class="card shadow mb-3">
                     <div class="card-body">
 
                         <h5 class="card-title">Order Summary</h5>
@@ -342,20 +371,22 @@
                             </li>
                         </ul>
 
-                        <form action="/en/check-out" method="get">
-                            <button class="btn btn-primary btn-block" type="submit" id="submit_btn" {{ $cart->canCheckOut ? "" : "disabled" }}>Check Out</button>
-                        </form>
+                        <button class="btn btn-primary w-100" type="submit"
+                                onclick="window.location.href = '{{ url('/en/check-out') }}'"
+                                id="submit_btn" {{ $cart->canCheckOut ? "" : "disabled" }}>
+                            Check Out
+                        </button>
                     </div>
                 </div><!-- Order summary -->
 
-            </div><!-- Order mode settings and order summary -->
+            </div>
 
         </div>
     </main>
 
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).on('change', '#order-mode-selector', function () {
             $('#order-mode-selector-form').submit();

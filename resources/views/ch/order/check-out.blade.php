@@ -1,13 +1,23 @@
-@extends('ch.layouts.customer')
+@extends('ch.layouts.app')
 
 @section('title')
     付款 | Ecolla e口乐
 @endsection
 
-@section('extraStyle')
+@section('style')
     <style>
         div.payment-method.active {
             border: 2px solid #00BFFF;
+        }
+
+        .scrollable {
+            white-space: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scrollable div{
+            display: inline-block;
         }
     </style>
 @endsection
@@ -28,59 +38,55 @@
 
                     @csrf
 
-                    <div class="form-row mb-3 p-3">
-                        <div class="col-12">
+                    <div class="row mb-3 px-3">
+                        <div class="col-12 mb-2">
                             <input type="text" name="payment_method" id="selected-payment-method" value="tng" hidden/>
                             <label>请点击付款方式进行付款</label>
                         </div>
 
-                        <div class="col-12 d-flex justify-content-center">
+                        <div class="col-12 scrollable mb-3">
 
-                            <div class="row">
-                                @foreach($payments as $payment)
-                                    <div
-                                        class="col-4 payment-method view zoom {{ $payment['code'] == 'tng' ? "active" : "" }}">
-                                        <input type="text" value="{{ $payment['code'] }}" hidden/>
-                                        <img class="img-fluid"
-                                             src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"
-                                             alt="{{ $payment['name'] }}">
-                                    </div>
-                                @endforeach
-                            </div>
+                            @foreach($payments as $payment)
+                                <div class="rounded-3 bg-white me-2 payment-method {{ $payment['code'] == 'tng' ? "active" : "" }}">
+                                    <input type="text" value="{{ $payment['code'] }}" hidden/>
+                                    <img class="img-fluid" style="width: 100px"
+                                         src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"
+                                         alt="{{ $payment['name'] }}">
+                                </div>
+                            @endforeach
 
                         </div>
 
                         <div class="col-12 text-center">
-                            <span class="orange-text" style="font-size: 25px;">
+                            <div class="h4" style="color: orange">
                                 <strong>请在付款之后载图您的收据并上传！</strong>
-                            </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>上传收据</label>
-                        <div class="custom-file">
-                            <input type="file"
-                                   class="custom-file-input{{ $errors->has('receipt_image') ? ' is-invalid' : '' }}"
-                                   name="receipt_image" id="receipt" aria-describedby="receiptHelp"
-                                   value="{{ old('receipt_image') ?? "" }}">
-                            <label class="custom-file-label" for="receipt" data-browse="上传">请上传您的收据</label>
-                            @if ($errors->has('receipt_image'))
-                                <div class="invalid-feedback">
-                                    <strong>{{ $errors->first('receipt_image') }}</strong>
-                                </div>
-                            @endif
-                            <small id="receiptHelp" class="form-text text-muted">文件格式支持 ".jpg", ".jpeg", ".gif",
-                                ".png", ".bpm"<br>文件大小支持少于5MB</small>
-
-                        </div>
+                    <div class="input-group">
+                        <input type="file"
+                               class="form-control {{ $errors->has('receipt_image') ? ' is-invalid' : '' }}"
+                               name="receipt_image" id="receipt" aria-describedby="receiptHelp"
+                               value="{{ old('receipt_image') ?? "" }}">
+                        <label for="receipt" class="input-group-text">上传</label>
+                        @if ($errors->has('receipt_image'))
+                            <div class="invalid-feedback">
+                                <strong>{{ $errors->first('receipt_image') }}</strong>
+                            </div>
+                        @endif
                     </div>
+
+                    <small id="receiptHelp" class="form-text text-muted">
+                        文件格式支持 ".jpg", ".jpeg", ".gif", ".png", ".bpm"<br>
+                        文件大小支持少于5MB
+                    </small>
 
 
                     <div class="text-center">
-                        <input class="btn btn-primary"
-                               type="submit" value="提交" name="submit"
-                               style="width: 200px;"/>
+                        <button class="btn btn-primary px-5" type="submit">
+                            提交
+                        </button>
                     </div>
 
                 </form>
@@ -92,10 +98,9 @@
 
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).ready(function () {
-            bsCustomFileInput.init(); //For uploaded file name to show
 
             // For payment method select
             $(".payment-method").on("click", function () {
@@ -112,7 +117,7 @@
 
         // Image file validater
         // Reference: https://stackoverflow.com/questions/4234589/validation-of-file-extension-before-uploading-file
-        var validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
+        var validFileExtensions = [".jpg", ".jpeg", ".gif", ".png", "bpm"];
         var maxUploadSize = 5000000; // Unit in Bytes // 5MB
         function validateImage(fileInput) {
 

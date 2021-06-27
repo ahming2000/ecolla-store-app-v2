@@ -1,7 +1,7 @@
-@extends('ch.layouts.customer')
+@extends('ch.layouts.app')
 
 @section('title')
-    付款方式 | Ecolla ε口乐
+    付款方式 | Ecolla e口乐
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
                 <p>这是我们能接受的付款通道</p>
 
                 @foreach($payments as $payment)
-                    <div class="row shadow payment-method p-3 m-2 mx-auto">
+                    <div class="row shadow payment-method p-3 m-2 mx-auto" style="background-color: white">
                         <input type="hidden" value="{{ $payment['code'] }}" class="code">
                         <div class="col-6 col-md-3 col-sm-6">
                             <img src="{{ asset('img/payment/icon/' . $payment['code'] . '.png') }}"
@@ -30,7 +30,7 @@
     </main>
 @endsection
 
-@section('extraScriptEnd')
+@section('script')
     <script>
         $(document).ready(function () {
             $(".payment-method").on("click", function () {

@@ -210,7 +210,7 @@
                                                                     @endforeach
                                                                 @else
                                                                     <div class="price-view-normal">
-                                                                        <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
+                                                                        <strong>RM{{ number_format($variation->price, 2, '.', '') }}</strong>
                                                                     </div>
                                                                 @endif
                                                             </div>

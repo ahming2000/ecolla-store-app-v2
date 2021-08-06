@@ -84,8 +84,20 @@
                                         </div>
 
                                         <!-- Variation Name -->
-                                        <div class="h6 grey-text">
+                                        <div class="h6">
                                             {{ $cartItem->variation->name }}
+
+                                            {{-- Discount Percentage --}}
+                                            @if($cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == "variation")
+                                                <span class="badge rounded-pill bg-danger me-1">
+                                                    {{ $cartItem->variation->getDiscountPercentage() }}% OFF
+                                                </span>
+                                            @endif
+
+                                            @if($cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == "wholesale")
+                                                {{-- TODO - Wholesale Discount Percentage --}}
+                                            @endif
+                                            {{-- Discount Percentage --}}
                                         </div>
                                         <!-- Variation Name -->
 
@@ -99,20 +111,7 @@
 
                                             {{-- Price --}}
                                             <div class="h6">
-                                                @if($cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'normal')
-                                                    <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
-                                                @else
-                                                    <span class="grey-text mr-1" style="font-size: 15px">
-                                                    <del>RM{{ number_format($cartItem->getOriginalSubPrice(), 2, '.', '') }}</del>
-                                                </span>
-                                                    <span>
-                                                    RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}
-                                                </span>
-                                                    <span
-                                                        class="badge rounded-pill {{ $cartItem->variation->getCurrentDiscountMode($cartItem->quantity) == 'variation' ? "bg-danger" : "bg-warning" }} me-1">
-                                                        {{ number_format((1 - $cartItem->getDiscountRate()) * 100, 0, '.', '') }}% OFF
-                                                </span>
-                                                @endif
+                                                <span>RM{{ number_format($cartItem->getSubPrice(), 2, '.', '') }}</span>
                                             </div>
                                             {{-- Price --}}
 

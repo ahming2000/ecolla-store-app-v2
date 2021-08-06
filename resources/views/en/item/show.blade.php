@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}"/>
     <link rel="stylesheet" href="{{ asset('vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}"/>
+    <style>
+        .variation-discount .original-price, .wholesale-discount .original-price {
+            color: grey;
+            font-size: 15px;
+        }
+
+        .variation-discount .discounted-price, .wholesale-discount .discounted-price {
+            color: red;
+            font-weight: bold;
+        }
+
+        .no-discount .original-price{
+            color: black;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -141,96 +156,55 @@
                                                     {{ $variation->name_en }}
                                                     {{-- Item Name --}}
 
-                                                    {{-- TODO - Discount Percentage --}}
-
-                                                    @if($variation->stock == 0)
-                                                        <span class="badge rounded-pill bg-danger mx-1">sold<span>
+                                                    {{-- Discount Percentage --}}
+                                                    @if($variation->getDiscountMode() == "variation")
+                                                        <span class="badge rounded-pill bg-danger me-1">
+                                                            {{ $variation->getDiscountPercentage() }}% OFF
+                                                        </span>
                                                     @endif
+
+                                                    @if($variation->getDiscountMode() == "wholesale")
+                                                        {{-- TODO - Wholesale Discount Percentage --}}
+                                                    @endif
+                                                    {{-- Discount Percentage --}}
+
+                                                    {{-- Sold Out --}}
+                                                    @if($variation->stock == 0)
+                                                        <span class="badge rounded-pill bg-info mx-1">Sold Out<span>
+                                                    @endif
+                                                    {{-- Sold Out --}}
 
                                                 </h5>
 
                                                 {{-- Price --}}
                                                 <div class="price">
-                                                    <?php $first = true; ?>
-                                                    @foreach($item->variations as $v)
-
-                                                        @if($v->getDiscountMode() == 'variation')
-                                                            <div class="h4 price-view discounted-price"
-                                                                 id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>>
-                                                                <?php $first = false; ?>
-                                                                <span class="mr-1" style="color: grey;font-size: 15px">
-                                        <del>
-                                            RM{{ number_format($v->price, 2, '.', '') }}
-                                        </del>
-                                    </span>
-                                                                <span class="font-weight-bold mr-1" style="color: red">
-                                        <strong>
-                                            RM{{ number_format($v->price * $v->discount->rate, 2, '.', '') }}
-                                        </strong>
-                                    </span>
-                                                                <span class="badge rounded-pill bg-danger mr-1">
-                                        {{ number_format((1 - $v->discount->rate) * 100, 0, '.', '') }}% OFF
-                                    </span>
-                                                                <br>
-                                                            </div>
+                                                    @if($variation->getDiscountMode() == 'variation')
+                                                        <div class="h4 price-view variation-discount">
+                                                            <span class="original-price me-1">
+                                                                <del>
+                                                                    RM{{ number_format($variation->price, 2, '.', '') }}
+                                                                </del>
+                                                            </span>
+                                                            <span class="discounted-price">
+                                                                <strong>
+                                                                    RM{{ $variation->getPrice() }}
+                                                                </strong>
+                                                            </span>
+                                                        </div>
+                                                    @else
+                                                        @if($variation->getDiscountMode() == "wholesale")
+                                                            {{-- TODO - Wholesale Discount Price --}}
                                                         @else
-
-                                                            <div class="h4 price-view pl-3 font-weight-bold" style="color: blue"
-                                                                 id="variety-{{ $v->barcode }}" <?= $first ? "" : "hidden"; ?>>
-                                                                <?php $first = false; ?>
-
-                                                                @if($v->getDiscountMode() == 'wholesale')
-
-                                                                    <div
-                                                                        class="price-view-normal" {{ $item->getSortedWholesales()[0]->min == 1 ? "hidden" : "" }}>
-                                                                        <strong>RM{{ number_format($v->price, 2, '.', '') }}</strong>
-                                                                    </div>
-
-                                                                    @foreach($item->getSortedWholesales() as $w)
-                                                                        <div
-                                                                            class="price-view-wholesale wholesale-{{ $w->min }}"
-                                                                            {{ $w->step == 1 && $w->min == 1 ? "" : "hidden" }}>
-                                                <span class="mr-1" style="font-size: 15px;color: grey">
-                                                    <del>RM{{ number_format($v->price, 2, '.', '') }}</del>
-                                                </span>
-                                                                            <span class="font-weight-bold" style="color: orange">
-                                                    <strong>RM{{ number_format($v->price * $w->rate, 2, '.', '') }}</strong>
-                                                </span>
-                                                                            <span
-                                                                                class="badge rounded-pill bg-warning mr-1">
-                                                    {{ number_format((1 - $w->rate) * 100, 0, '.', '') }}% OFF
-                                                </span>
-                                                                            <span class="mr-1"
-                                                                                  style="font-size: 10px;color: grey">
-                                                    （批发价）
-                                                </span>
-                                                                        </div>
-                                                                    @endforeach
-                                                                @else
-                                                                    <div class="price-view-normal">
-                                                                        <strong>RM{{ number_format($variation->price, 2, '.', '') }}</strong>
-                                                                    </div>
-                                                                @endif
+                                                            <div class="h4 price-view no-discount">
+                                                                <span class="original-price">
+                                                                    <strong>
+                                                                        RM{{ $variation->getPrice() }}
+                                                                    </strong>
+                                                                </span>
                                                             </div>
-
                                                         @endif
-                                                    @endforeach
-
-                                                    @if(!empty($item->discounts))
-                                                        <?php $first = true; ?>
-                                                        @foreach($item->getSortedWholesales() as $w)
-                                                            <div
-                                                                class="h6 wholesale-view" <?= $first ? "" : "hidden"; ?>>
-                                                                <?php $first = false; ?>
-
-                                                                <input type="number" class="wholesale-min"
-                                                                       value="{{ $w->min }}" hidden/>
-                                                                <span class="grey-text">
-                                        Buy util{{ $w->min }}to buy it as wholesale price RM{{ number_format($item->getFirstVariation()->price * $w->rate, 2, '.', '') }}
-                                    </span>
-                                                            </div>
-                                                        @endforeach
                                                     @endif
+
                                                 </div>
                                                 {{-- Price --}}
 

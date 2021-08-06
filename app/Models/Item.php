@@ -31,7 +31,10 @@ class Item extends Model
         $min = 0.0;
         foreach($this->variations as $v){
             $price = $v['price'];
-            // TODO - check the discount price also
+
+            if ($v->discount != null){
+                $price = $price * $v->discount->getRate();
+            }
 
             if($price > $max){
                 $max = $price;

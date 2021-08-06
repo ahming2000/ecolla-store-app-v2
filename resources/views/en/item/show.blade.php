@@ -261,27 +261,9 @@
         <div class="h2">You may like</div>
         <div class="row mb-3">
             <div class="owl-carousel mousescroll owl-theme">
-                @foreach($randomItems as $randomItem)
+                @foreach($randomItems as $item)
                     <div class="item">
-                        <a class="no-anchor-style" href="/en/item/{{ $randomItem->id }}">
-                            <div class="card">
-
-                                <img class="card-img-top" src="{{ $randomItem->getCoverImage() }}" loading="lazy">
-
-                                <div class="card-body">
-                                    <div class="h5 card-title text-truncate">{{ $randomItem->name_en }}</div>
-                                    <p class="card-text text-muted">
-                                        @if($randomItem->getPriceRange()['min'] == $randomItem->getPriceRange()['max'])
-                                            RM{{ $randomItem->getPriceRange()['min'] }}
-                                        @else
-                                            RM{{ $randomItem->getPriceRange()['min'] }} -
-                                            RM{{ $randomItem->getPriceRange()['max'] }}
-                                        @endif
-                                    </p>
-                                </div>
-
-                            </div>
-                        </a>
+                        @include('en.component.itemBox')
                     </div>
                 @endforeach
             </div>
@@ -292,27 +274,9 @@
         <div class="h2">Similar</div>
         <div class="row mb-3">
             <div class="owl-carousel mousescroll owl-theme">
-                @foreach($mayLikeItems as $mayLikeItem)
+                @foreach($mayLikeItems as $item)
                     <div class="item">
-                        <a class="no-anchor-style" href="/en/item/{{ $mayLikeItem->id }}">
-                            <div class="card">
-
-                                <img class="card-img-top" src="{{ $mayLikeItem->getCoverImage() }}" loading="lazy">
-
-                                <div class="card-body">
-                                    <div class="h5 card-title text-truncate">{{ $mayLikeItem->name_en }}</div>
-                                    <p class="card-text text-muted">
-                                        @if($mayLikeItem->getPriceRange()['min'] == $mayLikeItem->getPriceRange()['max'])
-                                            RM{{ $mayLikeItem->getPriceRange()['min'] }}
-                                        @else
-                                            RM{{ $mayLikeItem->getPriceRange()['min'] }} -
-                                            RM{{ $mayLikeItem->getPriceRange()['max'] }}
-                                        @endif
-                                    </p>
-                                </div>
-
-                            </div>
-                        </a>
+                        @include('en.component.itemBox')
                     </div>
                 @endforeach
             </div>

@@ -11,6 +11,26 @@ class Variation extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function getPrice(): string
+    {
+        $price = $this->price * $this->getRate();
+        return number_format($price, 2, '.', '');
+    }
+
+    public function getRate(): float
+    {
+        if ($this->discount != null){
+            return $this->discount->getRate();
+        } else {
+            return 1.0;
+        }
+    }
+
+    public function getDiscountPercentage(): string
+    {
+        return number_format((1 - $this->getRate()) * 100, 0, '.', '');
+    }
+
     public function getDiscountMode(): string
     {
         $mode = 'normal';

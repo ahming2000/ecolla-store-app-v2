@@ -8,6 +8,7 @@ use App\Models\ItemUtil;
 use App\Models\SystemConfig;
 use App\Models\Variation;
 use App\Session\Cart;
+use App\Util\ImageHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -92,6 +93,17 @@ class ItemsController extends Controller
         }
 
         $item = Item::find($i->id);
+
+        // Convert from binary image to base64 (New) or remain as url (Deprecated)
+        foreach ($item->images as $image) {
+            $image['image'] = (new ImageHandler())->convertToDataURL($image['image']);
+        }
+        foreach ($item->variations as $variation) {
+            if ($variation['image'] != null) {
+                $variation['image'] = (new ImageHandler())->convertToDataURL($variation['image']);
+            }
+        }
+
         $this->viewCountIncrement($item);
 
         $MAX_RECOMMEND_COUNT = 10;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Util\ImageHandler;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,12 +18,16 @@ class Item extends Model
 
     public function getCoverImage(): string
     {
-        $value = "";
-        foreach($this->images as $i){
-            $value = $i['image'];
-            break;
+        $data = $this->images->toArray()[0]['image'] ?? "";
+        if ($data == "") {
+            foreach ($this->variations as $variation){
+                if ($variation->image != null){
+                    $data = $variation->image;
+                    break;
+                }
+            }
         }
-        return $value;
+        return (new ImageHandler())->convertToDataURL($data, false) ?? "";
     }
 
     public function getPriceRange(): array
@@ -53,6 +58,7 @@ class Item extends Model
         foreach ($this->variations as $v){
             return $v;
         }
+        return null;
     }
 
     public function getSortedWholesales(): \Illuminate\Database\Eloquent\Collection

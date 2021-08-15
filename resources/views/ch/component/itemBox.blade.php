@@ -2,10 +2,8 @@
     <div class="card shadow">
 
         {{-- Image --}}
-        @if(!empty($item->images->toArray()))
-            <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image"
-                 loading="lazy">
-        @endif
+        <img src="{{ $item->getCoverImage() }}" class="card-img-top" alt="image"
+             loading="lazy">
         {{-- Image --}}
 
         <div class="card-body">

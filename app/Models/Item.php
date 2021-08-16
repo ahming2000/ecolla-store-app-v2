@@ -63,7 +63,7 @@ class Item extends Model
 
     public function getSortedWholesales(): \Illuminate\Database\Eloquent\Collection
     {
-        return $this->discounts()->orderBy('step')->get();
+        return $this->discounts()->orderBy('min')->get();
     }
 
     public function getTotalImageCount(): int

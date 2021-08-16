@@ -33,7 +33,7 @@ class CartItem
     {
         $discount_rate = 1.0;
         if($this->variation->discount != null){ // If have variation discount, ignore wholesale discount
-            $discount_rate = 1 - $this->variation->discount->rate;
+            $discount_rate = $this->variation->getRate();
         } else {
 //            foreach($this->variation->item->getSortedWholesales() as $w){
 //                if($this->quantity >= $w->min){ // If quantity is more than min

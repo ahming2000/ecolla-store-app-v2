@@ -51,7 +51,9 @@ class Variation extends Model
         $mode = 'normal';
 
         if($this->discount != null){ // If have variation discount, ignore wholesale discount
-            $mode = 'variation';
+            if ($this->discount->getRate() != 1.0){
+                $mode = 'variation';
+            }
         } else{
             foreach($this->item->getSortedWholesales() as $w){
                 if($quantity >= $w->min){ // If quantity is more than min

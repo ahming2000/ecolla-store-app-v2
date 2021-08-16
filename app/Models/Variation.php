@@ -71,9 +71,4 @@ class Variation extends Model
     {
         return $this->hasOne(VariationDiscount::class);
     }
-
-    public function inventories(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Inventory::class);
-    }
 }

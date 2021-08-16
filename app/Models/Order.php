@@ -53,8 +53,7 @@ class Order extends Model
     public function getOrderCreateDateTime($returnType = 'string')
     {
         try {
-            // $result = date_add(new DateTime($this->created_at), new DateInterval('PT8H')); // GMT +8
-            $result = date_add(new DateTime($this->created_at), new DateInterval('PT0H'));
+            $result = date_add(new DateTime($this->created_at), new DateInterval('PT8H')); // GMT +8
             if($returnType == 'object'){
                 return $result;
             } else{

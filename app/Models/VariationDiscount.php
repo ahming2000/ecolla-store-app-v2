@@ -14,7 +14,7 @@ class VariationDiscount extends Model
     {
         $now = date('Y-m-d H:i:s');
 
-        if ($now < $this->start && $now > $this->end){
+        if ($now < $this->start || $now > $this->end){
             return 1.0;
         } else {
             return (1 - $this->rate);

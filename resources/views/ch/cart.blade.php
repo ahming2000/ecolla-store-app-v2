@@ -308,48 +308,48 @@
                                     @endif
                                 </div>
 
-                                <div class="mb-1">
-                                    <div class="row">
-                                        <div class="col pe-1">
-                                            <input type="text" name="postal_code"
-                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"
-                                                   value="31900"
-                                                   {{-- value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}" --}}
-                                                   placeholder="邮政编号" disabled/>
+{{--                                <div class="mb-1">--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col pe-1">--}}
+{{--                                            <input type="text" name="postal_code"--}}
+{{--                                                   class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="31900"--}}
+{{--                                                   --}}{{-- value="{{ $cart->customer->postal_code ?? old('postal_code') ?? "" }}" --}}
+{{--                                                   placeholder="邮政编号" disabled/>--}}
 
-                                            @if ($errors->has('postal_code'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('postal_code') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="col px-0">
-                                            <input type="text" name="area"
-                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"
-                                                   value="Kampar"
-                                                   {{-- value="{{ $cart->customer->area ?? old('area') ?? "" }}" --}}
-                                                   placeholder="地区/城市" disabled/>
-                                            @if ($errors->has('area'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('area') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="col ps-1">
-                                            <input type="text"
-                                                   name="state"
-                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"
-                                                   value="Perak"
-                                                   {{-- value="{{ $cart->customer->state ?? old('state') ?? "" }}" --}}
-                                                   placeholder="州属" disabled/>
-                                            @if ($errors->has('state'))
-                                                <div class="invalid-feedback">
-                                                    <strong>{{ $errors->first('state') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                            @if ($errors->has('postal_code'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('postal_code') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col px-0">--}}
+{{--                                            <input type="text" name="area"--}}
+{{--                                                   class="form-control{{ $errors->has('area') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="Kampar"--}}
+{{--                                                   --}}{{-- value="{{ $cart->customer->area ?? old('area') ?? "" }}" --}}
+{{--                                                   placeholder="地区/城市" disabled/>--}}
+{{--                                            @if ($errors->has('area'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('area') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col ps-1">--}}
+{{--                                            <input type="text"--}}
+{{--                                                   name="state"--}}
+{{--                                                   class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}"--}}
+{{--                                                   value="Perak"--}}
+{{--                                                   --}}{{-- value="{{ $cart->customer->state ?? old('state') ?? "" }}" --}}
+{{--                                                   placeholder="州属" disabled/>--}}
+{{--                                            @if ($errors->has('state'))--}}
+{{--                                                <div class="invalid-feedback">--}}
+{{--                                                    <strong>{{ $errors->first('state') }}</strong>--}}
+{{--                                                </div>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
 
                             <button class="btn btn-primary w-100" type="submit">保存</button>

@@ -55,23 +55,31 @@
 
                     {{-- Image Slider --}}
                     <div class="col-12 mb-3 slider-main-container">
-                        @if($item->getTotalImageCount() != 0)<button class="slider-control-prev"><</button>@endif
+                        @if($item->getTotalImageCount() != 0)
+                            <button class="slider-control-prev">
+                                <
+                            </button>
+                        @endif
                         <div class="slider-container">
                             @if($item->images != null)
                                 @foreach($item->images as $img)
                                     <img class="img-fluid general-img"
-                                         src="{{ asset($img->image) }}" loading="lazy" alt="">
+                                         src="{{ $img->image }}" loading="lazy" alt="">
                                 @endforeach
                             @endif
 
                             @foreach($item->variations as $v)
                                 @if($v->image != null)
                                     <img class="img-fluid variety-img" id="img-{{ $v->barcode }}"
-                                         src="{{ asset($v->image) }}" loading="lazy" alt="">
+                                         src="{{ $v->image }}" loading="lazy" alt="">
                                 @endif
                             @endforeach
                         </div>
-                        @if($item->getTotalImageCount() != 0)<button class="slider-control-next">></button>@endif
+                        @if($item->getTotalImageCount() != 0)
+                                <button class="slider-control-next">
+                                    >
+                                </button>
+                            @endif
                     </div>
                     {{-- Image Slider --}}
 

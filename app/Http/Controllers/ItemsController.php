@@ -96,11 +96,11 @@ class ItemsController extends Controller
 
         // Convert from binary image to base64 (New) or remain as url (Deprecated)
         foreach ($item->images as $image) {
-            $image['image'] = (new ImageHandler())->convertToDataURL($image['image']);
+            $image['image'] = ImageHandler::getDisplayableImage($image['image']);
         }
         foreach ($item->variations as $variation) {
             if ($variation['image'] != null) {
-                $variation['image'] = (new ImageHandler())->convertToDataURL($variation['image']);
+                $variation['image'] = ImageHandler::getDisplayableImage($variation['image']);
             }
         }
 

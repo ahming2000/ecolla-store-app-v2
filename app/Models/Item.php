@@ -27,7 +27,7 @@ class Item extends Model
                 }
             }
         }
-        return (new ImageHandler())->convertToDataURL($data, false) ?? "";
+        return ImageHandler::getDisplayableImage($data) ?? "";
     }
 
     public function getPriceRange(): array

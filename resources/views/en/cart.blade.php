@@ -48,7 +48,7 @@
                                         <a href="{{ url('/en/item/' . $cartItem->variation->item->id) }}"
                                            class="no-anchor-style">
                                             <img class="img-fluid rounded-3" alt=""
-                                                 src="{{ asset($cartItem->variation->image ?? $cartItem->variation->item->getCoverImage()) ?? "" }}">
+                                                 src="{{ $cartItem->variation->image ?? $cartItem->variation->item->getCoverImage() }}">
                                         </a>
                                     </div>
                                     <!-- Image -->

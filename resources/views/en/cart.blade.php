@@ -182,6 +182,29 @@
 
             <div class="col-lg-4">
 
+                <div class="card shadow mb-3">
+                    <div class="card-body">
+                        <div class="h5 mb-3 fw-bold">Customer Services</div>
+
+                        If you have any problems, please contact us!
+
+                        <br>
+
+                        <i class="icofont icofont-facebook pr-2"></i>
+                        <a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278" target="_blank">Ecolla Official Facebook</a>
+
+                        <br>
+
+                        <i class="icofont icofont-whatsapp pr-2"></i>
+                        <a href="https://wa.link/2e1z4h" target="_blank">WhatsApp Customer Services</a>
+
+                        <br>
+
+                        <i class="icofont icofont-phone pr-2"></i>
+                        <a href="#" onclick="event.preventDefault();navigator.clipboard.writeText('+60129862365');alert('Copy phone number successfully!');">012-9862365 (Click to copy)</a>
+                    </div>
+                </div>
+
                 <!-- Order mode settings -->
                 <div class="card shadow mb-3">
                     <div class="card-body">

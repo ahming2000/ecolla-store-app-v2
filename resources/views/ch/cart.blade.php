@@ -181,6 +181,29 @@
 
             <div class="col-lg-4">
 
+                <div class="card shadow mb-3">
+                    <div class="card-body">
+                        <div class="h5 mb-3 fw-bold">备注</div>
+
+                        如有任何问题，请联系我们！
+
+                        <br>
+
+                        <i class="icofont icofont-facebook pr-2"></i>
+                        <a href="https://www.facebook.com/Ecolla-e%E5%8F%A3%E4%B9%90-2347940035424278" target="_blank">e口乐官方脸书</a>
+
+                        <br>
+
+                        <i class="icofont icofont-whatsapp pr-2"></i>
+                        <a href="https://wa.link/fcfum1" target="_blank">WhatsApp 客服</a>
+
+                        <br>
+
+                        <i class="icofont icofont-phone pr-2"></i>
+                        <a href="#" onclick="event.preventDefault();navigator.clipboard.writeText('+60129862365');alert('已成功复制电话号码！');">012-9862365（点击复制）</a>
+                    </div>
+                </div>
+
                 <!-- Order mode settings -->
                 <div class="card shadow mb-3">
                     <div class="card-body">

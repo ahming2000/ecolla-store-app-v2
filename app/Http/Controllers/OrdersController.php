@@ -77,7 +77,8 @@ class OrdersController extends Controller
             $orderData = array_merge($orderData, [
                 'code' => $orderCode,
                 'mode' => $cart->orderMode,
-                'shipping_fee' => $cart->getShippingFee()
+                'shipping_fee' => $cart->getShippingFee(),
+                'free_shipping_note' => $cart->getFreeShippingNote()
             ]);
         } else{
             $orderData = array_merge($orderData, [

@@ -5,6 +5,7 @@ namespace App\Session;
 
 
 use App\Models\Customer;
+use App\Models\SystemConfig;
 use App\Models\Variation;
 use Illuminate\Support\Facades\Session;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 7;
+    public int $VERSION = 8;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
@@ -239,11 +240,28 @@ class Cart
         $fee = 0.0;
 
         if(strtolower($this->orderMode) == 'delivery'){
-            $fee = 3.0;
+            if (!$this->hasFreeShipping()) {
+                $fee = SystemConfig::where('name', '=', 'clt_o_shippingFeeKampar')->value('value');
+            }
         }
 
         $this->pushSessionCart();
         return $fee;
+    }
+
+    private function hasFreeShipping(): bool
+    {
+        $threshold = SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->value('value');
+        return SystemConfig::where('name', '=', 'clt_o_shipping_discount')->value('value') == "1" && $this->getSubTotal() >= floatval($threshold);
+    }
+
+    public function getFreeShippingNote(): ?string
+    {
+        if ($this->hasFreeShipping()) {
+            return SystemConfig::where('name', '=', 'clt_o_shipping_discount_desc')->value('value');
+        } else {
+            return null;
+        }
     }
 
     private function getLang(){

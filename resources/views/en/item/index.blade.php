@@ -52,6 +52,18 @@
 
             <div class="row mb-3">
 
+                @if(App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount')->value('value') == '1')
+                    <div class="col-12">
+                        <div class="card shadow bg-warning mb-3">
+                            <div class="card-body">
+                                <div class="h5 text-center">
+                                    Special Event! Free Shipping when purchase RM{{ App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->value('value') }} and above!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <!-- Search -->
                 <div class="col-sm-12 col-md-6 mb-2">
                     <form action="{{ url('/en/item') }}" method="get">

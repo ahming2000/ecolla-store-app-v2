@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-12 text-center mb-3">
                         Order Successfully!<br>
-                        <span class="text-muted">Thank you for your support!<br>We will process your order ASAP!</span><br>
+                        <span class="text-muted">Thank you for your support!<br>We will process your order ASAP!<br><a href="https://wa.link/2e1z4h" target="_blank">Click to contact stuff to confirm the order!</a></span><br>
                     </div>
 
                     <div class="col-12 col-md-6 offset-md-3 text-center">

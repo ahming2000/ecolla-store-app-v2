@@ -29,6 +29,20 @@
 
     <main class="container">
 
+        @if(App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount')->value('value') == '1')
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow bg-warning mb-3">
+                        <div class="card-body">
+                            <div class="h5 text-center">
+                                限时优惠！买上RM{{ App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->value('value') }}免邮！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         {{-- Breadcrumb --}}
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">

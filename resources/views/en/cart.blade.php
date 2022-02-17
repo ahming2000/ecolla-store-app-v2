@@ -8,6 +8,18 @@
     <main class="container">
         <div class="row">
 
+            @if(App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount')->value('value') == '1')
+                <div class="col-12">
+                    <div class="card shadow bg-warning mb-3">
+                        <div class="card-body">
+                            <div class="h5 text-center">
+                                Special Event! Free Shipping when purchase RM{{ App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->value('value') }} and above!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="col-lg-8">
 
                 <!-- Cart items -->
@@ -172,7 +184,12 @@
                         <p class="text-light">
                             Maximum delivery distance: Within 5KM, delivery service not available for more than 5KM
                             distance from store<br>
-                            Shipping Fee：RM3.00
+                            Shipping Fee：RM{{ App\Models\SystemConfig::where('name', '=', 'clt_o_shippingFeeKampar')->value('value') }}<br>
+                            <span class="text-danger">**Cash on Delivery is not available</span><br>
+                            <br>
+                            Delivery Period Detail：<br>
+                            Order before 3PM - Deliver in 3PM~4PM<br>
+                            Order after 3PM - Deliver in 7PM~8PM<br>
                         </p>
                     </div>
                 </div>
@@ -396,7 +413,7 @@
                                 <span>RM {{ number_format($cart->getSubTotal(), 2) }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                Shipping Fee
+                                Shipping Fee @if($cart->getFreeShippingNote() != null) {{ "(Free Shipping Applied)" }} @endif
                                 <span>{{ $cart->orderMode == 'delivery' ? "RM " . number_format($cart->getShippingFee(), 2) : "N/A" }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">

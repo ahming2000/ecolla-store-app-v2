@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-12 text-center mb-3">
                         下单成功<br>
-                        <span class="text-muted">谢谢您的支持！<br>我们会尽快完成您的订单！</span><br>
+                        <span class="text-muted">谢谢您的支持！<br>我们会尽快完成您的订单！<br><a href="https://wa.link/fcfum1" target="_blank">点击联系客服以确认订单详情</a></span><br>
                     </div>
 
                     <div class="col-12 col-md-6 offset-md-3 text-center">

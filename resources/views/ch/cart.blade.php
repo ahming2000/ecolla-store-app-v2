@@ -8,6 +8,18 @@
     <main class="container">
         <div class="row">
 
+            @if(App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount')->value('value') == '1')
+                <div class="col-12">
+                    <div class="card shadow bg-warning mb-3">
+                        <div class="card-body">
+                            <div class="h5 text-center">
+                                限时优惠！买上RM{{ App\Models\SystemConfig::where('name', '=', 'clt_o_shipping_discount_threshold')->value('value') }}免邮！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="col-lg-8">
 
                 <!-- Cart items -->
@@ -171,7 +183,12 @@
                         <h5>外送：</h5>
                         <p class="text-light">
                             运送距离：距离本店5公里以内，暂不开放给5公里外的外送<br>
-                            外送价钱：RM3.00
+                            外送价钱：RM{{ App\Models\SystemConfig::where('name', '=', 'clt_o_shippingFeeKampar')->value('value') }}<br>
+                            <span class="text-danger">**不支持货到付款</span><br>
+                            <br>
+                            配送时段详情：<br>
+                            3PM之前订单的配送时间 - 3PM~4PM<br>
+                            3PM之后订单的配送时间 - 7PM~8PM<br>
                         </p>
                     </div>
                 </div>
@@ -394,7 +411,7 @@
                                 <span>RM {{ number_format($cart->getSubTotal(), 2) }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                邮费
+                                邮费@if($cart->getFreeShippingNote() != null) {{ "（" . $cart->getFreeShippingNote() . "）" }} @endif
                                 <span>{{ $cart->orderMode == 'delivery' ? "RM " . number_format($cart->getShippingFee(), 2) : "N/A" }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 6;
+    public int $VERSION = 7;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
@@ -137,6 +137,9 @@ class Cart
         unset($this->cartItems);
         $this->cartItems = array();
         $this->canCheckOut = false;
+        $this->customer = new Customer(array_filter($this->customer->toArray(), function($key){ // Reset customer id
+            return $key != 'id';
+        }, ARRAY_FILTER_USE_KEY));
         $this->pushSessionCart();
     }
 

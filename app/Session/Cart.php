@@ -7,6 +7,7 @@ namespace App\Session;
 use App\Models\Customer;
 use App\Models\SystemConfig;
 use App\Models\Variation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Session;
  */
 class Cart
 {
-    public int $VERSION = 8;
+    public int $VERSION = 9;
 
     public static string $DEFAULT_ORDER_MODE = 'pickup';
     public static string $DEFAULT_SESSION_NAME = 'ecollaCart';
@@ -40,6 +41,7 @@ class Cart
 
         if(session()->has(Cart::$DEFAULT_SESSION_NAME)){
             $this->pullSessionCart(session(Cart::$DEFAULT_SESSION_NAME));
+            $this->checkStock();
         } else{
             $this->cartItems = array();
             $this->orderMode = Cart::$DEFAULT_ORDER_MODE;
@@ -48,6 +50,7 @@ class Cart
             $this->customer = new Customer();
             $this->pushSessionCart();
         }
+
     }
 
     /**
@@ -79,8 +82,9 @@ class Cart
             if($cartItem->variation->id == $variation->id){
                 // Check if the item quantity requested to add is exceed the max number of stock
                 // Only add to max stock
-                if($cartItem->quantity + $quantity > $cartItem->variation->stock){
-                    $cartItem->quantity = $cartItem->variation->stock;
+                $currentStock = Variation::getCurrentStock($cartItem->variation->barcode);
+                if($cartItem->quantity + $quantity > $currentStock){
+                    $cartItem->quantity = $currentStock;
                     Session::flash('message', $this->messages[$this->getLang()]['addToCart_exceedStockLimit']);
                 } else{
                     $cartItem->quantity += $quantity;
@@ -266,6 +270,20 @@ class Cart
 
     private function getLang(){
         return substr($_SERVER['REQUEST_URI'], 1, 2);
+    }
+
+    private function checkStock()
+    {
+        foreach ($this->cartItems as $cartItem){
+            $currentStock = Variation::getCurrentStock($cartItem->variation->barcode);
+            if ($currentStock < $cartItem->quantity) {
+                if ($currentStock == 0) {
+                    $this->deleteItem($cartItem->variation->barcode); // Delete item which has no stock
+                } else {
+                    $this->editQuantity($cartItem->variation->barcode, $currentStock - $cartItem->quantity); // Set item quantity to current stock number
+                }
+            }
+        }
     }
 
 }

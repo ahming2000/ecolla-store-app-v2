@@ -7,7 +7,9 @@ use App\Models\ItemUtil;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\SystemConfig;
+use App\Models\Variation;
 use App\Session\Cart;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
@@ -55,7 +57,8 @@ class OrdersController extends Controller
 
         // Check stock is available
         foreach ($cart->cartItems as $cartItem){
-            if($cartItem->variation->stock < $cartItem->quantity){
+            $currentStock = Variation::getCurrentStock($cartItem->variation->barcode);
+            if($currentStock < $cartItem->quantity){
                 $cart->resetCart();
                 abort(419);
             }

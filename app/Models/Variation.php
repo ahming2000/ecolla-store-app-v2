@@ -64,6 +64,11 @@ class Variation extends Model
         return $mode;
     }
 
+    public static function getCurrentStock(string $barcode): int
+    {
+        return DB::table('variations')->where('barcode', '=', $barcode)->first('stock')->stock;
+    }
+
     public function item(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Item::class);
